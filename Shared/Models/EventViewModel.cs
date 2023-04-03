@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,7 +17,7 @@ namespace TicketHiveSpaceKittens.Shared.Models
         public decimal TicketPrice { get; set; }
         public DateTime EventDate { get; set; }
         public int TicketsRemaining { get; set; }
-        public List<string> EventTypes { get; set; } = new();
+        public List<EventTypesModel> EventTypes { get; set; } = null!;
         public string? ImageUrl { get; set; }
 
     }
