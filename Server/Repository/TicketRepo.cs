@@ -2,5 +2,6 @@
 {
     public class TicketRepo
     {
+        public int MyProperty { get; set; }
     }
 }
