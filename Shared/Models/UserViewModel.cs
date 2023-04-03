@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace TicketHiveSpaceKittens.Shared.Models
 {
-    public class UserModel
+    public class UserViewModel
     {
         public int Id { get; set; }
         public string Username { get; set; } = null!;
