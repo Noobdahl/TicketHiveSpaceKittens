@@ -18,7 +18,7 @@ namespace TicketHiveSpaceKittens.Shared.Models
         public DateTime EventDate { get; set; }
         public int TicketsRemaining { get; set; }
         public List<EventTypesModel> EventTypes  { get; set; } = null!;
-        public List<UserModel> Users { get; set; } = new();
+        public List<UserViewModel> Users { get; set; } = new();
         public string? ImageUrl { get; set; } 
 
         //Futures: Followers
