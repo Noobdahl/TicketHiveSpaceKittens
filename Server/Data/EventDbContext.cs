@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using TicketHiveSpaceKittens.Server.Models;
 using TicketHiveSpaceKittens.Shared.Models;
 
 namespace TicketHiveSpaceKittens.Server.Data
@@ -13,7 +12,7 @@ namespace TicketHiveSpaceKittens.Server.Data
 
         public DbSet<EventModel> Events { get; set; }
         public DbSet<EventTypesModel> EventTypes { get; set; }
-        public DbSet<ExtendedUser> ExtendedUsers { get; set; }
+        public DbSet<BookingModel> Bookings { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -1,6 +1,4 @@
-﻿using TicketHiveSpaceKittens.Server.Models;
-
-namespace TicketHiveSpaceKittens.Shared.Models
+﻿namespace TicketHiveSpaceKittens.Shared.Models
 {
     public class EventModel
     {
@@ -12,7 +10,7 @@ namespace TicketHiveSpaceKittens.Shared.Models
         public DateTime EventDate { get; set; }
         public int TicketsRemaining { get; set; }
         public List<EventTypesModel> EventTypes { get; set; } = null!;
-        public List<ApplicationUser> Users { get; set; } = new();
+        //public List<ExtendedUser> Users { get; set; } = new();
         public string? ImageUrl { get; set; }
 
         //Futures: Followers

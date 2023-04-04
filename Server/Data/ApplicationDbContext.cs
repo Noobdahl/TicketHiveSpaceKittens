@@ -6,7 +6,7 @@ using TicketHiveSpaceKittens.Server.Models;
 
 namespace TicketHiveSpaceKittens.Server.Data
 {
-    public class ApplicationDbContext : ApiAuthorizationDbContext<ApplicationUser>
+    public class ApplicationDbContext : ApiAuthorizationDbContext<ExtendedUser>
     {
         public ApplicationDbContext(
             DbContextOptions options,
