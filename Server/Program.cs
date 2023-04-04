@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 using TicketHiveSpaceKittens.Server.Data;
 using TicketHiveSpaceKittens.Server.Models;
@@ -8,12 +7,12 @@ using TicketHiveSpaceKittens.Server.Models;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-var uConnectionString = builder.Configuration.GetConnectionString("UserConnectingString") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+var uConnectionString = builder.Configuration.GetConnectionString("UserConnectionString") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(uConnectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-var tHiveConnectionString = builder.Configuration.GetConnectionString("TicketHiveDb") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+var tHiveConnectionString = builder.Configuration.GetConnectionString("TicketHiveConnectionString") ?? throw new InvalidOperationException("Connection string 'TicketHiveConnectionString' not found.");
 builder.Services.AddDbContext<EventDbContext>(options =>
     options.UseSqlServer(tHiveConnectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
@@ -35,7 +34,7 @@ builder.Services.AddAuthentication()
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 
-using(var serviceProvider = builder.Services.BuildServiceProvider())
+using (var serviceProvider = builder.Services.BuildServiceProvider())
 {
     var context = serviceProvider.GetRequiredService<ApplicationDbContext>();
     var signInManager = serviceProvider.GetRequiredService<SignInManager<ApplicationUser>>();
@@ -44,7 +43,7 @@ using(var serviceProvider = builder.Services.BuildServiceProvider())
 
     ApplicationUser adminUser = signInManager.UserManager.FindByNameAsync("admin").GetAwaiter().GetResult();
 
-    if(adminUser == null)
+    if (adminUser == null)
     {
         adminUser = new()
         {
@@ -52,13 +51,25 @@ using(var serviceProvider = builder.Services.BuildServiceProvider())
         };
         signInManager.UserManager.CreateAsync(adminUser, "Password1234!").GetAwaiter().GetResult();
     }
+
+    ApplicationUser user = signInManager.UserManager.FindByNameAsync("user").GetAwaiter().GetResult();
+
+    if (user == null)
+    {
+        user = new()
+        {
+            UserName = "user"
+        };
+        signInManager.UserManager.CreateAsync(user, "Password1234!").GetAwaiter().GetResult();
+    }
+
     IdentityRole? adminRole = roleManager.FindByNameAsync("Admin").GetAwaiter().GetResult();
 
-    if(adminRole == null)
+    if (adminRole == null)
     {
         adminRole = new()
         {
-            Name= "Admin"
+            Name = "Admin"
         };
         signInManager.UserManager.CreateAsync(adminUser, "Admin").GetAwaiter().GetResult();
     }
@@ -87,6 +98,7 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseIdentityServer();
+app.UseAuthentication();
 app.UseAuthorization();
 
 
