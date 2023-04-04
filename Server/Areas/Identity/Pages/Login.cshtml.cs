@@ -19,5 +19,20 @@ namespace TicketHiveSpaceKittens.Server.Areas.Identity.Pages
         public void OnGet()
         {
         }
+
+        public async Task<IActionResult> OnPost()
+        {
+            
+            var signInResult = await signInManager.PasswordSignInAsync(Username, Password, false, false);
+
+            if (signInResult.Succeeded)
+            {
+                return Redirect("~/");
+            }
+
+            
+
+            return Page();
+        }
     }
 }
