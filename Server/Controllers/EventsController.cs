@@ -45,7 +45,7 @@ namespace TicketHiveSpaceKittens.Server.Controllers
         }
 
         // PUT api/<EventsController>/5
-        // Update
+        // TODO: Kolla om vi ska ha den
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
         {

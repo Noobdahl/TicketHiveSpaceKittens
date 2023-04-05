@@ -19,7 +19,7 @@ namespace TicketHiveSpaceKittens.Server.Repository
 
         public List<EventModel> GetEvents()
         {
-            return context.Events.Select(e => new EventModel
+            return context.Events.Include(e => e.Users).Include(e => e.Tags).Select(e => new EventModel
             {
                 EventId = e.EventId,
                 Name = e.Name,
@@ -52,15 +52,15 @@ namespace TicketHiveSpaceKittens.Server.Repository
             }
         }
 
-        public async Task<EventModel?> DeleteEvent(int id)
-        {
-            var eventToDelete = await context.Events.FirstOrDefaultAsync(e => e.EventId == id);
-            if(eventToDelete!= null)
-            {
-                context.Events.Remove(eventToDelete);
-                await context.SaveChangesAsync();
-            }
-            return eventToDelete;
-        }
+        //public async Task<EventModel?> DeleteEvent(int id)
+        //{
+        //    var eventToDelete = await context.Events.FirstOrDefaultAsync(e => e.EventId == id);
+        //    if(eventToDelete!= null)
+        //    {
+        //        context.Events.Remove(eventToDelete);
+        //        await context.SaveChangesAsync();
+        //    }
+        //    return eventToDelete;
+        //}
     }
 }
