@@ -1,7 +1,8 @@
 ﻿@page "/"
 @using TicketHiveSpaceKittens.Client.Services;
 @using TicketHiveSpaceKittens.Shared.Models;
-@inject IEventService service
+
+@inject IEventService service   
 
 <PageTitle>Index</PageTitle>
 
@@ -11,13 +12,7 @@ Welcome to your new app.
 
 <SurveyPrompt Title="How is Blazor working for you?" />
 
-@if (events != null)
-{
-    @foreach(var e in events)
-    {
-        <h1>@e.Name</h1>
-    }
-}
+
 
 <a href="/home">Home page</a>
 <a href="/booking">Booking page</a>
@@ -25,16 +20,4 @@ Welcome to your new app.
 <a href="/user">Profile page</a>
 <a href="/admin">Admin page</a>
 
-@code
-{
-    private List<EventModel>? events;
-    protected override async Task OnInitializedAsync()
-    {
-        await GetEvents();
-    }
 
-    private async Task GetEvents()
-    {
-        events = await service.GetEventsAsync();
-    }
-}

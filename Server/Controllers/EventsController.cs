@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel;
 using TicketHiveSpaceKittens.Server.Repository;
 using TicketHiveSpaceKittens.Shared.Models;
 
@@ -17,33 +18,39 @@ namespace TicketHiveSpaceKittens.Server.Controllers
             this.repo = repo;
         }
 
-        // GET: api/<EventsController>
         [HttpGet]
-        public ActionResult<List<EventModel>> Get()
+        public ActionResult<List<EventModel>> GetAllEvents()
         {
             return Ok(repo.GetEvents());
         }
 
-        // GET api/<EventsController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public ActionResult<EventModel?> GetOneEvent(int id)
         {
-            return "value";
+            return Ok(repo.GetEvent(id));
         }
 
         // POST api/<EventsController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task<ActionResult<EventModel?>> Post([FromBody] EventModel newEvent)
         {
+            var isCreatedSuccessful = await repo.CreateEvent(newEvent);
+
+            if(isCreatedSuccessful)
+            {
+                return Ok();
+            }
+
+            return BadRequest();
         }
 
         // PUT api/<EventsController>/5
+        // Update
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
         {
         }
 
-        // DELETE api/<EventsController>/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
