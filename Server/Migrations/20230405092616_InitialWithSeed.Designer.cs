@@ -12,7 +12,7 @@ using TicketHiveSpaceKittens.Server.Data;
 namespace TicketHiveSpaceKittens.Server.Migrations
 {
     [DbContext(typeof(EventDbContext))]
-    [Migration("20230405072002_InitialWithSeed")]
+    [Migration("20230405092616_InitialWithSeed")]
     partial class InitialWithSeed
     {
         /// <inheritdoc />
@@ -166,6 +166,20 @@ namespace TicketHiveSpaceKittens.Server.Migrations
                     b.HasKey("UserId");
 
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = 1,
+                            Country = "Sweden",
+                            Username = "user"
+                        },
+                        new
+                        {
+                            UserId = 2,
+                            Country = "Sweden",
+                            Username = "admin"
+                        });
                 });
 
             modelBuilder.Entity("EventModelTagModel", b =>
