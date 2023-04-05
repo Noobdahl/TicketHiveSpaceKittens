@@ -31,8 +31,29 @@
             <em>@result</em>
         }
     </ul>
-
 }
+
+<h1>Events</h1>
+
+<table class="table"> 
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Event Date</th>
+            <th>TicketPrice</th>
+        </tr>
+    </thead>
+</table>
+<tbody>
+    @foreach (var e in SortedEvents)
+    {
+        <tr>
+            <td>@e.Name</td>
+            <td>@e.EventDate.Date.ToShortDateString()</td>
+            <td>@e.TicketPrice</td>
+        </tr>
+    }
+</tbody>
 
 
 
@@ -42,8 +63,23 @@
     private EventModel? event1;
 
     public string searchText { get; set; } = null!;
-    public List<string> searchResult { get; set; }
     private string? statusMessage;
+    public List<string>? searchResult { get; set; }
+
+    private List<EventModel> SortedEvents => SortEvent(events);
+
+    private List<EventModel> SortEvent(List<EventModel> events, bool ascending = true)
+    {
+        if (ascending)
+        {
+            return events.OrderBy(e => e.EventDate).ToList();
+        }
+        else
+        {
+            return events.OrderByDescending(e => e.TicketPrice).ToList();
+        }
+    }
+
 
     protected override async Task OnInitializedAsync()
     {

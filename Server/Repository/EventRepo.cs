@@ -52,15 +52,16 @@ namespace TicketHiveSpaceKittens.Server.Repository
             }
         }
 
-        //public async Task<EventModel?> DeleteEvent(int id)
-        //{
-        //    var eventToDelete = await context.Events.FirstOrDefaultAsync(e => e.EventId == id);
-        //    if(eventToDelete!= null)
-        //    {
-        //        context.Events.Remove(eventToDelete);
-        //        await context.SaveChangesAsync();
-        //    }
-        //    return eventToDelete;
-        //}
+        public async Task<EventModel?> DeleteEvent(int id)
+        {
+            var eventToDelete = await context.Events.FirstOrDefaultAsync(e => e.EventId == id);
+
+            if (eventToDelete != null)
+            {
+                context.Events.Remove(eventToDelete);
+                await context.SaveChangesAsync();
+            }
+            return eventToDelete;
+        }
     }
 }

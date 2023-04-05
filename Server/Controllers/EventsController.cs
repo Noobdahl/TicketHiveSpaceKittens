@@ -52,8 +52,16 @@ namespace TicketHiveSpaceKittens.Server.Controllers
         }
 
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<ActionResult<EventModel>> DeleteEvent(int id)
         {
+            var eventToDelete = await repo.DeleteEvent(id);
+
+            if (eventToDelete != null)
+            {
+                return Ok(eventToDelete);
+            }
+
+            return BadRequest();
         }
     }
 }
