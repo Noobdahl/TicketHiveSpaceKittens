@@ -10,13 +10,15 @@ namespace TicketHiveSpaceKittens.Server.Areas.Identity.Pages.Account
     public class RegisterModel : PageModel
     {
         private readonly SignInManager<ApplicationUser> signInManager;
-        public IUserRepo repo { get; }
+        private readonly IUserRepo repo;
+
         public string? Username { get; set; }
         public string? Password { get; set; }
 
         public RegisterModel(SignInManager<ApplicationUser> signInManager, IUserRepo repo)
         {
             this.signInManager = signInManager;
+            this.repo = repo;
             this.repo = repo;
         }
 
