@@ -2,7 +2,7 @@
 
 namespace TicketHiveSpaceKittens.Shared.Models
 {
-    public class EventTypesModel
+    public class TagModel
     {
         [Key]
         public string TypeName { get; set; } = null!;
