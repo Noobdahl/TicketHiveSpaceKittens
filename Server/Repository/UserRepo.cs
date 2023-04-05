@@ -38,5 +38,37 @@ namespace TicketHiveSpaceKittens.Server.Repository
             context.Users.Add(newUser);
             context.SaveChanges();
         }
+
+        public async Task<bool> ChangePassword(string currentPassword, string newPassword)
+        {
+            var user = await signInManager.UserManager.GetUserAsync(signInManager.Context.User);
+
+            //var newPassHash = signInManager.UserManager.PasswordHasher.HashPassword(user, newPassword);
+
+            var result = await signInManager.UserManager.ChangePasswordAsync(user, currentPassword, newPassword);
+
+            if (result.Succeeded)
+            {
+                await signInManager.SignOutAsync();
+                await signInManager.PasswordSignInAsync(user.UserName, newPassword, false, false);
+
+                return true;
+            }
+            return false;
+        }
+
+        public async Task<bool> ChangeCountry(string newCountry)
+        {
+            var user = await signInManager.UserManager.GetUserAsync(signInManager.Context.User);
+            user.Country = newCountry;
+            var result = await signInManager.UserManager.UpdateAsync(user);
+            if (result.Succeeded)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        //Admins ska kunna lägga till events med datum, tid, plats, pris och kapacitet(ticketamount)
     }
 }
