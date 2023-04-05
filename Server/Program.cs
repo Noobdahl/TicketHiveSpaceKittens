@@ -18,12 +18,12 @@ builder.Services.AddDbContext<EventDbContext>(options =>
     options.UseSqlServer(tHiveConnectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<ExtendedUser>(options => options.SignIn.RequireConfirmedAccount = false)
+builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
 builder.Services.AddIdentityServer()
-    .AddApiAuthorization<ExtendedUser, ApplicationDbContext>(options =>
+    .AddApiAuthorization<ApplicationUser, ApplicationDbContext>(options =>
     {
         options.IdentityResources["openid"].UserClaims.Add("role");
         options.ApiResources.Single().UserClaims.Add("role");
@@ -42,11 +42,11 @@ builder.Services.AddScoped<IUserRepo, UserRepo>();
 using (var serviceProvider = builder.Services.BuildServiceProvider())
 {
     var context = serviceProvider.GetRequiredService<ApplicationDbContext>();
-    var signInManager = serviceProvider.GetRequiredService<SignInManager<ExtendedUser>>();
+    var signInManager = serviceProvider.GetRequiredService<SignInManager<ApplicationUser>>();
     var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
     context.Database.Migrate();
 
-    ExtendedUser adminUser = signInManager.UserManager.FindByNameAsync("admin").GetAwaiter().GetResult();
+    ApplicationUser adminUser = signInManager.UserManager.FindByNameAsync("admin").GetAwaiter().GetResult();
 
     if (adminUser == null)
     {
@@ -57,7 +57,7 @@ using (var serviceProvider = builder.Services.BuildServiceProvider())
         signInManager.UserManager.CreateAsync(adminUser, "Password1234!").GetAwaiter().GetResult();
     }
 
-    ExtendedUser user = signInManager.UserManager.FindByNameAsync("user").GetAwaiter().GetResult();
+    ApplicationUser user = signInManager.UserManager.FindByNameAsync("user").GetAwaiter().GetResult();
 
     if (user == null)
     {

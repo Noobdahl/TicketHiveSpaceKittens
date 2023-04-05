@@ -1,10 +1,13 @@
-﻿namespace TicketHiveSpaceKittens.Shared.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace TicketHiveSpaceKittens.Shared.Models
 {
     public class UserModel
     {
+        [Key]
         public int UserId { get; set; }
         public string Username { get; set; } = null!;
-        public Countries Country { get; set; }
+        public string? Country { get; set; }
         public List<BookingModel> Bookings { get; set; } = new();
     }
 }

@@ -3,16 +3,17 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using TicketHiveSpaceKittens.Server.Models;
 
-namespace TicketHiveSpaceKittens.Server.Areas.Identity.Pages
+namespace TicketHiveSpaceKittens.Server.Areas.Identity.Pages.Account
 {
+    [BindProperties]
     public class LoginModel : PageModel
     {
-        private readonly SignInManager<ExtendedUser> signInManager;
+        private readonly SignInManager<ApplicationUser> signInManager;
         public string Username { get; set; }
 
         public string Password { get; set; }
 
-        public LoginModel(SignInManager<ExtendedUser> signInManager)
+        public LoginModel(SignInManager<ApplicationUser> signInManager)
         {
             this.signInManager = signInManager;
         }
@@ -22,7 +23,7 @@ namespace TicketHiveSpaceKittens.Server.Areas.Identity.Pages
 
         public async Task<IActionResult> OnPost()
         {
-            
+
             var signInResult = await signInManager.PasswordSignInAsync(Username, Password, false, false);
 
             if (signInResult.Succeeded)
@@ -30,7 +31,7 @@ namespace TicketHiveSpaceKittens.Server.Areas.Identity.Pages
                 return Redirect("~/");
             }
 
-            
+
 
             return Page();
         }

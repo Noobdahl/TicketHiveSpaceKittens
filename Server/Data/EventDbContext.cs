@@ -44,14 +44,14 @@ namespace TicketHiveSpaceKittens.Server.Data
             modelBuilder.Entity<TagModel>().HasData(
                 new TagModel()
                 {
-                    TypeName = "Utomhus",
+                    TagName = "Utomhus",
                 }
             );
-            modelBuilder.Entity("EventModelEventTypesModel").HasData(
+            modelBuilder.Entity("EventModelTagModel").HasData(
                 new
                 {
-                    EventTypesTypeName = "Utomhus",
-                    EventsId = 1
+                    TagsTagName = "Utomhus",
+                    EventsEventId = 1
                 }
             );
         }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TicketHiveSpaceKittens.Server.Repository;
+using TicketHiveSpaceKittens.Shared.Models;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -15,11 +16,12 @@ namespace TicketHiveSpaceKittens.Server.Controllers
         {
             this.repo = repo;
         }
+
         // GET: api/<EventsController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public ActionResult<List<EventModel>> Get()
         {
-            return new string[] { "value1", "value2" };
+            return Ok(repo.GetEvents());
         }
 
         // GET api/<EventsController>/5

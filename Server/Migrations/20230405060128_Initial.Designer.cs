@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TicketHiveSpaceKittens.Server.Data;
 
@@ -11,9 +12,11 @@ using TicketHiveSpaceKittens.Server.Data;
 namespace TicketHiveSpaceKittens.Server.Migrations
 {
     [DbContext(typeof(EventDbContext))]
-    partial class EventDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230405060128_Initial")]
+    partial class Initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -35,13 +38,6 @@ namespace TicketHiveSpaceKittens.Server.Migrations
                     b.HasIndex("TagsTagName");
 
                     b.ToTable("EventModelTagModel");
-
-                    b.HasData(
-                        new
-                        {
-                            EventsEventId = 1,
-                            TagsTagName = "Utomhus"
-                        });
                 });
 
             modelBuilder.Entity("TicketHiveSpaceKittens.Shared.Models.BookingModel", b =>
@@ -103,30 +99,6 @@ namespace TicketHiveSpaceKittens.Server.Migrations
                     b.HasKey("EventId");
 
                     b.ToTable("Events");
-
-                    b.HasData(
-                        new
-                        {
-                            EventId = 1,
-                            Description = "Fyllefest deluxe",
-                            EventDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ImageUrl = "",
-                            Location = "Backyard",
-                            Name = "Springbreak",
-                            TicketPrice = 199m,
-                            TicketsRemaining = 10
-                        },
-                        new
-                        {
-                            EventId = 2,
-                            Description = "Fyllefest deluxe2",
-                            EventDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ImageUrl = "",
-                            Location = "Backyard2",
-                            Name = "Springbreak2",
-                            TicketPrice = 1992m,
-                            TicketsRemaining = 102
-                        });
                 });
 
             modelBuilder.Entity("TicketHiveSpaceKittens.Shared.Models.TagModel", b =>
@@ -137,12 +109,6 @@ namespace TicketHiveSpaceKittens.Server.Migrations
                     b.HasKey("TagName");
 
                     b.ToTable("Tags");
-
-                    b.HasData(
-                        new
-                        {
-                            TagName = "Utomhus"
-                        });
                 });
 
             modelBuilder.Entity("TicketHiveSpaceKittens.Shared.Models.UserModel", b =>

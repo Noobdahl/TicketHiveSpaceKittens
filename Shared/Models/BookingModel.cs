@@ -8,10 +8,10 @@ namespace TicketHiveSpaceKittens.Shared.Models
         [Key]
         public int Id { get; set; }
         public int EventId { get; set; }
-        public EventModel Event { get; set; }
+        public EventModel? Event { get; set; }
         [ForeignKey(nameof(User))]
         public int UserId { get; set; }
-        public UserModel User { get; set; }
+        public UserModel? User { get; set; }
         public int Tickets { get; set; }
     }
 }
