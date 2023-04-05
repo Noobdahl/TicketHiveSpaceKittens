@@ -11,7 +11,7 @@ namespace TicketHiveSpaceKittens.Server.Repository
         {
             this.context = context;
         }
-        public async Task AddUser(string username, string country)
+        public void AddUser(string username, string country)
         {
             UserModel newUser = new()
             {
