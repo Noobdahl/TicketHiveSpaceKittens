@@ -8,6 +8,6 @@ namespace TicketHiveSpaceKittens.Shared.Models
         public int UserId { get; set; }
         public string Username { get; set; } = null!;
         public string? Country { get; set; }
-        public List<BookingModel> Bookings { get; set; } = new();
+        public List<EventModel> Bookings { get; set; } = new();
     }
 }

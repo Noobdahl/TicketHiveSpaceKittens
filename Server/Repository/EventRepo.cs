@@ -1,4 +1,5 @@
-﻿using TicketHiveSpaceKittens.Server.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using TicketHiveSpaceKittens.Server.Data;
 using TicketHiveSpaceKittens.Shared.Models;
 
 namespace TicketHiveSpaceKittens.Server.Repository
@@ -14,7 +15,8 @@ namespace TicketHiveSpaceKittens.Server.Repository
 
         public List<EventModel> GetEvents()
         {
-            return context.Events.ToList();
+            return context.Events.Include(b => b.Users).ToList();
+            //return context.Events.ToList();
         }
     }
 }
