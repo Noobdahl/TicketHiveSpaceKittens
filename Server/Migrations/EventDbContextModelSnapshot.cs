@@ -162,7 +162,7 @@ namespace TicketHiveSpaceKittens.Server.Migrations
 
                     b.HasKey("UserId");
 
-                    b.ToTable("UserModel");
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("EventModelTagModel", b =>

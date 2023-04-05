@@ -3,10 +3,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace TicketHiveSpaceKittens.Server.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class InitialWithSeed : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -42,7 +44,7 @@ namespace TicketHiveSpaceKittens.Server.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "UserModel",
+                name: "Users",
                 columns: table => new
                 {
                     UserId = table.Column<int>(type: "int", nullable: false)
@@ -52,7 +54,7 @@ namespace TicketHiveSpaceKittens.Server.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserModel", x => x.UserId);
+                    table.PrimaryKey("PK_Users", x => x.UserId);
                 });
 
             migrationBuilder.CreateTable(
@@ -99,12 +101,31 @@ namespace TicketHiveSpaceKittens.Server.Migrations
                         principalColumn: "EventId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Bookings_UserModel_UserId",
+                        name: "FK_Bookings_Users_UserId",
                         column: x => x.UserId,
-                        principalTable: "UserModel",
+                        principalTable: "Users",
                         principalColumn: "UserId",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.InsertData(
+                table: "Events",
+                columns: new[] { "EventId", "Description", "EventDate", "ImageUrl", "Location", "Name", "TicketPrice", "TicketsRemaining" },
+                values: new object[,]
+                {
+                    { 1, "Fyllefest deluxe", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "", "Backyard", "Springbreak", 199m, 10 },
+                    { 2, "Fyllefest deluxe2", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "", "Backyard2", "Springbreak2", 1992m, 102 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Tags",
+                column: "TagName",
+                value: "Utomhus");
+
+            migrationBuilder.InsertData(
+                table: "EventModelTagModel",
+                columns: new[] { "EventsEventId", "TagsTagName" },
+                values: new object[] { 1, "Utomhus" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Bookings_EventId",
@@ -132,7 +153,7 @@ namespace TicketHiveSpaceKittens.Server.Migrations
                 name: "EventModelTagModel");
 
             migrationBuilder.DropTable(
-                name: "UserModel");
+                name: "Users");
 
             migrationBuilder.DropTable(
                 name: "Events");

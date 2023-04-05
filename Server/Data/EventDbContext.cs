@@ -13,6 +13,7 @@ namespace TicketHiveSpaceKittens.Server.Data
         public DbSet<EventModel> Events { get; set; }
         public DbSet<TagModel> Tags { get; set; }
         public DbSet<BookingModel> Bookings { get; set; }
+        public DbSet<UserModel> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

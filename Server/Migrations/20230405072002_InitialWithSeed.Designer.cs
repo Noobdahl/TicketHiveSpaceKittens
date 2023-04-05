@@ -12,8 +12,8 @@ using TicketHiveSpaceKittens.Server.Data;
 namespace TicketHiveSpaceKittens.Server.Migrations
 {
     [DbContext(typeof(EventDbContext))]
-    [Migration("20230405060714_FirstSeed")]
-    partial class FirstSeed
+    [Migration("20230405072002_InitialWithSeed")]
+    partial class InitialWithSeed
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -165,7 +165,7 @@ namespace TicketHiveSpaceKittens.Server.Migrations
 
                     b.HasKey("UserId");
 
-                    b.ToTable("UserModel");
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("EventModelTagModel", b =>
