@@ -11,15 +11,16 @@ namespace TicketHiveSpaceKittens.Server.Data
         }
 
         public DbSet<EventModel> Events { get; set; }
-        public DbSet<EventTypesModel> EventTypes { get; set; }
+        public DbSet<TagModel> Tags { get; set; }
         public DbSet<BookingModel> Bookings { get; set; }
+        public DbSet<UserModel> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<EventModel>().HasData(
                 new EventModel()
                 {
-                    Id = 1,
+                    EventId = 1,
                     Name = "Springbreak",
                     Location = "Backyard",
                     Description = "Fyllefest deluxe",
@@ -30,7 +31,7 @@ namespace TicketHiveSpaceKittens.Server.Data
                 },
                 new EventModel()
                 {
-                    Id = 2,
+                    EventId = 2,
                     Name = "Springbreak2",
                     Location = "Backyard2",
                     Description = "Fyllefest deluxe2",
@@ -41,17 +42,17 @@ namespace TicketHiveSpaceKittens.Server.Data
                 }
             );
 
-            modelBuilder.Entity<EventTypesModel>().HasData(
-                new EventTypesModel()
+            modelBuilder.Entity<TagModel>().HasData(
+                new TagModel()
                 {
-                    TypeName = "Utomhus",
+                    TagName = "Utomhus",
                 }
             );
-            modelBuilder.Entity("EventModelEventTypesModel").HasData(
+            modelBuilder.Entity("EventModelTagModel").HasData(
                 new
                 {
-                    EventTypesTypeName = "Utomhus",
-                    EventsId = 1
+                    TagsTagName = "Utomhus",
+                    EventsEventId = 1
                 }
             );
         }

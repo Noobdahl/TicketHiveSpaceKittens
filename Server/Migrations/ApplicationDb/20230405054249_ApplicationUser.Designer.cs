@@ -9,11 +9,11 @@ using TicketHiveSpaceKittens.Server.Data;
 
 #nullable disable
 
-namespace TicketHiveSpaceKittens.Server.Data.Migrations
+namespace TicketHiveSpaceKittens.Server.Migrations.ApplicationDb
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230404112259_AddingExtendedUserAgain")]
-    partial class AddingExtendedUserAgain
+    [Migration("20230405054249_ApplicationUser")]
+    partial class ApplicationUser
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -303,7 +303,7 @@ namespace TicketHiveSpaceKittens.Server.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("TicketHiveSpaceKittens.Server.Models.ExtendedUser", b =>
+            modelBuilder.Entity("TicketHiveSpaceKittens.Server.Models.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -382,7 +382,7 @@ namespace TicketHiveSpaceKittens.Server.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("TicketHiveSpaceKittens.Server.Models.ExtendedUser", null)
+                    b.HasOne("TicketHiveSpaceKittens.Server.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -391,7 +391,7 @@ namespace TicketHiveSpaceKittens.Server.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("TicketHiveSpaceKittens.Server.Models.ExtendedUser", null)
+                    b.HasOne("TicketHiveSpaceKittens.Server.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -406,7 +406,7 @@ namespace TicketHiveSpaceKittens.Server.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TicketHiveSpaceKittens.Server.Models.ExtendedUser", null)
+                    b.HasOne("TicketHiveSpaceKittens.Server.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -415,7 +415,7 @@ namespace TicketHiveSpaceKittens.Server.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("TicketHiveSpaceKittens.Server.Models.ExtendedUser", null)
+                    b.HasOne("TicketHiveSpaceKittens.Server.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)

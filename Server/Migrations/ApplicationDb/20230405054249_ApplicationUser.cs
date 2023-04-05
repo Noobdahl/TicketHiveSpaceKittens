@@ -2,10 +2,10 @@
 
 #nullable disable
 
-namespace TicketHiveSpaceKittens.Server.Data.Migrations
+namespace TicketHiveSpaceKittens.Server.Migrations.ApplicationDb
 {
     /// <inheritdoc />
-    public partial class AddingExtendedUserAgain : Migration
+    public partial class ApplicationUser : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

@@ -1,0 +1,20 @@
+﻿@page
+@using TicketHiveSpaceKittens.Server.Repository;
+@model TicketHiveSpaceKittens.Server.Areas.Identity.Pages.Account.RegisterModel
+@inject IUserRepo repo
+@{
+}
+
+<h1>Register</h1>
+
+<form method="post">
+    <label for="input-username">Username:</label>
+    <input id="input-username" type="text" asp-for="Username"/>
+    <label for="input-password">Password:</label>
+    <input id="input-password" type="password" asp-for="Password" />
+    <input type="submit" value="Register" />
+    <div>
+        <span class="text-danger" asp-validation-for="Username"></span>
+        <span class="text-danger" asp-validation-for="Password"></span>
+    </div>
+</form>

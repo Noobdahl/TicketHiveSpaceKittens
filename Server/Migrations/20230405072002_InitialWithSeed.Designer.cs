@@ -12,7 +12,7 @@ using TicketHiveSpaceKittens.Server.Data;
 namespace TicketHiveSpaceKittens.Server.Migrations
 {
     [DbContext(typeof(EventDbContext))]
-    [Migration("20230404114527_InitialWithSeed")]
+    [Migration("20230405072002_InitialWithSeed")]
     partial class InitialWithSeed
     {
         /// <inheritdoc />
@@ -25,25 +25,25 @@ namespace TicketHiveSpaceKittens.Server.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("EventModelEventTypesModel", b =>
+            modelBuilder.Entity("EventModelTagModel", b =>
                 {
-                    b.Property<string>("EventTypesTypeName")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("EventsId")
+                    b.Property<int>("EventsEventId")
                         .HasColumnType("int");
 
-                    b.HasKey("EventTypesTypeName", "EventsId");
+                    b.Property<string>("TagsTagName")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.HasIndex("EventsId");
+                    b.HasKey("EventsEventId", "TagsTagName");
 
-                    b.ToTable("EventModelEventTypesModel");
+                    b.HasIndex("TagsTagName");
+
+                    b.ToTable("EventModelTagModel");
 
                     b.HasData(
                         new
                         {
-                            EventTypesTypeName = "Utomhus",
-                            EventsId = 1
+                            EventsEventId = 1,
+                            TagsTagName = "Utomhus"
                         });
                 });
 
@@ -68,19 +68,20 @@ namespace TicketHiveSpaceKittens.Server.Migrations
 
                     b.HasIndex("EventId");
 
+                    b.HasIndex("UserId");
+
                     b.ToTable("Bookings");
                 });
 
             modelBuilder.Entity("TicketHiveSpaceKittens.Shared.Models.EventModel", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("EventId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EventId"));
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("EventDate")
@@ -90,7 +91,6 @@ namespace TicketHiveSpaceKittens.Server.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Location")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
@@ -103,14 +103,14 @@ namespace TicketHiveSpaceKittens.Server.Migrations
                     b.Property<int>("TicketsRemaining")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("EventId");
 
                     b.ToTable("Events");
 
                     b.HasData(
                         new
                         {
-                            Id = 1,
+                            EventId = 1,
                             Description = "Fyllefest deluxe",
                             EventDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ImageUrl = "",
@@ -121,7 +121,7 @@ namespace TicketHiveSpaceKittens.Server.Migrations
                         },
                         new
                         {
-                            Id = 2,
+                            EventId = 2,
                             Description = "Fyllefest deluxe2",
                             EventDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ImageUrl = "",
@@ -132,110 +132,79 @@ namespace TicketHiveSpaceKittens.Server.Migrations
                         });
                 });
 
-            modelBuilder.Entity("TicketHiveSpaceKittens.Shared.Models.EventTypesModel", b =>
+            modelBuilder.Entity("TicketHiveSpaceKittens.Shared.Models.TagModel", b =>
                 {
-                    b.Property<string>("TypeName")
+                    b.Property<string>("TagName")
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("TypeName");
+                    b.HasKey("TagName");
 
-                    b.ToTable("EventTypes");
+                    b.ToTable("Tags");
 
                     b.HasData(
                         new
                         {
-                            TypeName = "Utomhus"
+                            TagName = "Utomhus"
                         });
                 });
 
-            modelBuilder.Entity("TicketHiveSpaceKittens.Shared.Models.EventTypesViewModel", b =>
+            modelBuilder.Entity("TicketHiveSpaceKittens.Shared.Models.UserModel", b =>
                 {
-                    b.Property<string>("TypeName")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int?>("EventViewModelId")
-                        .HasColumnType("int");
-
-                    b.HasKey("TypeName");
-
-                    b.HasIndex("EventViewModelId");
-
-                    b.ToTable("EventTypesViewModel");
-                });
-
-            modelBuilder.Entity("TicketHiveSpaceKittens.Shared.Models.EventViewModel", b =>
-                {
-                    b.Property<int>("Id")
+                    b.Property<int>("UserId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserId"));
 
-                    b.Property<string>("Description")
+                    b.Property<string>("Country")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Username")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("EventDate")
-                        .HasColumnType("datetime2");
+                    b.HasKey("UserId");
 
-                    b.Property<string>("ImageUrl")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Location")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("TicketPrice")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("TicketsRemaining")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("EventViewModel");
+                    b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("EventModelEventTypesModel", b =>
+            modelBuilder.Entity("EventModelTagModel", b =>
                 {
-                    b.HasOne("TicketHiveSpaceKittens.Shared.Models.EventTypesModel", null)
+                    b.HasOne("TicketHiveSpaceKittens.Shared.Models.EventModel", null)
                         .WithMany()
-                        .HasForeignKey("EventTypesTypeName")
+                        .HasForeignKey("EventsEventId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TicketHiveSpaceKittens.Shared.Models.EventModel", null)
+                    b.HasOne("TicketHiveSpaceKittens.Shared.Models.TagModel", null)
                         .WithMany()
-                        .HasForeignKey("EventsId")
+                        .HasForeignKey("TagsTagName")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
             modelBuilder.Entity("TicketHiveSpaceKittens.Shared.Models.BookingModel", b =>
                 {
-                    b.HasOne("TicketHiveSpaceKittens.Shared.Models.EventViewModel", "Event")
+                    b.HasOne("TicketHiveSpaceKittens.Shared.Models.EventModel", "Event")
                         .WithMany()
                         .HasForeignKey("EventId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("TicketHiveSpaceKittens.Shared.Models.UserModel", "User")
+                        .WithMany("Bookings")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Event");
+
+                    b.Navigation("User");
                 });
 
-            modelBuilder.Entity("TicketHiveSpaceKittens.Shared.Models.EventTypesViewModel", b =>
+            modelBuilder.Entity("TicketHiveSpaceKittens.Shared.Models.UserModel", b =>
                 {
-                    b.HasOne("TicketHiveSpaceKittens.Shared.Models.EventViewModel", null)
-                        .WithMany("EventTypes")
-                        .HasForeignKey("EventViewModelId");
-                });
-
-            modelBuilder.Entity("TicketHiveSpaceKittens.Shared.Models.EventViewModel", b =>
-                {
-                    b.Navigation("EventTypes");
+                    b.Navigation("Bookings");
                 });
 #pragma warning restore 612, 618
         }
