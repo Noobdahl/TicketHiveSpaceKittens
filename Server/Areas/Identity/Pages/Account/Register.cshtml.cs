@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using TicketHiveSpaceKittens.Server.Models;
-using TicketHiveSpaceKittens.Server.Repository;
 
 namespace TicketHiveSpaceKittens.Server.Areas.Identity.Pages.Account
 {
@@ -10,14 +9,12 @@ namespace TicketHiveSpaceKittens.Server.Areas.Identity.Pages.Account
     public class RegisterModel : PageModel
     {
         private readonly SignInManager<ApplicationUser> signInManager;
-        public IUserRepo repo { get; }
         public string? Username { get; set; }
         public string? Password { get; set; }
 
-        public RegisterModel(SignInManager<ApplicationUser> signInManager, IUserRepo repo)
+        public RegisterModel(SignInManager<ApplicationUser> signInManager)
         {
             this.signInManager = signInManager;
-            this.repo = repo;
         }
 
         public void OnGet()
@@ -36,7 +33,7 @@ namespace TicketHiveSpaceKittens.Server.Areas.Identity.Pages.Account
                 var registerResult = await signInManager.UserManager.CreateAsync(newUser, Password!);
                 if (registerResult.Succeeded)
                 {
-                    repo.AddUser(Username, "Sweden");//TODO change from sweden to input country
+                    //service.AddUser(Username, "Sweden"); //TODO change country to input
                     var signInResult = await signInManager.PasswordSignInAsync(newUser, Password!, false, false);
                     if (signInResult.Succeeded)
                     {
