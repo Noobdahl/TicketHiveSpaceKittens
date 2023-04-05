@@ -17,6 +17,20 @@ namespace TicketHiveSpaceKittens.Server.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<UserModel>().HasData(
+                new UserModel()
+                {
+                    UserId = 1,
+                    Username = "user",
+                    Country = "Sweden"
+                },
+                new UserModel()
+                {
+                    UserId = 2,
+                    Username = "admin",
+                    Country = "Sweden"
+                }
+                );
             modelBuilder.Entity<EventModel>().HasData(
                 new EventModel()
                 {

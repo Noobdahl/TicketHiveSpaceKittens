@@ -163,6 +163,20 @@ namespace TicketHiveSpaceKittens.Server.Migrations
                     b.HasKey("UserId");
 
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = 1,
+                            Country = "Sweden",
+                            Username = "user"
+                        },
+                        new
+                        {
+                            UserId = 2,
+                            Country = "Sweden",
+                            Username = "admin"
+                        });
                 });
 
             modelBuilder.Entity("EventModelTagModel", b =>

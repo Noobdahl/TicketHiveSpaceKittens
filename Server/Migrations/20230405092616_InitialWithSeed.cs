@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -121,6 +120,15 @@ namespace TicketHiveSpaceKittens.Server.Migrations
                 table: "Tags",
                 column: "TagName",
                 value: "Utomhus");
+
+            migrationBuilder.InsertData(
+                table: "Users",
+                columns: new[] { "UserId", "Country", "Username" },
+                values: new object[,]
+                {
+                    { 1, "Sweden", "user" },
+                    { 2, "Sweden", "admin" }
+                });
 
             migrationBuilder.InsertData(
                 table: "EventModelTagModel",
