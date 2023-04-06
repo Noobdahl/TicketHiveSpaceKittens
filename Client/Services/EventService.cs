@@ -62,7 +62,7 @@ namespace TicketHiveSpaceKittens.Client.Services
             return false;
         }
 
-        public async Task<bool> UpdateEvent(EventModel eventModel)
+        public async Task<bool> UpdateEventAsync(EventModel eventModel)
         {
             var response = await httpClient.PutAsJsonAsync($"api/events/{eventModel.EventId}", eventModel);
 
