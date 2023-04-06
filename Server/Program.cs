@@ -67,7 +67,7 @@ using (var serviceProvider = builder.Services.BuildServiceProvider())
         signInManager.UserManager.CreateAsync(user, "Password1234!").GetAwaiter().GetResult();
     }
 
-    IdentityRole? adminRole = roleManager.FindByNameAsync("Admin").GetAwaiter().GetResult();
+    IdentityRole? adminRole = roleManager.FindByNameAsync("admin").GetAwaiter().GetResult();
 
     if (adminRole == null)
     {
@@ -75,8 +75,9 @@ using (var serviceProvider = builder.Services.BuildServiceProvider())
         {
             Name = "Admin"
         };
-        signInManager.UserManager.CreateAsync(adminUser, "Admin").GetAwaiter().GetResult();
+        roleManager.CreateAsync(adminRole).GetAwaiter().GetResult();
     }
+    signInManager.UserManager.AddToRoleAsync(adminUser, "Admin").GetAwaiter().GetResult();
 }
 
 var app = builder.Build();

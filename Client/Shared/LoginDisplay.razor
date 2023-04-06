@@ -3,6 +3,7 @@
 @inject NavigationManager Navigation
 
 <AuthorizeView>
+
     <Authorized>
         <NavLink class="nav-link" href="/home" Match="NavLinkMatch.All">
             <span class="oi oi-home" aria-hidden="true"></span> Home
@@ -13,11 +14,22 @@
         <NavLink class="nav-link" href="/cart" Match="NavLinkMatch.All">
             <span class="oi oi-cart" aria-hidden="true"></span> Shopping Cart
         </NavLink>
+    </Authorized>
+</AuthorizeView>
+<AuthorizeView Roles="Admin">
+    <NavLink class="nav-link" href="/admin" Match="NavLinkMatch.All">
+        <span class="oi oi-shield" aria-hidden="true"></span> Admin Page
+    </NavLink>
+</AuthorizeView>
+<AuthorizeView>
+    <Authorized>
         <NavLink class="nav-link" href="authentication/profile" Match="NavLinkMatch.All">
             <span class="oi oi-cog" aria-hidden="true"></span> Settings
         </NavLink>
         <button class="nav-link btn btn-link" @onclick="BeginLogOut">Log out</button>
     </Authorized>
+</AuthorizeView>
+<AuthorizeView>
     <NotAuthorized>
         <NavLink class="nav-link" href="/home" Match="NavLinkMatch.All">
             <span class="oi oi-home" aria-hidden="true"></span> Home
