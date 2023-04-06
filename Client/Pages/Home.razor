@@ -1,5 +1,68 @@
 ﻿@page "/home"
 @using Microsoft.AspNetCore.Authorization;
+@using TicketHiveSpaceKittens.Client.Services;
+@using TicketHiveSpaceKittens.Shared.Models;
 @attribute [Authorize]
+@inject IEventService service
+@inject NavigationManager navManager
 
-<h1>Home</h1>
+<div>
+    <input @bind-value="@searchText" type="text" placeholder="Search for event..." />
+    <button class="btn" @onclick="@(() => GoToSearch())">Search</button>
+</div>
+
+@if (events != null)
+{
+    foreach (var e in events)
+    {
+        <a href="details/@e.EventId" style="color:red;">
+            <div class="card">
+                <h3>@e.Name</h3>
+                <em>@e.Location</em>
+                <em>@e.Description</em>
+                <em>Price: @e.TicketPrice</em>
+                <em>Date: @e.EventDate</em>
+                <img src="/Images/Event images/@e.ImageUrl" style="max-width:150px;"/>
+            </div>
+        </a>
+    }
+}
+
+
+@code
+{
+    private string? searchText;
+    private List<EventModel>? events;
+
+    //private string? statusMessage;
+    //public List<string>? searchResult { get; set; }
+
+    //private List<EventModel> SortedEvents => SortEvent(events);
+
+    //private List<EventModel> SortEvent(List<EventModel> events, bool ascending = true)
+    //{
+    //    if (ascending)
+    //    {
+    //        return events.OrderBy(e => e.EventDate).ToList();
+    //    }
+    //    else
+    //    {
+    //        return events.OrderByDescending(e => e.TicketPrice).ToList();
+    //    }
+    //}
+
+    protected override async Task OnInitializedAsync()
+    {
+        await GetEvents();
+    }
+
+    private async Task GetEvents()
+    {
+        events = await service.GetEventsAsync();
+    }
+
+    private void GoToSearch()
+    {
+        navManager.NavigateTo($"/booking/{searchText}");
+    }
+}

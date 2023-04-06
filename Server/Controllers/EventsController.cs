@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System.ComponentModel;
 using TicketHiveSpaceKittens.Server.Repository;
 using TicketHiveSpaceKittens.Shared.Models;
 
@@ -26,7 +25,7 @@ namespace TicketHiveSpaceKittens.Server.Controllers
 
         [HttpGet("{id}")]
         public async Task<ActionResult<EventModel?>> GetOneEvent(int id)
-        { 
+        {
             return Ok(await repo.GetEvent(id));
         }
 
@@ -35,7 +34,7 @@ namespace TicketHiveSpaceKittens.Server.Controllers
         {
             var isCreatedSuccessful = await repo.CreateEvent(newEvent);
 
-            if(isCreatedSuccessful)
+            if (isCreatedSuccessful)
             {
                 return Ok();
             }
@@ -47,14 +46,14 @@ namespace TicketHiveSpaceKittens.Server.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult<EventModel>> UpdateEvent(int id, [FromBody] EventModel updatedEvent)
         {
-            if(id != updatedEvent.EventId)
+            if (id != updatedEvent.EventId)
             {
                 return BadRequest();
             }
 
             var eventToUpdate = await repo.UpdateEvent(id, updatedEvent);
 
-            if(eventToUpdate != null)
+            if (eventToUpdate != null)
             {
                 return Ok(updatedEvent);
             }
