@@ -63,5 +63,18 @@ namespace TicketHiveSpaceKittens.Server.Repository
             }
             return eventToDelete;
         }
+
+        public async Task<EventModel?> UpdateEvent(int id)
+        {
+            var eventToUpdate = await context.Events.FirstOrDefaultAsync(e => e.EventId == id);
+
+            if (eventToUpdate != null)
+            {
+                context.Events.Update(eventToUpdate);
+                await context.SaveChangesAsync();
+            }
+
+            return eventToUpdate;
+        }
     }
 }

@@ -8,5 +8,6 @@ namespace TicketHiveSpaceKittens.Client.Services
         Task<EventModel?> GetOneEventAsync(int id);
         Task<bool> CreateEventAsync(EventModel eventModel);
         Task<bool> DeleteEventByIdAsync(int id);
+        Task<bool> UpdateEventAsync(EventModel eventModel);
     }
 }

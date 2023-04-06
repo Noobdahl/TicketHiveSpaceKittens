@@ -30,9 +30,8 @@ namespace TicketHiveSpaceKittens.Server.Controllers
             return Ok(repo.GetEvent(id));
         }
 
-        // POST api/<EventsController>
         [HttpPost]
-        public async Task<ActionResult<EventModel?>> Post([FromBody] EventModel newEvent)
+        public async Task<ActionResult<EventModel?>> AddEvent([FromBody] EventModel newEvent)
         {
             var isCreatedSuccessful = await repo.CreateEvent(newEvent);
 
@@ -44,11 +43,23 @@ namespace TicketHiveSpaceKittens.Server.Controllers
             return BadRequest();
         }
 
-        // PUT api/<EventsController>/5
-        // TODO: Kolla om vi ska ha den
+
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public async Task<ActionResult<EventModel>> UpdateEvent(int id, [FromBody] EventModel updateEvent)
         {
+            if(id != updateEvent.EventId)
+            {
+                return BadRequest();
+            }
+
+            var eventToUpdate = await repo.UpdateEvent(id);
+
+            if(eventToUpdate != null)
+            {
+                return Ok(updateEvent);
+            }
+
+            return BadRequest();
         }
 
         [HttpDelete("{id}")]
