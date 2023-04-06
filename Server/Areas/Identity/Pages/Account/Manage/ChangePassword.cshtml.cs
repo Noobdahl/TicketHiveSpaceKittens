@@ -2,13 +2,10 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 #nullable disable
 
-using System;
-using System.ComponentModel.DataAnnotations;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Logging;
+using System.ComponentModel.DataAnnotations;
 using TicketHiveSpaceKittens.Server.Models;
 
 namespace TicketHiveSpaceKittens.Server.Areas.Identity.Pages.Account.Manage
@@ -57,6 +54,9 @@ namespace TicketHiveSpaceKittens.Server.Areas.Identity.Pages.Account.Manage
             [DataType(DataType.Password)]
             [Display(Name = "Current password")]
             public string OldPassword { get; set; }
+            [Required]
+            [Display(Name = "Current country")]
+            public string OldCountry { get; set; }
 
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
@@ -67,6 +67,9 @@ namespace TicketHiveSpaceKittens.Server.Areas.Identity.Pages.Account.Manage
             [DataType(DataType.Password)]
             [Display(Name = "New password")]
             public string NewPassword { get; set; }
+            [Required]
+            [Display(Name = "New country")]
+            public string NewCountry { get; set; }
 
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
@@ -76,6 +79,10 @@ namespace TicketHiveSpaceKittens.Server.Areas.Identity.Pages.Account.Manage
             [Display(Name = "Confirm new password")]
             [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
+
+            [Display(Name = "Confirm new country")]
+            [Compare("NewCountry", ErrorMessage = "The new country and confirmation country do not match.")]
+            public string ConfirmCountry { get; set; }
         }
 
         public async Task<IActionResult> OnGetAsync()
@@ -94,6 +101,7 @@ namespace TicketHiveSpaceKittens.Server.Areas.Identity.Pages.Account.Manage
 
             return Page();
         }
+
 
         public async Task<IActionResult> OnPostAsync()
         {

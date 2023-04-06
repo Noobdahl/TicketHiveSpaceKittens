@@ -10,19 +10,21 @@
 }
 
 <h1>Manage your account</h1>
-
-<div>
-    <h2>Change your account settings</h2>
+<partial name="_ManageNav" />
+@RenderBody()
+@*<div>
+    <h2>Change your konto-settings</h2>
     <hr />
     <div class="row">
         <div class="col-md-3">
             <partial name="_ManageNav" />
         </div>
         <div class="col-md-9">
+            <h1>TITTA</h1>
             @RenderBody()
         </div>
     </div>
-</div>
+</div>*@
 
 @section Scripts {
     @RenderSection("Scripts", required: false)
