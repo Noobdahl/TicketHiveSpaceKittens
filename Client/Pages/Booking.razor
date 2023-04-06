@@ -1,0 +1,130 @@
+﻿@page "/booking"
+@page "/booking/{searchText}"
+@using Microsoft.AspNetCore.Authorization;
+@using TicketHiveSpaceKittens.Client.Services;
+@using TicketHiveSpaceKittens.Shared.Models;
+@inject IEventService service
+@attribute [Authorize]
+
+<h1>Booking</h1>
+
+<input type="text" @bind-value="@searchText" @oninput="@FilterEvents" />
+
+
+<h1>Events</h1>
+
+<table class="table"> 
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Event Date</th>
+            <th>TicketPrice</th>
+        </tr>
+    </thead>
+</table>
+<div>
+    <button @onclick="SortByPrice">Price</button>
+    <button @onclick="SortByDate">Date</button>
+</div>
+@if (filteredEvents != null)
+{
+    foreach (var e in filteredEvents)
+    {
+        if(e.TicketsRemaining > 0)
+        {
+            <a href="details/@e.EventId" style="color:green;">
+                <div class="card">
+                    <h3>@e.Name</h3>
+                    <em>@e.Location</em>
+                    <em>@e.Description</em>
+                    <em>Price: @e.TicketPrice</em>
+                    <em>Date: @e.EventDate</em>
+                    <img src="/Images/Event images/@e.ImageUrl" style="max-width:150px;"/>
+                </div>
+            </a>
+        }
+        else
+        {
+            <a href="details/@e.EventId" style="color:darkgray;">
+                <div class="card">
+                    <h3>@e.Name</h3>
+                    <em>@e.Location</em>
+                    <em>@e.Description</em>
+                    <em>Price: @e.TicketPrice</em>
+                    <em>Date: @e.EventDate</em>
+                    <img src="/Images/Event images/@e.ImageUrl" style="max-width:150px;"/>
+                </div>
+            </a>
+        }
+    }
+}
+@*<tbody>
+    @if (filteredEvents != null)
+    {
+        @foreach (var e in filteredEvents)
+        {
+            <tr>
+                <td>@e.Name</td>
+                <td>@e.EventDate.Date.ToShortDateString()</td>
+                <td>@e.TicketPrice</td>
+            </tr>
+        }
+    }
+</tbody>*@
+
+@code
+{
+    private List<EventModel>? allEvents = new();
+    private List<EventModel>? filteredEvents = new();
+    [Parameter]
+    public string searchText { get; set; }
+    private bool isCheapestFirst = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await GetEvents();
+    }
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        if (searchText != null)
+        {
+            filteredEvents = allEvents.Where(e => e.Name!.ToLower().Contains(searchText.ToLower())).ToList();
+        }
+    }
+
+    private async Task GetEvents()
+    {
+        allEvents = await service.GetEventsAsync();
+        filteredEvents = allEvents;
+    }
+
+
+    private void FilterEvents(ChangeEventArgs e)
+    {
+        filteredEvents = allEvents!.Where(ev => ev.Name!.ToLower().Contains(e.Value!.ToString())).ToList();
+    }
+
+    private void SortByPrice()
+    {
+        List<EventModel> sortedList;
+        if (isCheapestFirst)
+            sortedList = filteredEvents.OrderBy(e => e.TicketPrice).ToList();
+        else
+            sortedList = filteredEvents.OrderByDescending(e => e.TicketPrice).ToList();
+        filteredEvents = sortedList;
+        isCheapestFirst = !isCheapestFirst;
+    }
+    private void SortByDate()
+    {
+        List<EventModel> sortedList;
+        if (isCheapestFirst)
+            sortedList = filteredEvents.OrderBy(e => e.EventDate).ToList();
+        else
+            sortedList = filteredEvents.OrderByDescending(e => e.EventDate).ToList();
+        filteredEvents = sortedList;
+        isCheapestFirst = !isCheapestFirst;
+    }
+
+}

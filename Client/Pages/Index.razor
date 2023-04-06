@@ -1,9 +1,11 @@
 ﻿@page "/"
+@using TicketHiveSpaceKittens.Client.Services;
+@using TicketHiveSpaceKittens.Shared.Models;
+
+@inject IEventService service   
 
 <PageTitle>Index</PageTitle>
 
-<h1>Hello, world!</h1>
+<h1>Welcome to the TicketHive Events.</h1>
 
-Welcome to your new app.
-
-<SurveyPrompt Title="How is Blazor working for you?" />
+<a href="authentication/login"><img src="/Images/logos/yellow only logo.jpg" style="max-width:500px;"/></a>
