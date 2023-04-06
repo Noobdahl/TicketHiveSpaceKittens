@@ -1,5 +1,114 @@
 ﻿@page "/booking"
 @using Microsoft.AspNetCore.Authorization;
+@using TicketHiveSpaceKittens.Client.Services;
+@using TicketHiveSpaceKittens.Shared.Models;
+@inject IEventService service
 @attribute [Authorize]
 
 <h1>Booking</h1>
+
+<input type="text" @bind-value="@searchText"/>
+<button @onclick="@Search">Search for event</button>
+
+@if (events != null)
+{
+    @foreach (var e in events)
+    {
+        <h1>@e.Name</h1>
+    }
+}
+
+@if(statusMessage == null)
+{
+    <em>No Result found</em>    
+}
+
+@if(searchText != null && searchResult.Count > 0)
+{
+    <ul>
+        @foreach (var result in searchResult)
+        {
+            <em>@result</em>
+        }
+    </ul>
+}
+
+<h1>Events</h1>
+
+<table class="table"> 
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Event Date</th>
+            <th>TicketPrice</th>
+        </tr>
+    </thead>
+</table>
+<tbody>
+    @foreach (var e in SortedEvents)
+    {
+        <tr>
+            <td>@e.Name</td>
+            <td>@e.EventDate.Date.ToShortDateString()</td>
+            <td>@e.TicketPrice</td>
+        </tr>
+    }
+</tbody>
+
+
+
+@code
+{
+    private List<EventModel>? events;
+    private EventModel? event1;
+
+    public string searchText { get; set; } = null!;
+    private string? statusMessage;
+    public List<string>? searchResult { get; set; }
+
+    private List<EventModel> SortedEvents => SortEvent(events);
+
+    private List<EventModel> SortEvent(List<EventModel> events, bool ascending = true)
+    {
+        if (ascending)
+        {
+            return events.OrderBy(e => e.EventDate).ToList();
+        }
+        else
+        {
+            return events.OrderByDescending(e => e.TicketPrice).ToList();
+        }
+    }
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        await GetEvents();
+    }
+
+    private async Task GetEvents()
+    {
+        events = await service.GetEventsAsync();
+    }
+
+    private async Task GetEvent(int id)
+    {
+        event1 = await service.GetOneEventAsync(id);
+    }
+
+    private void Search()
+    {
+        statusMessage = "Searching....";
+
+        searchResult = PerformSearch(searchText);
+
+        statusMessage = "Search complete";
+    }
+
+    private List<string> PerformSearch(string searchText)
+    {
+
+        var result = events.Where(e => e.Name.Contains(searchText)).Select(e => e.Name).ToList();
+        return result;
+    }
+}

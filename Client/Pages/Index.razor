@@ -1,7 +1,8 @@
 ﻿@page "/"
 @using TicketHiveSpaceKittens.Client.Services;
 @using TicketHiveSpaceKittens.Shared.Models;
-@inject IEventService service
+
+@inject IEventService service   
 
 <PageTitle>Index</PageTitle>
 
@@ -9,13 +10,7 @@
 
 
 
-@if (events != null)
-{
-    @foreach(var e in events)
-    {
-        <h1>@e.Name</h1>
-    }
-}
+
 
 <a class="btn btn-primary" href="/home">Home page</a>
 <a class="btn btn-primary" href="/booking">Booking page</a>
@@ -23,16 +18,4 @@
 <a class="btn btn-primary" href="/user">Profile page</a>
 <a class="btn btn-primary" href="/admin">Admin page</a>
 
-@code
-{
-    private List<EventModel>? events;
-    protected override async Task OnInitializedAsync()
-    {
-        await GetEvents();
-    }
 
-    private async Task GetEvents()
-    {
-        events = await service.GetEventsAsync();
-    }
-}
