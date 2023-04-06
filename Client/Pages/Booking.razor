@@ -1,4 +1,5 @@
 ﻿@page "/booking"
+@page "/booking/{searchText}"
 @using Microsoft.AspNetCore.Authorization;
 @using TicketHiveSpaceKittens.Client.Services;
 @using TicketHiveSpaceKittens.Shared.Models;
@@ -7,31 +8,8 @@
 
 <h1>Booking</h1>
 
-<input type="text" @bind-value="@searchText"/>
-<button @onclick="@Search">Search for event</button>
+<input type="text" @bind-value="@searchText" @oninput="@FilterEvents" />
 
-@if (events != null)
-{
-    @foreach (var e in events)
-    {
-        <h1>@e.Name</h1>
-    }
-}
-
-@if(statusMessage == null)
-{
-    <em>No Result found</em>    
-}
-
-@if(searchText != null && searchResult.Count > 0)
-{
-    <ul>
-        @foreach (var result in searchResult)
-        {
-            <em>@result</em>
-        }
-    </ul>
-}
 
 <h1>Events</h1>
 
@@ -44,71 +22,67 @@
         </tr>
     </thead>
 </table>
-<tbody>
-    @foreach (var e in SortedEvents)
+@if (filteredEvents != null)
+{
+    foreach (var e in filteredEvents)
     {
-        <tr>
-            <td><a href="/details/@e.EventId">@e.Name</a></td>
-            <td>@e.EventDate.Date.ToShortDateString()</td>
-            <td>@e.TicketPrice</td>
-        </tr>
+        <a href="details/@e.EventId" style="color:red;">
+            <div class="card">
+                <h3>@e.Name</h3>
+                <em>@e.Location</em>
+                <em>@e.Description</em>
+                <em>Price: @e.TicketPrice</em>
+                <em>Date: @e.EventDate</em>
+                <img src="/Images/Event images/@e.ImageUrl" style="max-width:150px;"/>
+            </div>
+        </a>
     }
-</tbody>
-
-
+}
+@*<tbody>
+    @if (filteredEvents != null)
+    {
+        @foreach (var e in filteredEvents)
+        {
+            <tr>
+                <td>@e.Name</td>
+                <td>@e.EventDate.Date.ToShortDateString()</td>
+                <td>@e.TicketPrice</td>
+            </tr>
+        }
+    }
+</tbody>*@
 
 @code
 {
-    private List<EventModel>? events;
-    private EventModel? event1;
-
-    public string searchText { get; set; } = null!;
-    private string? statusMessage;
-    public List<string>? searchResult { get; set; }
-
-    private List<EventModel> SortedEvents => SortEvent(events);
-
-    private List<EventModel> SortEvent(List<EventModel> events, bool ascending = true)
-    {
-        if (ascending)
-        {
-            return events.OrderBy(e => e.EventDate).ToList();
-        }
-        else
-        {
-            return events.OrderByDescending(e => e.TicketPrice).ToList();
-        }
-    }
-
+    private List<EventModel>? allEvents = new();
+    private List<EventModel>? filteredEvents = new();
+    [Parameter]
+    public string searchText { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
         await GetEvents();
     }
 
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        if (searchText != null)
+        {
+            filteredEvents = allEvents.Where(e => e.Name!.ToLower().Contains(searchText.ToLower())).ToList();
+        }
+    }
+
     private async Task GetEvents()
     {
-        events = await service.GetEventsAsync();
+        allEvents = await service.GetEventsAsync();
+        filteredEvents = allEvents;
     }
 
-    private async Task GetEvent(int id)
+
+    private void FilterEvents(ChangeEventArgs e)
     {
-        event1 = await service.GetOneEventAsync(id);
+        filteredEvents = allEvents!.Where(ev => ev.Name!.ToLower().Contains(e.Value!.ToString())).ToList();
     }
 
-    private void Search()
-    {
-        statusMessage = "Searching....";
-
-        searchResult = PerformSearch(searchText);
-
-        statusMessage = "Search complete";
-    }
-
-    private List<string> PerformSearch(string searchText)
-    {
-
-        var result = events.Where(e => e.Name.Contains(searchText)).Select(e => e.Name).ToList();
-        return result;
-    }
 }
