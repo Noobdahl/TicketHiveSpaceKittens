@@ -30,16 +30,32 @@
 {
     foreach (var e in filteredEvents)
     {
-        <a href="details/@e.EventId" style="color:red;">
-            <div class="card">
-                <h3>@e.Name</h3>
-                <em>@e.Location</em>
-                <em>@e.Description</em>
-                <em>Price: @e.TicketPrice</em>
-                <em>Date: @e.EventDate</em>
-                <img src="/Images/Event images/@e.ImageUrl" style="max-width:150px;"/>
-            </div>
-        </a>
+        if(e.TicketsRemaining > 0)
+        {
+            <a href="details/@e.EventId" style="color:green;">
+                <div class="card">
+                    <h3>@e.Name</h3>
+                    <em>@e.Location</em>
+                    <em>@e.Description</em>
+                    <em>Price: @e.TicketPrice</em>
+                    <em>Date: @e.EventDate</em>
+                    <img src="/Images/Event images/@e.ImageUrl" style="max-width:150px;"/>
+                </div>
+            </a>
+        }
+        else
+        {
+            <a href="details/@e.EventId" style="color:darkgray;">
+                <div class="card">
+                    <h3>@e.Name</h3>
+                    <em>@e.Location</em>
+                    <em>@e.Description</em>
+                    <em>Price: @e.TicketPrice</em>
+                    <em>Date: @e.EventDate</em>
+                    <img src="/Images/Event images/@e.ImageUrl" style="max-width:150px;"/>
+                </div>
+            </a>
+        }
     }
 }
 @*<tbody>
