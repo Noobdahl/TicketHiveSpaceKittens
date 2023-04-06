@@ -17,9 +17,9 @@ namespace TicketHiveSpaceKittens.Server.Repository
             this.context = context;
         }
 
-        public List<EventModel> GetEvents()
+        public async Task<List<EventModel>> GetEvents()
         {
-            return context.Events.Include(e => e.Users).Include(e => e.Tags).Select(e => new EventModel
+            return await context.Events.Include(e => e.Users).Include(e => e.Tags).Select(e => new EventModel
             {
                 EventId = e.EventId,
                 Name = e.Name,
@@ -29,7 +29,7 @@ namespace TicketHiveSpaceKittens.Server.Repository
                 EventDate = e.EventDate,
                 TicketsRemaining = e.TicketsRemaining,
                 ImageUrl = e.ImageUrl
-            }).ToList();
+            }).ToListAsync();
         }
 
         public async Task<EventModel?> GetEvent(int id)
