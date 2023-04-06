@@ -8,10 +8,10 @@
 @if(selectedEvent != null)
 {
     <h1>@selectedEvent.Name</h1>
-    <em>@selectedEvent.Description</em>
-    <em>@selectedEvent.Location</em>
-    <em>@selectedEvent.TicketPrice</em>
-    <em>@selectedEvent.TicketsRemaining</em>
+    <h3>@selectedEvent.Description</h3>
+    <h4>@selectedEvent.Location</h4>
+    <h5>@selectedEvent.TicketPrice kr</h5>
+    <h6>@selectedEvent.TicketsRemaining st</h6>
     <em><strong>@selectedEvent.EventDate</strong></em>
     <img src="/Images/Event images/@selectedEvent.ImageUrl" style="max-width:150px;" />
 
