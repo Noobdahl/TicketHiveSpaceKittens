@@ -22,6 +22,10 @@
         </tr>
     </thead>
 </table>
+<div>
+    <button @onclick="SortByPrice">Price</button>
+    <button @onclick="SortByDate">Date</button>
+</div>
 @if (filteredEvents != null)
 {
     foreach (var e in filteredEvents)
@@ -58,6 +62,7 @@
     private List<EventModel>? filteredEvents = new();
     [Parameter]
     public string searchText { get; set; }
+    private bool isCheapestFirst = true;
 
     protected override async Task OnInitializedAsync()
     {
@@ -83,6 +88,27 @@
     private void FilterEvents(ChangeEventArgs e)
     {
         filteredEvents = allEvents!.Where(ev => ev.Name!.ToLower().Contains(e.Value!.ToString())).ToList();
+    }
+
+    private void SortByPrice()
+    {
+        List<EventModel> sortedList;
+        if (isCheapestFirst)
+            sortedList = filteredEvents.OrderBy(e => e.TicketPrice).ToList();
+        else
+            sortedList = filteredEvents.OrderByDescending(e => e.TicketPrice).ToList();
+        filteredEvents = sortedList;
+        isCheapestFirst = !isCheapestFirst;
+    }
+    private void SortByDate()
+    {
+        List<EventModel> sortedList;
+        if (isCheapestFirst)
+            sortedList = filteredEvents.OrderBy(e => e.EventDate).ToList();
+        else
+            sortedList = filteredEvents.OrderByDescending(e => e.EventDate).ToList();
+        filteredEvents = sortedList;
+        isCheapestFirst = !isCheapestFirst;
     }
 
 }
