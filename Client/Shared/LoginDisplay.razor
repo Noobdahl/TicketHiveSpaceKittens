@@ -4,10 +4,24 @@
 
 <AuthorizeView>
     <Authorized>
-        <a href="authentication/profile">Hello, @context.User.Identity?.Name!</a>
+        <NavLink class="nav-link" href="/home" Match="NavLinkMatch.All">
+            <span class="oi oi-home" aria-hidden="true"></span> Home
+        </NavLink>
+        <NavLink class="nav-link" href="/booking" Match="NavLinkMatch.All">
+            <span class="oi oi-bullhorn" aria-hidden="true"></span> Events
+        </NavLink>
+        <NavLink class="nav-link" href="/cart" Match="NavLinkMatch.All">
+            <span class="oi oi-cart" aria-hidden="true"></span> Shopping Cart
+        </NavLink>
+        <NavLink class="nav-link" href="authentication/profile" Match="NavLinkMatch.All">
+            <span class="oi oi-cog" aria-hidden="true"></span> Settings
+        </NavLink>
         <button class="nav-link btn btn-link" @onclick="BeginLogOut">Log out</button>
     </Authorized>
     <NotAuthorized>
+        <NavLink class="nav-link" href="/home" Match="NavLinkMatch.All">
+            <span class="oi oi-home" aria-hidden="true"></span> Home
+        </NavLink>
         <a href="authentication/register">Register</a>
         <a href="authentication/login">Log in</a>
     </NotAuthorized>
