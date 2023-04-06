@@ -28,7 +28,7 @@ namespace TicketHiveSpaceKittens.Server.Areas.Identity.Pages.Account
 
             if (signInResult.Succeeded)
             {
-                return Redirect("~/");
+                return Redirect("~/home");
             }
 
 
