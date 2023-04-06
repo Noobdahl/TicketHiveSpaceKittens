@@ -1,0 +1,27 @@
+﻿@page "/details/{id:int}"
+@using TicketHiveSpaceKittens.Client.Services;
+@using TicketHiveSpaceKittens.Shared.Models;
+@inject IEventService eventService
+
+<h3>Details</h3>
+
+@if(selectedEvent != null)
+{
+    <h1>@selectedEvent.Name</h1>
+    <em>@selectedEvent.Description</em>
+}
+else
+{
+    <h1>Loading event...</h1>
+}
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+    private EventModel? selectedEvent;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        selectedEvent = await eventService.GetOneEventAsync(Id);
+    }
+}

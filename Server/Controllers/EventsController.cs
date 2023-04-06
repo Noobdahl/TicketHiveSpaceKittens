@@ -19,15 +19,15 @@ namespace TicketHiveSpaceKittens.Server.Controllers
         }
 
         [HttpGet]
-        public ActionResult<List<EventModel>> GetAllEvents()
+        public async Task<ActionResult<List<EventModel>>> GetAllEvents()
         {
-            return Ok(repo.GetEvents());
+            return Ok(await repo.GetEvents());
         }
 
         [HttpGet("{id}")]
-        public ActionResult<EventModel?> GetOneEvent(int id)
-        {
-            return Ok(repo.GetEvent(id));
+        public async Task<ActionResult<EventModel?>> GetOneEvent(int id)
+        { 
+            return Ok(await repo.GetEvent(id));
         }
 
         [HttpPost]

@@ -48,7 +48,7 @@
     @foreach (var e in SortedEvents)
     {
         <tr>
-            <td>@e.Name</td>
+            <td><a href="/details/@e.EventId">@e.Name</a></td>
             <td>@e.EventDate.Date.ToShortDateString()</td>
             <td>@e.TicketPrice</td>
         </tr>
