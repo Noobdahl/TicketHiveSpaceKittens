@@ -45,18 +45,18 @@ namespace TicketHiveSpaceKittens.Server.Controllers
 
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<EventModel>> UpdateEvent(int id, [FromBody] EventModel updateEvent)
+        public async Task<ActionResult<EventModel>> UpdateEvent(int id, [FromBody] EventModel updatedEvent)
         {
-            if(id != updateEvent.EventId)
+            if(id != updatedEvent.EventId)
             {
                 return BadRequest();
             }
 
-            var eventToUpdate = await repo.UpdateEvent(id);
+            var eventToUpdate = await repo.UpdateEvent(id, updatedEvent);
 
             if(eventToUpdate != null)
             {
-                return Ok(updateEvent);
+                return Ok(updatedEvent);
             }
 
             return BadRequest();

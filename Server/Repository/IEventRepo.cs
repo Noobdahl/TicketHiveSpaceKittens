@@ -8,6 +8,6 @@ namespace TicketHiveSpaceKittens.Server.Repository
         Task<EventModel?> GetEvent(int id);
         Task<bool> CreateEvent(EventModel newEvent);
         Task<EventModel?> DeleteEvent(int id);
-        Task<EventModel?> UpdateEvent(int id);
+        Task<EventModel?> UpdateEvent(int id, EventModel updatedEvent);
     }
 }

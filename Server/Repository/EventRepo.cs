@@ -64,13 +64,22 @@ namespace TicketHiveSpaceKittens.Server.Repository
             return eventToDelete;
         }
 
-        public async Task<EventModel?> UpdateEvent(int id)
+        public async Task<EventModel?> UpdateEvent(int id, EventModel updatedEvent)
         {
             var eventToUpdate = await context.Events.FirstOrDefaultAsync(e => e.EventId == id);
 
             if (eventToUpdate != null)
             {
-                context.Events.Update(eventToUpdate);
+                eventToUpdate.Name = updatedEvent.Name;
+                eventToUpdate.Location = updatedEvent.Location;
+                eventToUpdate.Description = updatedEvent.Description;
+                eventToUpdate.TicketPrice = updatedEvent.TicketPrice;
+                eventToUpdate.EventDate = updatedEvent.EventDate;
+                eventToUpdate.TicketsRemaining = updatedEvent.TicketsRemaining;
+                eventToUpdate.Tags = updatedEvent.Tags;
+                eventToUpdate.Users = updatedEvent.Users;
+                eventToUpdate.ImageUrl = updatedEvent.ImageUrl;
+
                 await context.SaveChangesAsync();
             }
 
