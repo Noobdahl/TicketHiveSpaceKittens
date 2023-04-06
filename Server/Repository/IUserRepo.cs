@@ -1,4 +1,5 @@
 ﻿using TicketHiveSpaceKittens.Server.Models;
+using TicketHiveSpaceKittens.Shared;
 
 namespace TicketHiveSpaceKittens.Server.Repository
 {
