@@ -1,11 +1,52 @@
-﻿
+﻿<link rel="stylesheet" type="text/css" href="/css/StartPage-Style.css">
+@inject IModalService modal
 
-<div class="col-md-6 mb-3">
-    <img class="img-fluid" src="@ImagePath" alt="WelcomeImage" />
+<!----------------------- Main Container -------------------------->
+
+<div class="container text-center text-lg-start px-4 px-md-5 shadow mt-5" style="background-color: hsl(0, 0%, 96%)">
+                    <div class="row gx-lg-5 align-items-center">
+        <div class="text-center">
+            <img class="align align-content-center" src="/Images/logos/logo.png" alt="Your Image">
+        </div>
+                        <div class="col-lg-6 mb-5 mb-lg-0">
+                            <h1 class="my-5 display-3 fw-bold ls-tight">
+                                Welcome to the <br />
+                                <span class="text-primary">Ticket Hive</span>
+                            </h1>
+                <!--------------------------- Left Box ----------------------------->
+                <p style="color: hsl(217, 10%, 50.8%)">
+                    Event ticketing made simple
+                    Start buying tickets to your favorite events quickly and easily in just 2 minutes.
+                                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                                Eveniet, itaque accusantium odio, soluta, corrupti aliquam
+                                quibusdam tempora at cupiditate quis eum maiores libero
+                                veritatis? Dicta facilis sint aliquid ipsum atque?
+                </p>
+                <!--------------------------- Login/Register buttons ----------------------------->
+                            <div class="row">
+                                <div class="col-md-6 mb-4">
+                                    <div class="form-outline">
+                                        <a href="/authentication/login" class="btn btn-lg btn-warning w-100 fs-6">Login</a>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 mb-4">
+                                    <div class="form-outline">
+                                        <a href="/authentication/register" class="btn btn-lg btn-warning w-100 fs-6">Register</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+            <!--------------------------- Right Box ----------------------------->
+                        <div class="col-lg-6 mb-5 mb-lg-0 shadow px-4 py-5 px-md-5 ">
+                            <img class="img-fluid shadow" src="/Images/Event images/TDF.jpg" alt="Your Image">
+
+                        <div class="text-center">
+                            <button @onclick="@(()=>modal.Show<AppInfo>("App Info"))" class="btn btn-primary center mx-auto fs-6  mb-4 mt-3"> Read AppInfo</button>
+                        </div>
+               
+                         
+                        </div>
+                    </div>
 </div>
-
-
-@code {
-    [Parameter]
-    public string ImagePath { get; set; }
-}
+  
