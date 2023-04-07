@@ -34,38 +34,87 @@ namespace TicketHiveSpaceKittens.Server.Data
                 new EventModel()
                 {
                     EventId = 1,
-                    Name = "Springbreak",
-                    Location = "Backyard",
-                    Description = "Fyllefest deluxe",
-                    TicketPrice = 199,
-                    EventDate = new DateTime(),
-                    TicketsRemaining = 10,
-                    ImageUrl = ""
+                    Name = "Coachella Valley Music and Arts Festival",
+                    Location = "Indio, California",
+                    Description = "A music and arts festival featuring popular and up-and-coming artists, interactive art installations, and food vendors.",
+                    TicketPrice = 399,
+                    EventDate = new DateTime(2023, 05, 15-17),
+                    TicketsRemaining = 245,
+                    ImageUrl = "image 21.jpg"
                 },
                 new EventModel()
                 {
                     EventId = 2,
-                    Name = "Springbreak2",
-                    Location = "Backyard2",
-                    Description = "Fyllefest deluxe2",
-                    TicketPrice = 1992,
-                    EventDate = new DateTime(),
-                    TicketsRemaining = 102,
-                    ImageUrl = ""
+                    Name = "Sundance Film Festival",
+                    Location = "Park City, Utah",
+                    Description = "A film festival showcasing independent films from around the world, with screenings, panel discussions, and special events.",
+                    TicketPrice = 550,
+                    EventDate = new DateTime(2023, 02, 19-29),
+                    TicketsRemaining = 85,
+                    ImageUrl = "Sundance.jpg"
+                },
+                new EventModel()
+                {
+                    EventId = 3,
+                    Name = "Comic-Con International",
+                    Location = "San Diego, California",
+                    Description = "A comic book and pop culture convention featuring panels, celebrity appearances, and exhibits.",
+                    TicketPrice = 100,
+                    EventDate = new DateTime(2023, 07, 20-23),
+                    TicketsRemaining = 40,
+                    ImageUrl = "ComicCon.jpg"
+                },
+                new EventModel()
+                {
+                    EventId = 4,
+                    Name = "New Orleans Jazz & Heritage Festival",
+                    Location = "New Orleans, Louisiana",
+                    Description = "A music festival celebrating the culture and heritage of New Orleans, featuring jazz, blues, and other genres of music, as well as food and crafts vendors.",
+                    TicketPrice = 70,
+                    EventDate = new DateTime(2023, 04, 28),
+                    TicketsRemaining = 110,
+                    ImageUrl = "image 13.jpg"              
                 }
             );
 
             modelBuilder.Entity<TagModel>().HasData(
                 new TagModel()
                 {
-                    TagName = "Utomhus",
+                    TagName = "Outdoor",
+                },
+                new TagModel()
+                {
+                    TagName = "Outdoor/Nature"
+                },
+                new TagModel()
+                {
+                    TagName = "Indoor",
+                },
+                new TagModel()
+                {
+                    TagName = "Outdoor/Indoor"
                 }
             );
             modelBuilder.Entity("EventModelTagModel").HasData(
                 new
                 {
-                    TagsTagName = "Utomhus",
+                    TagsTagName = "Outdoor/Nature",
                     EventsEventId = 1
+                },
+                new
+                {
+                    TagsTagName = "Indoor",
+                    EventsEventId = 2
+                },
+                new
+                {
+                    TagsTagName = "Indoor",
+                    EventsEventId = 3
+                },
+                new
+                {
+                    TagsTagName = "Outdoor/Indoor",
+                    EventsEventId = 4
                 }
             );
         }
