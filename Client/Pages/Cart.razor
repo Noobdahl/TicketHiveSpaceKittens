@@ -1,5 +1,38 @@
 ﻿@page "/cart"
 @using Microsoft.AspNetCore.Authorization;
+@using TicketHiveSpaceKittens.Client.Services;
 @attribute [Authorize]
+@inject CartService cartService
 
 <h1>Cart</h1>
+
+@if(cartService.GetCartItems().Count > 0)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Total</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in cartService.GetCartItems())
+            {
+                <tr>
+                    <td>@item.Name</td>
+                    <td>@item.TicketPrice kr</td>
+@*                    <td><button class="btn btn-danger" @onclick="() => RemoveFromCart(item)">Remove</button></td>
+*@                </tr>
+            }
+        </tbody>
+    </table>
+@*    <h3>Total: @cartService.GetTotal() kr</h3>
+    <button class="btn btn-primary" @onclick="Checkout">Checkout</button>*@
+}
+else
+{
+    <h3>Your cart is empty</h3>
+}
