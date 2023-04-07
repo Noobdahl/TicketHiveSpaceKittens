@@ -13,64 +13,61 @@
 
 <h1>Events</h1>
 
-<table class="table"> 
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Event Date</th>
-            <th>TicketPrice</th>
-        </tr>
-    </thead>
-</table>
 <div>
     <button @onclick="SortByPrice">Price</button>
     <button @onclick="SortByDate">Date</button>
 </div>
-@if (filteredEvents != null)
-{
-    foreach (var e in filteredEvents)
-    {
-        if(e.TicketsRemaining > 0)
-        {
-            <a href="details/@e.EventId" style="color:green;">
-                <div class="card">
-                    <h3>@e.Name</h3>
-                    <em>@e.Location</em>
-                    <em>@e.Description</em>
-                    <em>Price: @e.TicketPrice</em>
-                    <em>Date: @e.EventDate</em>
-                    <img src="/Images/Event images/@e.ImageUrl" style="max-width:150px;"/>
-                </div>
-            </a>
-        }
-        else
-        {
-            <a href="details/@e.EventId" style="color:darkgray;">
-                <div class="card">
-                    <h3>@e.Name</h3>
-                    <em>@e.Location</em>
-                    <em>@e.Description</em>
-                    <em>Price: @e.TicketPrice</em>
-                    <em>Date: @e.EventDate</em>
-                    <img src="/Images/Event images/@e.ImageUrl" style="max-width:150px;"/>
-                </div>
-            </a>
-        }
-    }
-}
-@*<tbody>
+
+<div class="row">
+    <div class="row sticky-top mb-1">
+        <div class="col-md-8 mt-1"><h3 class="text-muted" style="font-family:'Javanese Text'">Events</h3></div>
+    </div>
+
     @if (filteredEvents != null)
     {
-        @foreach (var e in filteredEvents)
+        foreach (var e in filteredEvents)
         {
-            <tr>
-                <td>@e.Name</td>
-                <td>@e.EventDate.Date.ToShortDateString()</td>
-                <td>@e.TicketPrice</td>
-            </tr>
+            if (e.TicketsRemaining > 0)
+            {
+
+                <div class="col-md-3">
+                    <div class="card border-1 m-2 mb-2">
+                        <div class="card-header text-center">
+                            <img class="card-img-top" src="/Images/Event images/image 1.jpg" style="width:200px; height:150px" />
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title"><strong>@e.Name:</strong></h5>
+                            <span class="card-text font-weight-bold"><strong>Description:</strong> @e.Description</span>
+                            <span class="card-text font-weight-bold"><strong>Location:</strong> @e.Location</span>
+                            <span class="card-text font-weight-bold"><strong>TicketPrice:</strong> @e.TicketPrice</span><br>
+                            <span class="card-text font-weight-bold"><strong>Events date:</strong> @e.EventDate</span><br>
+                            <a href="/Cart" class="btn btn-primary mt-3">Add To Card</a>
+                        </div>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="col-md-3">
+                    <div class="card border-1 m-2 mb-2">
+                        <div class="card-header text-center">
+                            <img src="/Images/Event images/@e.ImageUrl" style="width:200px; height:150px;" />
+                            <img class="card-img-top" src="/Images/Event images/image 1.jpg" />
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title"><strong>@e.Name:</strong></h5>
+                            <span class="card-text font-weight-bold"><strong>Description:</strong> @e.Description</span>
+                            <span class="card-text font-weight-bold"><strong>Location:</strong> @e.Location</span>
+                            <span class="card-text font-weight-bold"><strong>TicketPrice:</strong> @e.TicketPrice</span><br>
+                            <span class="card-text font-weight-bold"><strong>Events date:</strong> @e.EventDate</span><br>
+                            <a href="/Cart" class="btn btn-primary mt-3">Add To Card</a>
+                        </div>
+                    </div>
+                </div>
+            }
         }
     }
-</tbody>*@
+</div>
 
 @code
 {
