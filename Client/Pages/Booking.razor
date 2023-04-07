@@ -6,21 +6,18 @@
 @inject IEventService service
 @attribute [Authorize]
 
-<h1>Booking</h1>
-
-<input type="text" @bind-value="@searchText" @oninput="@FilterEvents" />
-
-
-<h1>Events</h1>
-
-<div>
-    <button @onclick="SortByPrice">Price</button>
-    <button @onclick="SortByDate">Date</button>
-</div>
 
 <div class="row">
-    <div class="row sticky-top mb-1">
+    <div class="row sticky-top mb-1 mt-5">
         <div class="col-md-8 mt-1"><h3 class="text-muted" style="font-family:'Javanese Text'">Events</h3></div>
+
+
+        <div class=" roz mt-5">
+            <input type="text" @bind-value="@searchText" @oninput="@FilterEvents" />
+            <button @onclick="SortByPrice">Price</button>
+            <button @onclick="SortByDate">Date</button>
+        </div>
+
     </div>
 
     @if (filteredEvents != null)
@@ -52,7 +49,6 @@
                     <div class="card border-1 m-2 mb-2">
                         <div class="card-header text-center">
                             <img src="/Images/Event images/@e.ImageUrl" style="width:200px; height:150px;" />
-                            <img class="card-img-top" src="/Images/Event images/image 1.jpg" />
                         </div>
                         <div class="card-body">
                             <h5 class="card-title"><strong>@e.Name:</strong></h5>
