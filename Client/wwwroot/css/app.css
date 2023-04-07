@@ -2,10 +2,7 @@
 
 html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    background: #ececec !important;
-
 }
-
 h1:focus {
     outline: none;
 }
