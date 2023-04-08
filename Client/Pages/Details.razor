@@ -2,7 +2,7 @@
 @using TicketHiveSpaceKittens.Client.Services;
 @using TicketHiveSpaceKittens.Shared.Models;
 @inject IEventService eventService
-@inject CartService cartService
+@inject ICartService cartService
 @inject NavigationManager navigationManager;
 
 <h3>Details</h3>
@@ -32,7 +32,7 @@ else
     private async Task AddToCart()
     {
         await cartService.AddToCartAsync(selectedEvent);
-        navigationManager.NavigateTo("/cart");
+        navigationManager.NavigateTo("/cart"); // Tillfällig lösning /Gabriel
     }
 
     protected override async Task OnParametersSetAsync()

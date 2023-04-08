@@ -3,7 +3,7 @@ using TicketHiveSpaceKittens.Shared.Models;
 
 namespace TicketHiveSpaceKittens.Client.Services
 {
-    public class CartService
+    public class CartService : ICartService
     {
         private List<EventModel> cartItems;
         public CartService()
