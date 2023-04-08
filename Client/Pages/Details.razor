@@ -2,6 +2,8 @@
 @using TicketHiveSpaceKittens.Client.Services;
 @using TicketHiveSpaceKittens.Shared.Models;
 @inject IEventService eventService
+@inject ICartService cartService
+@inject NavigationManager navigationManager;
 
 <h3>Details</h3>
 
@@ -14,6 +16,7 @@
     <h6>@selectedEvent.TicketsRemaining st</h6>
     <em><strong>@selectedEvent.EventDate</strong></em>
     <img src="/Images/Event images/@selectedEvent.ImageUrl" style="max-width:150px;" />
+    <button @onclick="AddToCart">Add To Cart</button>
 
 }
 else
@@ -25,6 +28,12 @@ else
     [Parameter]
     public int Id { get; set; }
     private EventModel? selectedEvent;
+
+    private async Task AddToCart()
+    {
+        await cartService.AddToCartAsync(selectedEvent);
+        navigationManager.NavigateTo("/cart"); // Tillfällig lösning /Gabriel
+    }
 
     protected override async Task OnParametersSetAsync()
     {
