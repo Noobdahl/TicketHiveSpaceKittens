@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System.Net.Http;
 using TicketHiveSpaceKittens.Shared.Models;
 
 namespace TicketHiveSpaceKittens.Client.Services
@@ -6,6 +7,7 @@ namespace TicketHiveSpaceKittens.Client.Services
     public class CartService : ICartService
     {
         private List<EventModel> cartItems;
+
         public CartService()
         {
             cartItems = new List<EventModel>();
