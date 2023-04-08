@@ -4,6 +4,7 @@
 @using TicketHiveSpaceKittens.Client.Services;
 @using TicketHiveSpaceKittens.Shared.Models;
 @inject IEventService service
+@inject ICartService cartService
 @attribute [Authorize]
 
 
@@ -30,7 +31,7 @@
                 <div class="col-md-3">
                     <div class="card border-1 m-2 mb-2">
                         <div class="card-header text-center">
-                            <img class="card-img-top" src="/Images/Event images/image 1.jpg" style="width:200px; height:150px" />
+                            <img class="card-img-top" src="/Images/Event images/@e.ImageUrl" style="width:200px; height:150px" />
                         </div>
                         <div class="card-body">
                             <h5 class="card-title"><strong>@e.Name:</strong></h5>
@@ -38,7 +39,7 @@
                             <span class="card-text font-weight-bold"><strong>Location:</strong> @e.Location</span>
                             <span class="card-text font-weight-bold"><strong>TicketPrice:</strong> @e.TicketPrice</span><br>
                             <span class="card-text font-weight-bold"><strong>Events date:</strong> @e.EventDate</span><br>
-                            <a href="/Cart" class="btn btn-primary mt-3">Add To Card</a>
+                            <button href="/Cart" class="btn btn-primary mt-3" @onclick="@(() => cartService.AddToCartAsync(e))">Add To Cart</button>
                         </div>
                     </div>
                 </div>
@@ -56,7 +57,7 @@
                             <span class="card-text font-weight-bold"><strong>Location:</strong> @e.Location</span>
                             <span class="card-text font-weight-bold"><strong>TicketPrice:</strong> @e.TicketPrice</span><br>
                             <span class="card-text font-weight-bold"><strong>Events date:</strong> @e.EventDate</span><br>
-                            <a href="/Cart" class="btn btn-primary mt-3">Add To Card</a>
+                            <button href="/Cart" class="btn btn-primary mt-3" @onclick="@(() => cartService.AddToCartAsync(e))">Add To Cart</button>
                         </div>
                     </div>
                 </div>
