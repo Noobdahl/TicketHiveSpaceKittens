@@ -4,7 +4,7 @@ using TicketHiveSpaceKittens.Shared.Models;
 
 namespace TicketHiveSpaceKittens.Server.Repository
 {
-    public class CartRepo : ICartRepo
+    public class CartRepo
     {
         private readonly CartRepo cRepo;
 

@@ -31,7 +31,7 @@ else
 
     private async Task AddToCart()
     {
-        await cartService.AddEventToCartAsync(selectedEvent);
+        await cartService.AddToCartAsync(selectedEvent);
         navigationManager.NavigateTo("/cart");
     }
 

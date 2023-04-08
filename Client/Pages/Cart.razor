@@ -1,36 +1,41 @@
 ﻿@page "/cart"
 @using Microsoft.AspNetCore.Authorization;
 @using TicketHiveSpaceKittens.Client.Services;
+@using TicketHiveSpaceKittens.Shared.Models;
 @attribute [Authorize]
 @inject CartService cartService
 
 <h1>Cart</h1>
 
-@if(cartService.GetCartItems().Count > 0)
+@if (cartService.GetCartItemsAsync().Count > 0)
 {
     <table class="table">
         <thead>
             <tr>
                 <th>Name</th>
                 <th>Price</th>
-                <th>Quantity</th>
                 <th>Total</th>
-                <th></th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in cartService.GetCartItems())
+            @foreach (var item in cartService.GetCartItemsAsync())
             {
                 <tr>
                     <td>@item.Name</td>
                     <td>@item.TicketPrice kr</td>
-@*                    <td><button class="btn btn-danger" @onclick="() => RemoveFromCart(item)">Remove</button></td>
-*@                </tr>
+                    <td><button class="btn btn-danger" @onclick="() => cartService.RemoveFromCartAsync(item)">Remove</button></td>
+
+                    @if(item.TicketsRemaining > 0)
+                    {
+                        <button type="button" @onclick="@(() => cartService.RemoveFromCartAsync(item))">-</button>
+                        <button type="button" @onclick="@(() => cartService.AddToCartAsync(item))">+</button>
+                    }
+                </tr>
             }
         </tbody>
     </table>
-@*    <h3>Total: @cartService.GetTotal() kr</h3>
-    <button class="btn btn-primary" @onclick="Checkout">Checkout</button>*@
+    <h3>Total: @cartService.TotalCartAsync() kr</h3>
+
 }
 else
 {

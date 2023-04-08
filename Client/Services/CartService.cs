@@ -11,15 +11,33 @@ namespace TicketHiveSpaceKittens.Client.Services
             cartItems = new List<EventModel>();
         }
 
-        public async Task AddEventToCartAsync(EventModel eventToAdd)
+        public async Task AddToCartAsync(EventModel toCart)
         {
-            cartItems.Add(eventToAdd);
+            cartItems.Add(toCart);
             await Task.CompletedTask;
         }
 
-        public List<EventModel> GetCartItems()
+        public List<EventModel> GetCartItemsAsync()
         {
             return cartItems;
+        }
+
+        public decimal TotalCartAsync()
+        {
+            decimal total = 0;
+
+            foreach (var cartItems in cartItems)
+            {
+                total += cartItems.TicketPrice;
+            }
+
+            return total;
+        }
+
+        public async Task RemoveFromCartAsync(EventModel eventToRemove)
+        {
+            cartItems.Remove(eventToRemove);
+            await Task.CompletedTask;
         }
     }
 }
