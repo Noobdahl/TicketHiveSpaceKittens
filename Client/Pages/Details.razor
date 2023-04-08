@@ -4,19 +4,32 @@
 @inject IEventService eventService
 @inject ICartService cartService
 @inject NavigationManager navigationManager;
+    
 
-<h3>Details</h3>
+
+
 
 @if(selectedEvent != null)
 {
-    <h1>@selectedEvent.Name</h1>
-    <h3>@selectedEvent.Description</h3>
-    <h4>@selectedEvent.Location</h4>
-    <h5>@selectedEvent.TicketPrice kr</h5>
-    <h6>@selectedEvent.TicketsRemaining st</h6>
-    <em><strong>@selectedEvent.EventDate</strong></em>
-    <img src="/Images/Event images/@selectedEvent.ImageUrl" style="max-width:150px;" />
-    <button @onclick="AddToCart">Add To Cart</button>
+<div class="d-flex justify-content-center">
+    <div class="col-md-3 mx-auto">
+            <h3 style="font-family:monospace">Details</h3>
+        <div class="card border-1 m-2 mb-2">
+            <div class="card-header text-center">
+                <img class="card-img-top" src="/Images/Event images/@selectedEvent.ImageUrl" style="width:200px; height:150px" />
+            </div>
+            <div class="card-body">
+                <h5 class="card-title"><strong>@selectedEvent.Name:</strong></h5>
+                <span class="card-text font-weight-bold"><strong>Description:</strong> @selectedEvent.Description</span>
+                <span class="card-text font-weight-bold"><strong>Location:</strong> @selectedEvent.Location</span>
+                <span class="card-text font-weight-bold"><strong>TicketPrice:</strong> @selectedEvent.TicketPrice</span><br>
+                <span class="card-text font-weight-bold"><strong>Events date:</strong> @selectedEvent.EventDate</span><br>
+                <button href="/Cart" class="btn btn-primary mt-3" @onclick="AddToCart">Add To Cart</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 }
 else
