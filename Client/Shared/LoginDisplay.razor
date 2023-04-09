@@ -5,25 +5,25 @@
 <AuthorizeView>
 
     <Authorized>
-        <NavLink class="nav-link" href="/home" Match="NavLinkMatch.All">
-            <span class="oi oi-home" aria-hidden="true"></span> Home
+        <NavLink class="nav-link text-white" href="/home" Match="NavLinkMatch.All">
+            <span class="oi oi-home " aria-hidden="true"></span> Home
         </NavLink>
-        <NavLink class="nav-link" href="/booking" Match="NavLinkMatch.All">
+        <NavLink class="nav-link text-white" href="/booking" Match="NavLinkMatch.All">
             <span class="oi oi-bullhorn" aria-hidden="true"></span> Events
         </NavLink>
-        <NavLink class="nav-link" href="/cart" Match="NavLinkMatch.All">
+        <NavLink class="nav-link text-white" href="/cart" Match="NavLinkMatch.All">
             <span class="oi oi-cart" aria-hidden="true"></span> Shopping Cart
         </NavLink>
     </Authorized>
 </AuthorizeView>
 <AuthorizeView Roles="Admin">
-    <NavLink class="nav-link" href="/admin" Match="NavLinkMatch.All">
+    <NavLink class="nav-link text-white" href="/admin" Match="NavLinkMatch.All">
         <span class="oi oi-shield" aria-hidden="true"></span> Admin Page
     </NavLink>
 </AuthorizeView>
 <AuthorizeView>
     <Authorized>
-        <NavLink class="nav-link" href="authentication/profile" Match="NavLinkMatch.All">
+        <NavLink class="nav-link text-white" href="authentication/profile" Match="NavLinkMatch.All">
             <span class="oi oi-cog" aria-hidden="true"></span> Settings
         </NavLink>
         <button class="nav-link btn btn-link" @onclick="BeginLogOut">Log out</button>
@@ -31,7 +31,7 @@
 </AuthorizeView>
 <AuthorizeView>
     <NotAuthorized>
-        <NavLink class="nav-link" href="/home" Match="NavLinkMatch.All">
+        <NavLink class="nav-link text-white" href="/home" Match="NavLinkMatch.All">
             <span class="oi oi-home" aria-hidden="true"></span> Home
         </NavLink>
         <a href="authentication/register">Register</a>

@@ -9,7 +9,7 @@
 @attribute [Authorize]
 
 <div class=" form-group mt-5 text-center">
-    <h1>Search your favorite events</h1>
+    <h1 class="fw-bolder">Search your favorite events</h1>
     <input class="form-control-sm" type="text" @bind-value="@searchText" @oninput="@FilterEvents" placeholder="Search event..." />
     <button class="btn btn-sm btn-outline-primary" @onclick="SortByPrice">Price</button>
     <button class="btn btn-sm btn-warning" @onclick="SortByDate">Date</button>
@@ -38,7 +38,7 @@
                             <span class="card-text font-weight-bold"><strong>Location:</strong> @e.Location</span><br>
                             <span class="card-text font-weight-bold"><strong>Events date:</strong> @e.EventDate</span><br>
                             <span class="card-text font-weight-bold"><strong>Ticket price:</strong> @e.TicketPrice</span><br>
-                            <button href="/cart" class="btn btn-primary mt-3" @onclick="@(() => {cartService.AddToCartAsync(e); navigationManager.NavigateTo("/cart"); })"> Buy Ticket  </button>
+                            <button class="btn btn-primary mt-3" @onclick="@(() => {cartService.AddToCartAsync(e); navigationManager.NavigateTo("/cart"); })"> Buy Ticket  </button>
                             </div>  
                     </div>
                 </div>
@@ -56,7 +56,7 @@
                             <span class="card-text font-weight-bold"><strong>Events date:</strong> @e.EventDate</span><br>
                             <span class="card-text font-weight-bold"><strong>Ticket price:</strong> @e.TicketPrice</span><br>
 
-                            <button href="/cart" class="btn btn-primary mt-3" @onclick="@(() => {cartService.AddToCartAsync(e); navigationManager.NavigateTo("/cart"); })"> Buy Ticket  </button>
+                            <button class="btn btn-primary mt-3" @onclick="@(() => {cartService.AddToCartAsync(e); navigationManager.NavigateTo("/cart"); })"> Buy Ticket  </button>
                         </div>
                     </div>
                 </div>

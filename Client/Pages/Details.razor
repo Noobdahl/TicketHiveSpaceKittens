@@ -5,42 +5,38 @@
 @inject ICartService cartService
 @inject NavigationManager navigationManager;
 
-
-@if(selectedEvent != null)
-{
-    <div class="container px-4 px-lg-5 my-5">
-    <div class=" form-group mt-5 text-center">
-        <h1>Details event</h1>
+ <div class="container">
+    <div class="form-group mt-5 text-center">
+        <h1 class="fw-bolder">Details event</h1>
     </div>
-        <div class="row gx-4 gx-lg-5 align-items-center mt-5">
-            <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" src="/Images/Event images/@selectedEvent.ImageUrl" alt="eventImgage" /></div>
-        @if (selectedEvent != null)
-        {
+    @if (selectedEvent != null)
+    {
+        <div class="row align-items-center mt-5">
             <div class="col-md-6">
-                <h1 class="display-5 fw-bolder">@selectedEvent.Name</h1>
-                <div class="fs-5 mb-5">
-                    <span><strong>Ticket Price:</strong> @selectedEvent.TicketPrice kr</span><br>
-                    <span><strong>Tickets Remaining:</strong> @selectedEvent.TicketsRemaining st</span><br>
-                    <span><strong>Location:</strong> @selectedEvent.Location </span><br>
-                    <span><strong>Date:</strong> @selectedEvent.EventDate </span>
-                </div>
-
-                <p class="lead">@selectedEvent.Description</p>
-                <div class="d-flex">
-                    <button class="btn btn-outline-danger flex-shrink-0" @onclick="AddToCart">
-                        <i class="bi-cart-fill me-1"></i>
-                        Buy Ticket
-                    </button>
-                </div>
+                <img class="card-img-top mb-5" src="/Images/Event images/@selectedEvent.ImageUrl" alt="eventImgage" />
             </div>
-        }
-        else
-        {
-            <h1>Loading event...</h1>
-        }
+
+                <div class="col-md-6">
+                    <h1 class="display-5 fw-bolder">@selectedEvent.Name</h1>
+                    <div class="fs-5 mb-5">
+                        <span><strong>Ticket Price:</strong> @selectedEvent.TicketPrice kr</span><br>
+                        <span><strong>Tickets Remaining:</strong> @selectedEvent.TicketsRemaining st</span><br>
+                        <span><strong>Location:</strong> @selectedEvent.Location </span><br>
+                        <span><strong>Date:</strong> @selectedEvent.EventDate </span>
+                    </div>
+
+                    <p class="lead">@selectedEvent.Description</p>
+                    <div class="d-flex">
+                            <button class="btn btn-primary mt-3" @onclick="AddToCart"> Buy Ticket</button>
+                    </div>
+                </div>
     </div>
-    </div>
-}
+    }
+    else
+    {
+        <h1>Loading event...</h1>
+    }
+</div>
 
 <!--
     @if (selectedEvent != null)

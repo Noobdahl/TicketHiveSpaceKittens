@@ -6,7 +6,6 @@
 @inject IEventService service
 @inject NavigationManager navManager
 
-
 <div class="container mt-5 shadow-lg">
     <div class="row">
         <div class="col-md-12">
@@ -27,12 +26,12 @@
                                     </div>
 
                                     <div class="col-md-6 p-5">
-                                        <h3>@e.Name</h3>
+                                        <h3 class="fw-bolder">@e.Name</h3>
                                         <hr>
                                         <p>@e.Description</p>
                                         <p><strong>Date:</strong> @e.EventDate</p>
 
-                                        <a href="details/@e.EventId" class="btn btn-lg btn-warning w-100 fs-6">See more info</a>
+                                        <a href="details/@e.EventId" class="btn btn-lg btn-warning w-100 fs-6 fw-bolder">See more info</a>
 
                                     </div>
                                 </div>
@@ -48,8 +47,8 @@
 
 <div class="row mt-5">
     <div class=" form-group mt-5 text-center">
-            <h1>Search your favorit event</h1>
-            <input class="form-control-sm" @bind-value="@searchText" type="text" placeholder="Search for event..." />
+        <h1 class="fw-bolder">Search your favorit event</h1>
+            <input class="form-control-sm fw-bolder" @bind-value="@searchText" type="text" placeholder="Search for event..." />
             <button class="btn btn-sm btn-primary" @onclick="@(() => GoToSearch())">Search</button>
     </div>
         @if (events != null)
@@ -67,8 +66,8 @@
                                 </div>
                                 <div class="card-body">
                                     <h5 class="card-title"><strong>@e.Name:</strong></h5><br>
-                                    <span class="card-text font-weight-bold"><strong>Location:</strong> @e.Location</span><br>
-                                    <span class="card-text font-weight-bold"><strong>Events date:</strong> @e.EventDate</span><br>
+                                    <span class="card-text"><strong>Location:</strong> @e.Location</span><br>
+                                    <span class="card-text"><strong>Events date:</strong> @e.EventDate</span><br>
                                 </div>
                             </div>
                         </div>
