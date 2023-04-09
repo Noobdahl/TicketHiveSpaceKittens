@@ -5,6 +5,7 @@
 @using TicketHiveSpaceKittens.Shared.Models;
 @inject IEventService service
 @inject ICartService cartService
+@inject NavigationManager navigationManager;
 @attribute [Authorize]
 
 <div class=" form-group mt-5 text-center">
@@ -37,7 +38,7 @@
                             <span class="card-text font-weight-bold"><strong>Location:</strong> @e.Location</span><br>
                             <span class="card-text font-weight-bold"><strong>Events date:</strong> @e.EventDate</span><br>
                             <span class="card-text font-weight-bold"><strong>Ticket price:</strong> @e.TicketPrice</span><br>
-                            <button href="/Cart" class="btn btn-primary mt-3" @onclick="@(() => cartService.AddToCartAsync(e))">Buy Ticket</button>
+                            <button href="/cart" class="btn btn-primary mt-3" @onclick="@(() => {cartService.AddToCartAsync(e); navigationManager.NavigateTo("/cart"); })"> Buy Ticket  </button>
                             </div>  
                     </div>
                 </div>
@@ -54,8 +55,8 @@
                             <span class="card-text font-weight-bold"><strong>Location:</strong> @e.Location</span><br>
                             <span class="card-text font-weight-bold"><strong>Events date:</strong> @e.EventDate</span><br>
                             <span class="card-text font-weight-bold"><strong>Ticket price:</strong> @e.TicketPrice</span><br>
-                            
-                            <button href="/Cart" class="btn btn-primary mt-3" @onclick="@(() => cartService.AddToCartAsync(e))">Add To Cart</button>
+
+                            <button href="/cart" class="btn btn-primary mt-3" @onclick="@(() => {cartService.AddToCartAsync(e); navigationManager.NavigateTo("/cart"); })"> Buy Ticket  </button>
                         </div>
                     </div>
                 </div>
