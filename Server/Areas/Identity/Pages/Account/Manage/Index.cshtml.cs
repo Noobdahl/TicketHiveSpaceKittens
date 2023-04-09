@@ -18,16 +18,16 @@ namespace TicketHiveSpaceKittens.Server.Areas.Identity.Pages.Account.Manage
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly IUserRepo user;
+        private readonly IUserRepo repo;
 
         public IndexModel(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
-            IUserRepo user)
+            IUserRepo repo)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            this.user = user;
+            this.repo = repo;
         }
 
         /// <summary>
@@ -35,6 +35,8 @@ namespace TicketHiveSpaceKittens.Server.Areas.Identity.Pages.Account.Manage
         ///     directly from your code. This API may change or be removed in future releases.
         /// </summary>
         public string Username { get; set; }
+        [Display(Name = "Current country")]
+        public string DisplayCountry { get; set; }
 
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
@@ -60,22 +62,18 @@ namespace TicketHiveSpaceKittens.Server.Areas.Identity.Pages.Account.Manage
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Phone]
-            [Display(Name = "Phone number")]
-            public string PhoneNumber { get; set; }
+
+            [Display(Name = "Country")]
+            public string Country { get; set; }
         }
 
         private async Task LoadAsync(ApplicationUser user)
         {
             var userName = await _userManager.GetUserNameAsync(user);
-            var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
-
+            var country = await repo.GetCountryAsync(userName);
             Username = userName;
-
-            Input = new InputModel
-            {
-                PhoneNumber = phoneNumber
-            };
+            DisplayCountry = country;
+            user.Country = country;
         }
 
         public async Task<IActionResult> OnGetAsync()
@@ -104,13 +102,14 @@ namespace TicketHiveSpaceKittens.Server.Areas.Identity.Pages.Account.Manage
                 return Page();
             }
 
-            var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
-            if (Input.PhoneNumber != phoneNumber)
+            var country = await repo.GetCountryAsync(user.UserName);
+            if (Input.Country != country)
             {
-                var setPhoneResult = await _userManager.SetPhoneNumberAsync(user, Input.PhoneNumber);
-                if (!setPhoneResult.Succeeded)
+                //var setCountryResult = await _userManager.SetPhoneNumberAsync(user, Input.PhoneNumber);
+                var setCountryResult = await repo.ChangeCountry(Input.Country);
+                if (!setCountryResult)
                 {
-                    StatusMessage = "Unexpected error when trying to set phone number.";
+                    StatusMessage = "Unexpected error when trying to set new country.";
                     return RedirectToPage();
                 }
             }
@@ -118,6 +117,12 @@ namespace TicketHiveSpaceKittens.Server.Areas.Identity.Pages.Account.Manage
             await _signInManager.RefreshSignInAsync(user);
             StatusMessage = "Your profile has been updated";
             return RedirectToPage();
+        }
+
+        public IActionResult OnCountryChange()
+        {
+            DisplayCountry = Input.Country;
+            return new JsonResult(true);
         }
     }
 }

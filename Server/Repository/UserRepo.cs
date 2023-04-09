@@ -57,6 +57,11 @@ namespace TicketHiveSpaceKittens.Server.Repository
             return false;
         }
 
+        public async Task<string> GetCountryAsync(string username)
+        {
+            var user = await signInManager.UserManager.FindByNameAsync(username);
+            return user.Country;
+        }
         public async Task<bool> ChangeCountry(string newCountry)
         {
             var user = await signInManager.UserManager.GetUserAsync(signInManager.Context.User);
