@@ -1,5 +1,68 @@
 ﻿@page "/admin"
 @using Microsoft.AspNetCore.Authorization;
-@attribute [Authorize]
+@attribute [Authorize (Roles = "Admin")]
 
 <h1>Admin</h1>
+
+<h2>Add New Event</h2>
+
+<form method="post">
+    <div>
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required />
+    </div>
+    <div>
+        <label for="type">Type:</label>
+        <input type="text" id="type" name="type" required />
+    </div>
+    <div>
+        <label for="date">Date:</label>
+        <input type="date" id="date" name="date" required />
+    </div>
+    <div>
+        <label for="time">Time:</label>
+        <input type="time" id="time" name="time" required />
+    </div>
+    <div>
+        <label for="location">Location:</label>
+        <input type="text" id="location" name="location" required />
+    </div>
+    <div>
+        <label for="price">Ticket Price:</label>
+        <input type="number" id="price" name="price" required />
+    </div>
+    <div>
+        <label for="capacity">Capacity:</label>
+        <input type="number" id="capacity" name="capacity" required />
+    </div>
+    <div>
+        <button type="submit">Add Event</button>
+    </div>
+</form>
+
+<h2>Current Events</h2>
+
+<ul>
+    @foreach (var ev in Model.Events)
+    {
+        <li>
+            @ev.Name - @ev.Type - @ev.Date - @ev.Time - @ev.Location - @ev.TicketPrice - @ev.Capacity
+            <button onclick="deleteEvent(@ev.EventId)">Delete</button>
+        </li>
+    }
+</ul>
+
+<script>
+    function deleteEvent(id) {
+        if (confirm("Are you sure you want to delete this event?")) {
+            fetch(`/api/events/${id}`, { method: "DELETE" })
+                .then(response => {
+                    if (response.ok) {
+                        window.location.reload();
+                    } else {
+                        alert("Failed to delete event.");
+                    }
+                });
+        }
+    }
+</script>
