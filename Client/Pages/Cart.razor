@@ -1,5 +1,115 @@
 ﻿@page "/cart"
 @using Microsoft.AspNetCore.Authorization;
+@using TicketHiveSpaceKittens.Client.Services;
+@using TicketHiveSpaceKittens.Shared.Models;
+@inject Blazored.LocalStorage.ILocalStorageService localStorage
 @attribute [Authorize]
+@inject ICartService cartService
+@inject NavigationManager navManager
 
-<h1>Cart</h1>
+
+
+<div class="container mt-5">
+<div class="row">
+    <div class="col-12">
+    <div class="card shadow">
+        <div class="row">
+
+                <!----------------------- LeftBox ShopingCard -------------------------->
+            <div class="col-lg-8 px-4 py-5 px-md-5">
+                <div class="d-flex justify-content-between align-items-center mb-5">
+                <h1 class="fw-bold mb-0 text-black">Shopping Cart</h1>
+                </div>
+
+                @if (cartService.GetCartItems().Count > 0)
+                {
+                    @foreach (var item in cartService.GetCartItems())
+                    {
+                        <hr class="my-4">
+                        <div class="row mb-4 d-flex justify-content-between align-items-center">
+                            <div class="col-md-2 col-lg-2 col-xl-2">
+                                <img src="/Images/Event images/@item.Event.ImageUrl" alt="eventImg" class="img-fluid rounded-3">
+                            </div>
+
+                            <div class="col-md-3 col-lg-3 col-xl-3">
+                                <h6 class="text-muted">Event Name</h6>
+                                <h6 class="text-black mb-0">@item.Event.Name</h6>
+                            </div>
+
+                            <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
+                                <h6 class="text-muted">Price</h6>
+                                <h6 class="mb-0">@item.Event.TicketPrice kr</h6>
+                            </div>
+
+                            <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
+                                <h6 class="text-muted">Date:</h6>
+                                <h6 class="mb-0">@item.Event.EventDate </h6>
+                            </div>
+
+                            <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
+                                <button class="btn btn-danger" @onclick="() => cartService.RemoveFromCartAsync(item)">Remove</button>
+
+                                @if (item.Quantity == 1)
+                                {
+                                    <button type="button" @onclick="@(() => cartService.RemoveFromCartAsync(item))">-</button>
+                                }
+                                else
+                                {
+                                    <button type="button" @onclick="@(() => item.Quantity--)">-</button>
+                                }
+                                <button type="button" @onclick="@(() => item.Quantity++)">+</button>
+                            </div>
+                        </div>
+
+
+                    }
+                }else
+                {
+                    <h3>Your cart is empty</h3>
+                }
+
+                <hr class="my-4">
+                <h6 class="mb-0">
+                    <a href="/booking" class="text-body">Back to shop</a>
+                </h6>
+            </div>
+
+                <!----------------------- RightBox Summary -------------------------->
+
+            <div class="col-lg-4 bg-grey">
+            <div class="p-5">
+                <h3 class="fw-bold mb-5 mt-2 pt-1">Summary</h3>
+                    @foreach (var item in cartService.GetCartItems())
+                    {
+                    <hr class="my-4">
+                    <div class="d-flex justify-content-between mb-4">
+                        <span>@item.Event.Name (x @item.Quantity)</span>
+                        <span><strong>@(item.Event.TicketPrice * @item.Quantity) kr</strong></span>
+                    </div>
+                    }
+
+                <hr class="my-4">
+
+                <div class="d-flex justify-content-between">
+                                    <h5><strong>Total price:</strong></h5>
+                    <h5><strong>@cartService.TotalCart() kr</strong></h5>
+                </div>
+
+                <button type="button" class="btn btn-danger" @onclick="GoToCheckout">Buy Tickets</button>
+
+            </div>
+            </div>
+        </div>
+        </div>
+    </div>
+</div>
+</div>
+
+
+@code
+{
+    private void GoToCheckout()
+    {
+        navManager.NavigateTo("confirm");
+    }
+}

@@ -2,10 +2,51 @@
 @using TicketHiveSpaceKittens.Client.Services;
 @using TicketHiveSpaceKittens.Shared.Models;
 @inject IEventService eventService
+@inject ICartService cartService
+@inject NavigationManager navigationManager;
 
-<h3>Details</h3>
+ <div class="container">
+    <div class="form-group mt-5 text-center">
+        <h1 class="fw-bolder">Details event</h1>
+    </div>
+    @if (selectedEvent != null)
+    {
+    <div class="row align-items-center mt-5">
+        <div class="col-md-6">
+            <img class="card-img-top mb-5" src="/Images/Event images/@selectedEvent.ImageUrl" alt="eventImgage" />
+        </div>
 
-@if(selectedEvent != null)
+            <div class="col-md-6">
+                <h1 class="display-5 fw-bolder">@selectedEvent.Name</h1>
+                <div class="fs-5 mb-5">
+                    <span><strong>Ticket Price:</strong> @selectedEvent.TicketPrice kr</span><br>
+                    <span><strong>Tickets Remaining:</strong> @selectedEvent.TicketsRemaining st</span><br>
+                    <span><strong>Location:</strong> @selectedEvent.Location </span><br>
+                    <span><strong>Date:</strong> @selectedEvent.EventDate </span>
+                </div>
+
+                <p class="lead">@selectedEvent.Description</p>
+                <div class="d-flex">
+                    @if (selectedEvent.TicketsRemaining > 0)
+                    {
+                        <button class="btn btn-primary mt-3" @onclick="AddToCart">Buy Ticket</button>
+                    }
+                    else
+                    {
+                        <button disabled class="btn btn-primary mt-3" @onclick="AddToCart">Sold Out</button>
+                    }
+                </div>
+            </div>
+    </div>
+    }
+    else
+    {
+        <h1>Loading event...</h1>
+    }
+</div>
+
+<!--
+    @if (selectedEvent != null)
 {
     <h1>@selectedEvent.Name</h1>
     <h3>@selectedEvent.Description</h3>
@@ -14,17 +55,24 @@
     <h6>@selectedEvent.TicketsRemaining st</h6>
     <em><strong>@selectedEvent.EventDate</strong></em>
     <img src="/Images/Event images/@selectedEvent.ImageUrl" style="max-width:150px;" />
+    <button @onclick="AddToCart">Add To Cart</button>
 
-}
+}} 
 else
 {
     <h1>Loading event...</h1>
 }
-
+-->
 @code {
     [Parameter]
     public int Id { get; set; }
     private EventModel? selectedEvent;
+
+    private async Task AddToCart()
+    {
+        await cartService.AddToCartAsync(selectedEvent);
+        navigationManager.NavigateTo("/cart"); // Tillfällig lösning /Gabriel
+    }
 
     protected override async Task OnParametersSetAsync()
     {
