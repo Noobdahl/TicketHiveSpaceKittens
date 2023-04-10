@@ -1,0 +1,87 @@
+﻿<h3>DeleteConfirmation</h3>
+
+<div>
+    <button type="button" class="@Class" @onclick="ShowPop">
+        @if (ButtonContent != null)
+        {
+            @ButtonContent
+        }
+        else
+        {
+            @Title
+        }
+    </button>
+    @if (Show)
+    {
+        <div class="pop-container">
+            <div class="popconfirm gradient-to-gray">
+                <div class="row">
+                    <div class="col">
+                        @if (MessageTemplate != null)
+                        {
+                            @MessageTemplate
+                        }
+                        else
+                        {
+                            @Message
+                        }
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <button type="button" class="btn @YesCssClass" @onclick="() => Confirmation(true)">Yes</button>
+                    </div>
+                    <div class="col-6">
+                        <button type="button" class="btn @NoCssClass" @onclick="() => Confirmation(false)">No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    public class MessageTemp
+    {
+        public string msg { get; set; }
+    }
+
+    public bool Show { get; set; }
+
+    [Parameter]
+    public string Title { get; set; } = "Delete";
+
+    [Parameter]
+    public string Class { get; set; } = "btn btn-danger";
+
+    [Parameter]
+    public string YesCssClass { get; set; } = "btn btn-success";
+
+    [Parameter]
+    public string NoCssClass { get; set; } = "btn btn-warning";
+
+    [Parameter]
+    public string Message { get; set; } = "Are you sure?";
+
+    [Parameter]
+    public EventCallback<bool> ConfirmedChanged { get; set; }
+
+    [Parameter]
+    public RenderFragment ButtonContent { get; set; }
+
+    [Parameter]
+    public RenderFragment MessageTemplate { get; set; }
+
+    public async Task Confirmation(bool value)
+    {
+        Show = false;
+        await ConfirmedChanged.InvokeAsync(value);
+    }
+
+    public void ShowPop()
+    {
+        Show = true;
+    }
+}
+
+
