@@ -75,5 +75,33 @@ namespace TicketHiveSpaceKittens.Server.Controllers
 
             return BadRequest();
         }
+
+        public async Task<ActionResult<EventModel>> DeleteEventDialog(int id)
+        {
+            var eventToDelete = await repo.GetEvent(id);
+            if(eventToDelete == null)
+            {
+                return NotFound();
+            }
+
+            var confirmDelete = await DisplayDeleteConfirmation();
+            if (confirmDelete)
+            {
+                var deleteEvent = await repo.DeleteEvent(id);
+                if (deleteEvent != null)
+                {
+                    return Ok(deleteEvent);
+                }
+                return BadRequest();
+            }
+            return Ok();
+        }
+
+        private async Task<bool> DisplayDeleteConfirmation()
+        {
+            // Implementera en bekräftelsedialog här.
+            // Returnera true om användaren bekräftar att hen vill radera evenemanget, annars false.
+
+        }
     }
 }
