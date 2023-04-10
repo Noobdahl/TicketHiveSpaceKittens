@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
-using TicketHiveSpaceKittens.Server.Models;
-using TicketHiveSpaceKittens.Shared;
+﻿using TicketHiveSpaceKittens.Server.Models;
 
 namespace TicketHiveSpaceKittens.Server.Repository
 {
