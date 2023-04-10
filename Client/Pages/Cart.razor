@@ -5,6 +5,7 @@
 @inject Blazored.LocalStorage.ILocalStorageService localStorage
 @attribute [Authorize]
 @inject ICartService cartService
+@inject IBookingService bookingService
 
 <h1>Cart</h1>
 
@@ -43,6 +44,8 @@
         </tbody>
     </table>
     <h3>Total: @cartService.TotalCartAsync() kr</h3>
+
+    <button class="btn btn-primary mt-3" @onclick="@(() => cartService.AddToCartAsync(e))"> Buy Ticket  </button>
 
 }
 else
