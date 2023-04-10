@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using TicketHiveSpaceKittens.Server.Models;
 using TicketHiveSpaceKittens.Server.Repository;
+using TicketHiveSpaceKittens.Shared.Models;
 
 namespace TicketHiveSpaceKittens.Server.Areas.Identity.Pages.Account.Manage
 {
@@ -64,7 +65,7 @@ namespace TicketHiveSpaceKittens.Server.Areas.Identity.Pages.Account.Manage
             /// </summary>
 
             [Display(Name = "Country")]
-            public string Country { get; set; }
+            public Countries Country { get; set; }
         }
 
         private async Task LoadAsync(ApplicationUser user)
@@ -103,10 +104,11 @@ namespace TicketHiveSpaceKittens.Server.Areas.Identity.Pages.Account.Manage
             }
 
             var country = await repo.GetCountryAsync(user.UserName);
-            if (Input.Country != country)
+
+            if (Input.Country.ToString() != country)
             {
                 //var setCountryResult = await _userManager.SetPhoneNumberAsync(user, Input.PhoneNumber);
-                var setCountryResult = await repo.ChangeCountry(Input.Country);
+                var setCountryResult = await repo.ChangeCountry(Input.Country.ToString());
                 if (!setCountryResult)
                 {
                     StatusMessage = "Unexpected error when trying to set new country.";
@@ -121,7 +123,7 @@ namespace TicketHiveSpaceKittens.Server.Areas.Identity.Pages.Account.Manage
 
         public IActionResult OnCountryChange()
         {
-            DisplayCountry = Input.Country;
+            DisplayCountry = Input.Country.ToString();
             return new JsonResult(true);
         }
     }
