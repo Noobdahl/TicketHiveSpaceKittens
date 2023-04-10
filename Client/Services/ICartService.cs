@@ -5,7 +5,7 @@ namespace TicketHiveSpaceKittens.Client.Services
     public interface ICartService
     {
         Task AddToCartAsync(EventModel toCart);
-        List<CartEventModel> GetCartItemsAsync();
+        List<CartEventModel> GetCartItems();
         decimal TotalCartAsync();
         Task RemoveFromCartAsync(CartEventModel eventToRemove);
     }

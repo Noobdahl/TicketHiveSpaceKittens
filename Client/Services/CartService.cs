@@ -5,26 +5,26 @@ namespace TicketHiveSpaceKittens.Client.Services
 {
     public class CartService : ICartService
     {
-        private List<CartEventModel> cartStorage;
+        private List<CartEventModel> cartCookies;
         private readonly ISyncLocalStorageService localStorage;
 
         public CartService(ISyncLocalStorageService localStorage)
         {
             this.localStorage = localStorage;
 
-            cartStorage = localStorage.GetItem<List<CartEventModel>>("shoppingCart");
+            cartCookies = localStorage.GetItem<List<CartEventModel>>("shoppingCart");
 
-            if (cartStorage == null)
+            if (cartCookies == null)
             {
                 localStorage.SetItem<List<CartEventModel>>("shoppingCart", new List<CartEventModel>());
-                cartStorage = localStorage.GetItem<List<CartEventModel>>("shoppingCart");
+                cartCookies = localStorage.GetItem<List<CartEventModel>>("shoppingCart");
             }
         }
 
         public async Task AddToCartAsync(EventModel eventToAdd)
         {
             bool isEventInCart = false;
-            foreach (var cartEventModel in cartStorage)
+            foreach (var cartEventModel in cartCookies)
             {
                 if (cartEventModel.Event.EventId == eventToAdd.EventId)
                 {
@@ -42,35 +42,36 @@ namespace TicketHiveSpaceKittens.Client.Services
                     Quantity = 1
                 };
 
-                cartStorage.Add(newCartItem);
-                localStorage.SetItem<List<CartEventModel>>("shoppingCart", cartStorage);
+                cartCookies.Add(newCartItem);
+                localStorage.SetItem<List<CartEventModel>>("shoppingCart", cartCookies);
                 await Task.CompletedTask;
             }
         }
 
-        public List<CartEventModel> GetCartItemsAsync()
+        public List<CartEventModel> GetCartItems()
         {
-            return cartStorage;
+            return cartCookies;
         }
 
         public decimal TotalCartAsync()
         {
             decimal total = 0;
 
-            foreach (var cartItem in cartStorage)
+            foreach (var cartItem in cartCookies)
             {
-                for (int i = 0; i < cartItem.Quantity; i++)
-                {
-                    total += cartItem.Event.TicketPrice;
-                }
+                total += cartItem.Quantity * cartItem.Event.TicketPrice;
+                //for (int i = 0; i < cartItem.Quantity; i++)
+                //{
+                //    total += cartItem.Event.TicketPrice;
+                //}
             }
             return total;
         }
 
         public async Task RemoveFromCartAsync(CartEventModel eventToRemove)
         {
-            cartStorage.Remove(eventToRemove);
-            localStorage.SetItem<List<CartEventModel>>("shoppingCart", cartStorage);
+            cartCookies.Remove(eventToRemove);
+            localStorage.SetItem<List<CartEventModel>>("shoppingCart", cartCookies);
             await Task.CompletedTask;
         }
     }
