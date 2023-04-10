@@ -53,7 +53,7 @@ namespace TicketHiveSpaceKittens.Client.Services
             return cartCookies;
         }
 
-        public decimal TotalCartAsync()
+        public decimal TotalCart()
         {
             decimal total = 0;
 
@@ -73,6 +73,12 @@ namespace TicketHiveSpaceKittens.Client.Services
             cartCookies.Remove(eventToRemove);
             localStorage.SetItem<List<CartEventModel>>("shoppingCart", cartCookies);
             await Task.CompletedTask;
+        }
+
+        public void ClearCookie()
+        {
+            cartCookies.Clear();
+            localStorage.SetItem<List<CartEventModel>>("shoppingCart", cartCookies);
         }
     }
 }
