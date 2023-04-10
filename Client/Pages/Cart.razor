@@ -2,6 +2,7 @@
 @using Microsoft.AspNetCore.Authorization;
 @using TicketHiveSpaceKittens.Client.Services;
 @using TicketHiveSpaceKittens.Shared.Models;
+@inject Blazored.LocalStorage.ILocalStorageService localStorage
 @attribute [Authorize]
 @inject ICartService cartService
 
@@ -21,14 +22,21 @@
             @foreach (var item in cartService.GetCartItemsAsync())
             {
                 <tr>
-                    <td>@item.Name</td>
-                    <td>@item.TicketPrice kr</td>
+                    <td>@item.Event.Name</td>
+                    <td>@item.Event.TicketPrice kr</td>
                     <td><button class="btn btn-danger" @onclick="() => cartService.RemoveFromCartAsync(item)">Remove</button></td>
-
-                    @if(item.TicketsRemaining > 0)
+                    <td>Q: @item.Quantity</td>
+                    @if(item.Event.TicketsRemaining > 0)
                     {
-                        <button type="button" @onclick="@(() => cartService.RemoveFromCartAsync(item))">-</button>
-                        <button type="button" @onclick="@(() => cartService.AddToCartAsync(item))">+</button>
+                        if (item.Quantity == 1)
+                        {
+                            <button type="button" @onclick="@(() => cartService.RemoveFromCartAsync(item))">-</button>
+                        }
+                        else
+                        {
+                            <button type="button" @onclick="@(() => item.Quantity--)">-</button>
+                        }
+                        <button type="button" @onclick="@(() => item.Quantity++)">+</button>
                     }
                 </tr>
             }
