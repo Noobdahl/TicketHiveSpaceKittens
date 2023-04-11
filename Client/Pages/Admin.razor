@@ -39,10 +39,28 @@
                                         <!-----------------------------------------Delete button calling the DeleteConfirmation------------------------------------->
                                         <button type="button" class="btn btn-lg btn-danger w-100 fs-6 fw-bolder" @onclick="() => deleteConfirmation.ShowPop()">Delete</button>
 
-                                        <DeleteConfirmation Title="Delete Event" Class="btn btn-danger"
+                                        <ConfirmationDialog Title="Delete Event" 
+                                                Class="btn btn-psl-delete"
                                                 Message="Are you sure you want to delete this event?"
-                                                ConfirmedChanged="DeleteEvent">
-                                        </DeleteConfirmation>
+                                                YesCssClass="btn-yes"
+                                                NoCssClass="btn-no"
+                                                ConfirmedChanged="@EventCallback.Factory.Create(this, async (bool isConfirmed) => await DeleteEvent(e.EventId, isConfirmed))"
+                                                @*ConfirmedChanged="DeleteEvent"*@>
+                                                <ButtonContent>
+                                                      <ion-icon name="trash-outline" style="font-size:2em;color:white;"></ion-icon>
+                                                </ButtonContent>
+                                                <MessageTemplate>
+                                                    <div class="card pop-message-card">
+                                                          <div class="card-header">Delete Event?</div>
+                                                          <div class="card-body">
+                                                        <p>
+                                                            This will delete the record!<br />
+                                                            Are you sure?
+                                                        </p>
+                                                          </div>
+                                                    </div>
+                                                </MessageTemplate>
+                                        </ConfirmationDialog>
                                     </div>
                                 </div>
                             </BSCarouselItem>
@@ -57,7 +75,7 @@
 @code {
     private List<EventModel> events;
 
-    private DeleteConfirmation deleteConfirmation;
+    private ConfirmationDialog deleteConfirmation;
 
     protected override async Task OnInitializedAsync()
     {

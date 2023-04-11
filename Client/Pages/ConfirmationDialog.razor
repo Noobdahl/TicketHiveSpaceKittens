@@ -72,6 +72,9 @@
     [Parameter]
     public RenderFragment MessageTemplate { get; set; }
 
+    [Parameter]
+    public string Icon { get; set; } = "fa fa-check";
+
     public async Task Confirmation(bool value)
     {
         Show = false;

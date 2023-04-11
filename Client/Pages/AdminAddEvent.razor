@@ -1,7 +1,7 @@
 ﻿@page "/admin/adminaddevent"
 @using Microsoft.AspNetCore.Authorization;
 @using TicketHiveSpaceKittens.Client.Services;
-@using TicketHiveSpaceKittens.Shared.Models;
+@using TicketHiveSpaceKittens.Shared.Models
 @attribute [Authorize(Roles = "Admin")]
 @inject IEventService service;
 @inject NavigationManager navManager;
@@ -13,54 +13,70 @@
         <div class="col-md-6">
             <div class="form-group">
                 <label for="name">Name:</label>
-                <input type="text" class="form-control" id="name" @bind-value="@event1.Name" />
+                <input type="text" class="form-control" id="name" @bind="@newEvent.Name" />
             </div>
             <div class="form-group">
                 <label for="location">Location:</label>
-                <input type="text" class="form-control" id="location" @bind-value="@event1.Location" />
+                <input type="text" class="form-control" id="location" @bind="@newEvent.Location" />
             </div>
             <div class="form-group">
                 <label for="description">Description:</label>
-                <textarea class="form-control" id="description" rows="5" @bind-value="@event1.Description"></textarea>
+                <textarea class="form-control" id="description" rows="5" @bind="@newEvent.Description"></textarea>
             </div>
             <div class="form-group">
                 <label for="ticketPrice">Ticket Price:</label>
-                <input type="number" class="form-control" id="ticketPrice" step="0.01" @bind-value="@event1.TicketPrice" />
+                <input type="number" class="form-control" id="ticketPrice" step="0.01" @bind="@newEvent.TicketPrice" />
             </div>
         </div>
         <div class="col-md-6">
             <div class="form-group">
                 <label for="eventDate">Event Date:</label>
-                <input type="date" class="form-control" id="eventDate" @bind-value="@event1.EventDate" />
-            </div>
-            <div class="form-group">
-                <label for="eventTime">Event Time:</label>
-                <input type="time" class="form-control" id="eventTime" @bind-value="@event1.EventTime" />
+                <input type="date" class="form-control" id="eventDate" @bind="@newEvent.EventDate" />
             </div>
             <div class="form-group">
                 <label for="ticketsRemaining">Tickets Remaining:</label>
-                <input type="number" class="form-control" id="ticketsRemaining" @bind-value="@event1.TicketsRemaining" />
+                <input type="number" class="form-control" id="ticketsRemaining" @bind="@newEvent.TicketsRemaining" />
             </div>
             <div class="form-group">
-                <label for="capacity">Capacity:</label>
-                <input type="number" class="form-control" id="capacity" @bind-value="@event1.Capacity" />
+                <label for="capacity">Number of tickets:</label>
+                <input type="number" class="form-control" id="capacity" @bind="@newEvent.TicketsRemaining" />
             </div>
         </div>
     </div>
     <div class="row">
         <div class="col-md-12 text-center">
-            <button type="submit" class="btn btn-primary" @onclick="AddEvent">Add Event</button>
+            <!-------------------------------------The Button and add confirm dialog--------------------------------------------------->
+            <button type="submit" class="btn btn-primary" @onclick="AddEvent">
+                <i class="fa fa-plus"></i> Add Event
+                </button> 
+            <ConfirmationDialog Title="Add Event" Class="btn btn-primary" Message="Do you want to add?" ConfirmedChanged=" async confirmed =>
+               {
+                  if (confirmed)
+                  {
+                      await AddEvent();
+                  }
+               }">
+            </ConfirmationDialog>
         </div>
     </div>
 </div>
 
 @code{
-    public EventModel event1 = new();
-    public EventModel Event { get; set; }
+    public EventModel newEvent = new();
+
+    private async Task AddConfirmed(bool confirmed)
+    {
+        if (confirmed)
+        {
+            // delete the event
+            await AddEvent();
+        }
+    }
+
 
     private async Task AddEvent()
     {
-        await service.AddEventAsync(Event);
+        await service.CreateEventAsync(newEvent);
         navManager.NavigateTo("admin");
     }
 }
