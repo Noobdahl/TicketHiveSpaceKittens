@@ -7,8 +7,62 @@
 @inject NavigationManager navManager
 
 
-                               <h3>Add A New Event</h3>
+<h3>Add A New Event</h3>
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" class="form-control" id="name" @bind="@event.Name">
+            </div>
+            <div class="form-group">
+                <label for="location">Location:</label>
+                <input type="text" class="form-control" id="location" @bind="@event.Location">
+            </div>
+            <div class="form-group">
+                <label for="description">Description:</label>
+                <textarea class="form-control" id="description" rows="5" @bind="@event.Description"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="ticketPrice">Ticket Price:</label>
+                <input type="number" class="form-control" id="ticketPrice" step="0.01" @bind="@event.TicketPrice">
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="eventDate">Event Date:</label>
+                <input type="date" class="form-control" id="eventDate" @bind="@event.EventDate">
+            </div>
+            <div class="form-group">
+                <label for="eventTime">Event Time:</label>
+                <input type="time" class="form-control" id="eventTime" @bind="@event.EventDate">
+            </div>
+            <div class="form-group">
+                <label for="ticketsRemaining">Tickets Remaining:</label>
+                <input type="number" class="form-control" id="ticketsRemaining" @bind="@event.TicketsRemaining">
+            </div>
+            <div class="form-group">
+                <label for="capacity">Capacity:</label>
+                <input type="number" class="form-control" id="capacity" @bind="@event.Capacity">
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <button type="submit" class="btn btn-primary" @onclick="AddEvent">Add Event</button>
+        </div>
+    </div>
+</div>
 
 @code {
+    private EventModel event = new EventModel();
 
+    private async Task AddEvent()
+    {
+        // Here you can implement the code to add the event
+        // For example: await service.AddEvent(event);
+        await service.AddEventAsync(event);
+        navManager.NavigateTo("admin");
+    }
 }
