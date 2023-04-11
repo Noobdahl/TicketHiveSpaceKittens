@@ -9,42 +9,43 @@
 
 <h3>Add A New Event</h3>
 
+
 <div class="container mt-5">
     <div class="row">
         <div class="col-md-6">
             <div class="form-group">
                 <label for="name">Name:</label>
-                <input type="text" class="form-control" id="name" @bind="@event.Name">
+                <input type="text" class="form-control" id="name" @bind-value="@event.Name" />
             </div>
             <div class="form-group">
                 <label for="location">Location:</label>
-                <input type="text" class="form-control" id="location" @bind="@event.Location">
+                <input type="text" class="form-control" id="location" @bind-value="@event.Location" />
             </div>
             <div class="form-group">
                 <label for="description">Description:</label>
-                <textarea class="form-control" id="description" rows="5" @bind="@event.Description"></textarea>
+                <textarea class="form-control" id="description" rows="5" @bind-value="@event.Description"></textarea>
             </div>
             <div class="form-group">
                 <label for="ticketPrice">Ticket Price:</label>
-                <input type="number" class="form-control" id="ticketPrice" step="0.01" @bind="@event.TicketPrice">
+                <input type="number" class="form-control" id="ticketPrice" step="0.01" @bind-value="@event.TicketPrice" />
             </div>
         </div>
         <div class="col-md-6">
             <div class="form-group">
                 <label for="eventDate">Event Date:</label>
-                <input type="date" class="form-control" id="eventDate" @bind="@event.EventDate">
+                <input type="date" class="form-control" id="eventDate" @bind-value="@event.EventDate" />
             </div>
             <div class="form-group">
                 <label for="eventTime">Event Time:</label>
-                <input type="time" class="form-control" id="eventTime" @bind="@event.EventDate">
+                <input type="time" class="form-control" id="eventTime" @bind-value="@event.EventTime" />
             </div>
             <div class="form-group">
                 <label for="ticketsRemaining">Tickets Remaining:</label>
-                <input type="number" class="form-control" id="ticketsRemaining" @bind="@event.TicketsRemaining">
+                <input type="number" class="form-control" id="ticketsRemaining" @bind-value="@event.TicketsRemaining" />
             </div>
             <div class="form-group">
                 <label for="capacity">Capacity:</label>
-                <input type="number" class="form-control" id="capacity" @bind="@event.Capacity">
+                <input type="number" class="form-control" id="capacity" @bind-value="@event.Capacity" />
             </div>
         </div>
     </div>
@@ -55,14 +56,17 @@
     </div>
 </div>
 
-@code {
-    private EventModel event = new EventModel();
+@code{
+    public EventModel event = new();
 
-    private async Task AddEvent()
+    public EventModel Event { get; set; }
+
+    
+
+    private async Task AddEvent(event)
     {
-        // Here you can implement the code to add the event
         // For example: await service.AddEvent(event);
-        await service.AddEventAsync(event);
+        await service.AddEventAsync(Event);
         navManager.NavigateTo("admin");
     }
 }
