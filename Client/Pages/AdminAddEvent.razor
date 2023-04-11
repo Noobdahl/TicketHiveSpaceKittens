@@ -1,51 +1,49 @@
-﻿@page "/admin/addevent"
+﻿@page "/admin/adminaddevent"
 @using Microsoft.AspNetCore.Authorization;
 @using TicketHiveSpaceKittens.Client.Services;
 @using TicketHiveSpaceKittens.Shared.Models;
 @attribute [Authorize(Roles = "Admin")]
-@inject IEventService service
-@inject NavigationManager navManager
-
+@inject IEventService service;
+@inject NavigationManager navManager;
 
 <h3>Add A New Event</h3>
-
 
 <div class="container mt-5">
     <div class="row">
         <div class="col-md-6">
             <div class="form-group">
                 <label for="name">Name:</label>
-                <input type="text" class="form-control" id="name" @bind-value="@event.Name" />
+                <input type="text" class="form-control" id="name" @bind-value="@event1.Name" />
             </div>
             <div class="form-group">
                 <label for="location">Location:</label>
-                <input type="text" class="form-control" id="location" @bind-value="@event.Location" />
+                <input type="text" class="form-control" id="location" @bind-value="@event1.Location" />
             </div>
             <div class="form-group">
                 <label for="description">Description:</label>
-                <textarea class="form-control" id="description" rows="5" @bind-value="@event.Description"></textarea>
+                <textarea class="form-control" id="description" rows="5" @bind-value="@event1.Description"></textarea>
             </div>
             <div class="form-group">
                 <label for="ticketPrice">Ticket Price:</label>
-                <input type="number" class="form-control" id="ticketPrice" step="0.01" @bind-value="@event.TicketPrice" />
+                <input type="number" class="form-control" id="ticketPrice" step="0.01" @bind-value="@event1.TicketPrice" />
             </div>
         </div>
         <div class="col-md-6">
             <div class="form-group">
                 <label for="eventDate">Event Date:</label>
-                <input type="date" class="form-control" id="eventDate" @bind-value="@event.EventDate" />
+                <input type="date" class="form-control" id="eventDate" @bind-value="@event1.EventDate" />
             </div>
             <div class="form-group">
                 <label for="eventTime">Event Time:</label>
-                <input type="time" class="form-control" id="eventTime" @bind-value="@event.EventTime" />
+                <input type="time" class="form-control" id="eventTime" @bind-value="@event1.EventTime" />
             </div>
             <div class="form-group">
                 <label for="ticketsRemaining">Tickets Remaining:</label>
-                <input type="number" class="form-control" id="ticketsRemaining" @bind-value="@event.TicketsRemaining" />
+                <input type="number" class="form-control" id="ticketsRemaining" @bind-value="@event1.TicketsRemaining" />
             </div>
             <div class="form-group">
                 <label for="capacity">Capacity:</label>
-                <input type="number" class="form-control" id="capacity" @bind-value="@event.Capacity" />
+                <input type="number" class="form-control" id="capacity" @bind-value="@event1.Capacity" />
             </div>
         </div>
     </div>
@@ -57,15 +55,11 @@
 </div>
 
 @code{
-    public EventModel event = new();
-
+    public EventModel event1 = new();
     public EventModel Event { get; set; }
 
-    
-
-    private async Task AddEvent(event)
+    private async Task AddEvent()
     {
-        // For example: await service.AddEvent(event);
         await service.AddEventAsync(Event);
         navManager.NavigateTo("admin");
     }
