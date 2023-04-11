@@ -5,6 +5,7 @@
 @attribute [Authorize]
 @inject IEventService service
 @inject NavigationManager navManager
+@inject AuthenticationStateProvider provider
 
 <div class="container mt-5 shadow-lg">
     <div class="row">
@@ -81,6 +82,8 @@
 {
     private string? searchText;
     private List<EventModel>? events;
+    private List<EventModel>? userEvents;
+    private string? username;
 
     //private string? statusMessage;
     //public List<string>? searchResult { get; set; }
@@ -101,12 +104,16 @@
 
     protected override async Task OnInitializedAsync()
     {
+        var authState = await provider.GetAuthenticationStateAsync();
+        username = authState.User.Identity.Name;
         await GetEvents();
     }
 
     private async Task GetEvents()
     {
         events = await service.GetEventsAsync();
+        userEvents = await service.GetEventsByUsernameAsync(username);
+
     }
 
     private void GoToSearch()

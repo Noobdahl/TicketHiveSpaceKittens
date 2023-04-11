@@ -26,7 +26,9 @@ namespace TicketHiveSpaceKittens.Server.Repository
                 EventDate = e.EventDate,
                 TicketsRemaining = e.TicketsRemaining,
                 ImageUrl = e.ImageUrl
-            }).ToListAsync();
+            })
+
+                .ToListAsync();
         }
 
         public async Task<EventModel?> GetEvent(int id)
@@ -81,6 +83,50 @@ namespace TicketHiveSpaceKittens.Server.Repository
             }
 
             return eventToUpdate;
+        }
+
+        public bool BookEventsToUser(List<EventModel> bookedEvent, string username)
+        {
+            UserModel? user = context.Users.Where(u => u.Username == username).FirstOrDefault();
+
+            if (user != null)
+            {
+                foreach (EventModel e in bookedEvent)
+                {
+                    user.Bookings.Add(e);
+                }
+                context.SaveChanges();
+                return true;
+            }
+            return false;
+        }
+
+        public async Task<List<EventModel>> GetEventsByUsernameAsync(string username)
+        {
+            List<EventModel> listan = await context.Events
+                .Include(e => e.Tags)
+                .Include(e => e.Users)
+                .Where(e => e.Users.Any(e => e.Username == username))
+                .Select(e => new EventModel
+                {
+                    EventId = e.EventId,
+                    Name = e.Name,
+                    Location = e.Location,
+                    Description = e.Description,
+                    TicketPrice = e.TicketPrice,
+                    EventDate = e.EventDate,
+                    TicketsRemaining = e.TicketsRemaining,
+                    ImageUrl = e.ImageUrl,
+                    Tags = e.Tags,
+                    Users = e.Users
+                })
+                .ToListAsync();
+
+            if (listan != null)
+            {
+                return listan;
+            }
+            return null;
         }
     }
 }

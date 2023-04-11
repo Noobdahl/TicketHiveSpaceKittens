@@ -1,8 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using TicketHiveSpaceKittens.Client.Pages;
-using TicketHiveSpaceKittens.Server.Repository;
 using TicketHiveSpaceKittens.Shared.Models;
-using static IdentityModel.OidcConstants;
 
 namespace TicketHiveSpaceKittens.Server.Data
 {
@@ -16,6 +13,7 @@ namespace TicketHiveSpaceKittens.Server.Data
         public DbSet<EventModel> Events { get; set; }
         public DbSet<TagModel> Tags { get; set; }
         public DbSet<UserModel> Users { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -78,7 +76,7 @@ namespace TicketHiveSpaceKittens.Server.Data
                     TicketPrice = 70,
                     EventDate = new DateTime(2023, 04, 28),
                     TicketsRemaining = 110,
-                    ImageUrl = "image 13.jpg"              
+                    ImageUrl = "image 13.jpg"
                 },
                 new EventModel()
                 {
@@ -298,25 +296,6 @@ namespace TicketHiveSpaceKittens.Server.Data
                     EventsEventId = 15
                 }
             );
-
-
-            modelBuilder.Entity("EventModelUserModel").HasData(
-            new
-            {
-                BookingsEventId = 1,
-                UsersUserId = 1
-            },
-            new
-            {
-                BookingsEventId = 2,
-                UsersUserId = 1
-            },
-            new
-            {
-                BookingsEventId = 1,
-                UsersUserId = 2
-            }
-        );
         }
     }
 }

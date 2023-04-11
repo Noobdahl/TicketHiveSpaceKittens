@@ -6,15 +6,18 @@ using TicketHiveSpaceKittens.Shared.Models;
 
 namespace TicketHiveSpaceKittens.Server.Controllers
 {
+    //[Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class EventsController : ControllerBase
     {
         private readonly IEventRepo repo;
+        private readonly IUserRepo userRepo;
 
-        public EventsController(IEventRepo repo)
+        public EventsController(IEventRepo repo, IUserRepo userRepo)
         {
             this.repo = repo;
+            this.userRepo = userRepo;
         }
 
         [HttpGet]
@@ -27,6 +30,13 @@ namespace TicketHiveSpaceKittens.Server.Controllers
         public async Task<ActionResult<EventModel?>> GetOneEvent(int id)
         {
             return Ok(await repo.GetEvent(id));
+        }
+
+        [HttpGet("userevents/{username}")]
+        public async Task<ActionResult<List<EventModel>>> GetEventsByUsernameAsync(string username)
+        {
+            var result = await repo.GetEventsByUsernameAsync(username);
+            return Ok(result);
         }
 
         [HttpPost]
@@ -70,6 +80,17 @@ namespace TicketHiveSpaceKittens.Server.Controllers
                 return Ok(eventToDelete);
             }
 
+            return BadRequest();
+        }
+
+        [HttpPost("book")]
+        public async Task<ActionResult> BookEventsToUserAsync([FromBody] UserModel tempUser)
+        {
+
+            if (repo.BookEventsToUser(tempUser.Bookings, tempUser.Username))
+            {
+                return Ok();
+            }
             return BadRequest();
         }
     }
