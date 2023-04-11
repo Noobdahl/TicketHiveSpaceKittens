@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TicketHiveSpaceKittens.Server.Data;
 
@@ -11,9 +12,11 @@ using TicketHiveSpaceKittens.Server.Data;
 namespace TicketHiveSpaceKittens.Server.Migrations
 {
     [DbContext(typeof(EventDbContext))]
-    partial class EventDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230410113558_booking")]
+    partial class booking
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -133,16 +136,6 @@ namespace TicketHiveSpaceKittens.Server.Migrations
                         {
                             BookingsEventId = 1,
                             UsersUserId = 1
-                        },
-                        new
-                        {
-                            BookingsEventId = 2,
-                            UsersUserId = 1
-                        },
-                        new
-                        {
-                            BookingsEventId = 1,
-                            UsersUserId = 2
                         });
                 });
 

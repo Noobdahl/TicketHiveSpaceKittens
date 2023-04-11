@@ -42,7 +42,6 @@ namespace TicketHiveSpaceKittens.Server.Controllers
             return BadRequest();
         }
 
-
         [HttpPut("{id}")]
         public async Task<ActionResult<EventModel>> UpdateEvent(int id, [FromBody] EventModel updatedEvent)
         {
