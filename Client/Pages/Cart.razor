@@ -101,7 +101,7 @@
 
             </div>
             </div>
-                    <button class="btn btn-primary mt-3" @onclick="@(() => eventService.BookEventsToUserAsync(cartService.GetCartItems()))"> Buy Ticket  </button>
+                    <button class="btn btn-primary mt-3" @onclick="@(async () => await BookEvents())"> Buy Ticket  </button>
         </div>
         </div>
     </div>
@@ -114,5 +114,11 @@
     private void GoToCheckout()
     {
         navManager.NavigateTo("confirm");
+    }
+
+    private async Task BookEvents()
+    {
+        List<CartEventModel> cartItems = cartService.GetCartItems();
+        await eventService.BookEventsToUserAsync(cartItems);
     }
 }

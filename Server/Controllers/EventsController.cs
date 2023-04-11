@@ -75,7 +75,7 @@ namespace TicketHiveSpaceKittens.Server.Controllers
             return BadRequest();
         }
 
-        [HttpPost]
+        [HttpPost("book")]
         public async Task<ActionResult> BookEventsToUserAsync([FromBody] List<CartEventModel> bookedEvent)
         {
             string username = await userRepo.GetUserIdentityName();

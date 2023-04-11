@@ -75,8 +75,7 @@ namespace TicketHiveSpaceKittens.Client.Services
 
         public async Task<bool> BookEventsToUserAsync(List<CartEventModel> bookedEvents)
         {
-
-            var response = await httpClient.PostAsJsonAsync("api/events", bookedEvents);
+            var response = await httpClient.PostAsJsonAsync("api/events/book", bookedEvents);
 
             if (response.IsSuccessStatusCode)
             {
