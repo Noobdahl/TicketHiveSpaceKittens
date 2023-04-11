@@ -9,5 +9,6 @@ namespace TicketHiveSpaceKittens.Client.Services
         Task<bool> CreateEventAsync(EventModel eventModel);
         Task<bool> DeleteEventByIdAsync(int id);
         Task<bool> UpdateEventAsync(EventModel eventModel);
+        Task<bool> BookEventsToUserAsync(List<CartEventModel> bookedEvents);
     }
 }

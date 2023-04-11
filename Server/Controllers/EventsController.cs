@@ -11,10 +11,12 @@ namespace TicketHiveSpaceKittens.Server.Controllers
     public class EventsController : ControllerBase
     {
         private readonly IEventRepo repo;
+        private readonly IUserRepo userRepo;
 
-        public EventsController(IEventRepo repo)
+        public EventsController(IEventRepo repo, IUserRepo userRepo)
         {
             this.repo = repo;
+            this.userRepo = userRepo;
         }
 
         [HttpGet]
@@ -70,6 +72,18 @@ namespace TicketHiveSpaceKittens.Server.Controllers
                 return Ok(eventToDelete);
             }
 
+            return BadRequest();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> BookEventsToUserAsync([FromBody] List<CartEventModel> bookedEvent)
+        {
+            string username = await userRepo.GetUserIdentityName();
+
+            if (repo.BookEventsToUser(bookedEvent, username))
+            {
+                return Ok();
+            }
             return BadRequest();
         }
     }

@@ -9,5 +9,6 @@ namespace TicketHiveSpaceKittens.Server.Repository
         Task<bool> ChangePassword(string currentPassword, string newPassword);
         Task<string> GetCountryAsync(string username);
         Task<bool> ChangeCountry(string newCountry);
+        Task<string> GetUserIdentityName();
     }
 }

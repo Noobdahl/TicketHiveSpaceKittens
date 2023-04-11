@@ -74,6 +74,13 @@ namespace TicketHiveSpaceKittens.Server.Repository
             return false;
         }
 
+        public async Task<string> GetUserIdentityName()
+        {
+            var user = await signInManager.UserManager.GetUserAsync(signInManager.Context.User);
+
+            return user.UserName;
+        }
+
         //Admins ska kunna lägga till events med datum, tid, plats, pris och kapacitet(ticketamount)
     }
 }

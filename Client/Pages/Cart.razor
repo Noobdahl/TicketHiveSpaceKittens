@@ -5,7 +5,7 @@
 @inject Blazored.LocalStorage.ILocalStorageService localStorage
 @attribute [Authorize]
 @inject ICartService cartService
-@inject IBookingService bookingService
+@inject IEventService eventService
 @inject NavigationManager navManager
 
 
@@ -101,7 +101,7 @@
 
             </div>
             </div>
-            <button class="btn btn-primary mt-3" @onclick="@(() => bookingService.UpdateBookningAsync(cartService.GetCartItems()))"> Buy Ticket  </button>
+                    <button class="btn btn-primary mt-3" @onclick="@(() => eventService.BookEventsToUserAsync(cartService.GetCartItems()))"> Buy Ticket  </button>
         </div>
         </div>
     </div>
@@ -116,4 +116,3 @@
         navManager.NavigateTo("confirm");
     }
 }
-

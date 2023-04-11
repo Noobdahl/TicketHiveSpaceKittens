@@ -82,5 +82,21 @@ namespace TicketHiveSpaceKittens.Server.Repository
 
             return eventToUpdate;
         }
+
+        public bool BookEventsToUser(List<CartEventModel> bookedEvent, string username)
+        {
+            UserModel? user = context.Users.Where(u => u.Username == username).FirstOrDefault();
+
+            if (user != null)
+            {
+                foreach (CartEventModel e in bookedEvent)
+                {
+                    user.Bookings.Add(e.Event);
+                }
+                context.SaveChanges();
+                return true;
+            }
+            return false;
+        }
     }
 }
