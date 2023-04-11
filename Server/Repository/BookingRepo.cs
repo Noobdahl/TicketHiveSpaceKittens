@@ -1,4 +1,9 @@
-﻿using TicketHiveSpaceKittens.Client.Pages;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using TicketHiveSpaceKittens.Client.Pages;
 using TicketHiveSpaceKittens.Server.Data;
 using TicketHiveSpaceKittens.Server.Migrations;
 using TicketHiveSpaceKittens.Shared.Models;
@@ -9,25 +14,20 @@ namespace TicketHiveSpaceKittens.Server.Repository
     {
         
         private readonly EventDbContext context;
+
         public BookingRepo(EventDbContext context)
         {
             this.context = context;
         }
 
-        public async Task<bool> AddBookning(EventModel bookedEvent, UserModel user)
+
+        public async Task<bool> UpdateEventToUser(int eventId, int userId)
         {
-            //var eventId = bookedEvent.Event.EventId;
             try
             {
-                //select in baza de date
-                //adaug evenimnt in lista de la useri
-
-                user.Bookings.Add(bookedEvent);
-          
-                //context.Bookings.Add(bookning);
-
+                var bookning = new BookingModel { EventId = eventId, UserId = userId };
+                await context.Bookings.AddAsync(bookning);
                 await context.SaveChangesAsync();
-
                 return true;
             }
             catch
@@ -35,6 +35,25 @@ namespace TicketHiveSpaceKittens.Server.Repository
                 return false;
             }
         }
+        /*
+public async Task<bool> AddBookning(EventModel bookedEvent, UserModel user)
+{
+   try
+   {
+
+       user.Bookings.Add(bookedEvent);
+
+
+       await context.SaveChangesAsync();
+
+       return true;
+   }
+   catch
+   {
+       return false;
+   }
+}
+*/
     }
 
         /*

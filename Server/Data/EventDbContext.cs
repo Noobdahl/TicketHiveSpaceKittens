@@ -22,8 +22,8 @@ namespace TicketHiveSpaceKittens.Server.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
-            //modelBuilder.Entity<BookingModel>()
-           //.HasKey(b => new { b.eventsInCart, b.UserId });
+            modelBuilder.Entity<BookingModel>()
+           .HasKey(b => new { b.eventsInCart, b.UserId });
 
             modelBuilder.Entity<UserModel>().HasData(
                 new UserModel()

@@ -45,7 +45,7 @@
     </table>
     <h3>Total: @cartService.TotalCartAsync() kr</h3>
 
-    <button class="btn btn-primary mt-3" @onclick="@(() => cartService.AddToCartAsync(e))"> Buy Ticket  </button>
+    <button class="btn btn-primary mt-3" @onclick="@(() => bookingService.UpdateBookningAsync(cartService.GetCartItems()))"> Buy Ticket  </button>
 
 }
 else
