@@ -6,7 +6,8 @@ namespace TicketHiveSpaceKittens.Client.Services
     {
         Task AddToCartAsync(EventModel toCart);
         List<CartEventModel> GetCartItems();
-        decimal TotalCartAsync();
+        decimal TotalCart();
         Task RemoveFromCartAsync(CartEventModel eventToRemove);
+        void ClearCookie();
     }
 }
