@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using TicketHiveSpaceKittens.Server.Repository;
 using TicketHiveSpaceKittens.Shared.Models;
 
@@ -23,13 +24,6 @@ namespace TicketHiveSpaceKittens.Server.Controllers
         public async Task<ActionResult<List<EventModel>>> GetAllEvents()
         {
             return Ok(await repo.GetEvents());
-        }
-
-        [HttpGet]
-        [Route("AdminAddEvent")]
-        public IActionResult AdminAddEvent()
-        {
-            return View();
         }
 
         [HttpGet("{id}")]

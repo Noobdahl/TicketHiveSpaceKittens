@@ -1,5 +1,13 @@
 ﻿@page "/admin/addevent"
-<h3>AdminAddEvent</h3>
+@using Microsoft.AspNetCore.Authorization;
+@using TicketHiveSpaceKittens.Client.Services;
+@using TicketHiveSpaceKittens.Shared.Models;
+@attribute [Authorize(Roles = "Admin")]
+@inject IEventService service
+@inject NavigationManager navManager
+
+
+                               <h3>Add A New Event</h3>
 
 @code {
 

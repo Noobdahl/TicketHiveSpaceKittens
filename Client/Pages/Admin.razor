@@ -8,7 +8,7 @@
 
 <h1>Admin page</h1>
 
-<a href="/api/events/AdminAddEvent">Add a new event</a>
+<a href="@navManager.ToBaseRelativePath("admin/addevent")">Add Event</a>
 
 
 <div class="container mt-5 shadow-lg">
@@ -23,7 +23,6 @@
                         {
                             <BSCarouselItem Active="item == events.First()">
                                 <div class="row">
-
                                     <div class=" col-md-6">
                                         <div class="event-image mb-3 mt-3">
                                             <img class=" img-fluid " src="/Images/Event images/@e.ImageUrl" alt="eventImg">
@@ -37,10 +36,15 @@
                                         <p><strong>Date:</strong> @e.EventDate</p>
 
                                         <a href="details/@e.EventId" class="btn btn-lg btn-warning w-100 fs-6 fw-bolder">See more info</a>
+                                        <!-----------------------------------------Delete button calling the DeleteConfirmation------------------------------------->
+                                        <button type="button" class="btn btn-lg btn-danger w-100 fs-6 fw-bolder" @onclick="() => deleteConfirmation.ShowPop()">Delete</button>
 
+                                        <DeleteConfirmation Title="Delete Event" Class="btn btn-danger"
+                                                Message="Are you sure you want to delete this event?"
+                                                ConfirmedChanged="DeleteEvent">
+                                        </DeleteConfirmation>
                                     </div>
                                 </div>
-
                             </BSCarouselItem>
                         }
                     }
@@ -50,21 +54,23 @@
     </div>
 </div>
 
-<DeleteConfirmation @ref="deleteConfirmation" Title="Delete Event" Message="Are you sure you want to delete this event?" ConfirmedChanged="async confirmed => { if (confirmed) await DeleteConfirmed(ev.Id); }">
-    <ButtonContent>
-        Delete
-    </ButtonContent>
-    <MessageTemplate>
-        <div class="popconfirm">
-            <h3>@Title</h3>
-            <p>@Message</p>
-            <button class="@Class btn-yes" @onclick="() => ConfirmedChanged.InvokeAsync(true)">Yes</button>
-            <button class="@Class btn-no" @onclick="() => ConfirmedChanged.InvokeAsync(false)">No</button>
-        </div>
-    </MessageTemplate>
-</DeleteConfirmation>
+@code {
+    private List<EventModel> events;
 
-@code{
-    private List<EventModel>? events;
-    private DeleteConfirmation? deleteConfirmation;
+    private DeleteConfirmation deleteConfirmation;
+
+    protected override async Task OnInitializedAsync()
+    {
+        events = await service.GetEventsAsync();
+    }
+
+    private async Task DeleteEvent(int eventId, bool isConfirmed)
+    {
+        if (isConfirmed)
+        {
+            // Here you can implement the code to delete the event
+            // For example: await service.DeleteEvent(eventId);
+            await service.DeleteEventByIdAsync(eventId);
+        }
+    }
 }
