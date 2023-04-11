@@ -16,14 +16,10 @@ namespace TicketHiveSpaceKittens.Server.Data
         public DbSet<EventModel> Events { get; set; }
         public DbSet<TagModel> Tags { get; set; }
         public DbSet<UserModel> Users { get; set; }
-        public DbSet<BookingModel> Bookings { get; set; }
-
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
-            modelBuilder.Entity<BookingModel>()
-           .HasKey(b => new { b.eventsInCart, b.UserId });
 
             modelBuilder.Entity<UserModel>().HasData(
                 new UserModel()
