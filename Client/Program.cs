@@ -5,7 +5,9 @@ using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using TicketHiveSpaceKittens.Client;
+using TicketHiveSpaceKittens.Client.Api;
 using TicketHiveSpaceKittens.Client.Services;
+using TicketHiveSpaceKittens.Client.Services.Exchange;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
@@ -22,9 +24,12 @@ builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.
 builder.Services.AddScoped<IEventService, EventService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ICartService, CartService>();
+builder.Services.AddScoped<IExchangeService, ExchangeService>();
 
 builder.Services.AddApiAuthorization();
 builder.Services.AddBlazoredModal();
 builder.Services.AddBlazorStrap();
+
+ApiInitializer.httpClient.BaseAddress = new Uri("https://api.exchangeratesapi.io/v1/latest?access_key=");
 
 await builder.Build().RunAsync();

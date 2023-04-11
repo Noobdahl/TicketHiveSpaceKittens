@@ -1,5 +1,6 @@
 ﻿@page "/cart"
 @using Microsoft.AspNetCore.Authorization;
+@using TicketHiveSpaceKittens.Client.Api;
 @using TicketHiveSpaceKittens.Client.Services;
 @using TicketHiveSpaceKittens.Shared.Models;
 @inject Blazored.LocalStorage.ILocalStorageService localStorage
@@ -108,8 +109,10 @@
 
 @code
 {
-    private void GoToCheckout()
+    private async Task GoToCheckout()
     {
+        ApiCaller caller = new();
+        await caller.MakeCallAsync();
         navManager.NavigateTo("confirm");
     }
 }
