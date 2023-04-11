@@ -45,7 +45,6 @@ namespace TicketHiveSpaceKittens.Server.Controllers
             return BadRequest();
         }
 
-
         [HttpPut("{id}")]
         public async Task<ActionResult<EventModel>> UpdateEvent(int id, [FromBody] EventModel updatedEvent)
         {
@@ -75,27 +74,6 @@ namespace TicketHiveSpaceKittens.Server.Controllers
             }
 
             return BadRequest();
-        }
-
-        public async Task<ActionResult<EventModel>> DeleteEventDialog(int id)
-        {
-            var eventToDelete = await repo.GetEvent(id);
-            if(eventToDelete == null)
-            {
-                return NotFound();
-            }
-
-            var confirmDelete = await DisplayDeleteConfirmation();
-            if (confirmDelete)
-            {
-                var deleteEvent = await repo.DeleteEvent(id);
-                if (deleteEvent != null)
-                {
-                    return Ok(deleteEvent);
-                }
-                return BadRequest();
-            }
-            return Ok();
         }
 
     }
