@@ -24,6 +24,7 @@ namespace TicketHiveSpaceKittens.Client.Services
         public async Task AddToCartAsync(EventModel eventToAdd)
         {
             bool isEventInCart = false;
+            
             foreach (var cartEventModel in cartCookies)
             {
                 if (cartEventModel.Event.EventId == eventToAdd.EventId)
@@ -60,10 +61,6 @@ namespace TicketHiveSpaceKittens.Client.Services
             foreach (var cartItem in cartCookies)
             {
                 total += cartItem.Quantity * cartItem.Event.TicketPrice;
-                //for (int i = 0; i < cartItem.Quantity; i++)
-                //{
-                //    total += cartItem.Event.TicketPrice;
-                //}
             }
             return total;
         }

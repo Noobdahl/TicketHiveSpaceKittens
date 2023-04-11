@@ -9,17 +9,6 @@
 
 <h1>Confirm page</h1>
 
-@*@if(cart != null)
-{
-    @foreach(var item in cart)
-    {
-        <div class="card m-2 p-2">
-            <h1>@item.Event.Name</h1>
-            <em>Tickets remaining: @item.Event.TicketsRemaining</em>
-            <em>To buy: @item.Quantity</em>
-        </div>
-    }
-}*@
 
 @if (cart != null)
 {
@@ -47,7 +36,7 @@
 
                                     <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
                                         <h6 class="text-muted">Price</h6>
-                                        <h6 class="mb-0">á @item.Event.TicketPrice kr</h6>
+                                        <h6 class="mb-0">@item.Event.TicketPrice kr</h6>
                                     </div>
 
                                     <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
@@ -84,8 +73,5 @@
     {
         cart = cartService.GetCartItems();
         Total = cartService.TotalCart();
-
-        //Om köpet går igenom, clear cookies efteråt!
-        //cartService.ClearCookie();
     }
 }

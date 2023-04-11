@@ -27,7 +27,6 @@ namespace TicketHiveSpaceKittens.Server.Repository
                 TicketsRemaining = e.TicketsRemaining,
                 ImageUrl = e.ImageUrl
             })
-
                 .ToListAsync();
         }
 
