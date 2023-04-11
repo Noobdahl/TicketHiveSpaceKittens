@@ -1,20 +1,23 @@
-﻿namespace TicketHiveSpaceKittens.Client.Api
+﻿using Newtonsoft.Json;
+using TicketHiveSpaceKittens.Shared.Models;
+
+namespace TicketHiveSpaceKittens.Client.Api
 {
     public class ApiCaller
     {
         public async Task MakeCallAsync()
         {
-            string accessKey = "XaulSyIDQ0phVPhVF9UoXoezIzxKdpu2";
+            string fullURL = "https://api.apilayer.com/exchangerates_data/latest?symbols=EUR,GBP&base=SEK";
 
-            HttpResponseMessage response = await ApiInitializer.httpClient.GetAsync(accessKey);
+            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, fullURL);
 
-            if (response.IsSuccessStatusCode)
-            {
-                var responseStr = await response.Content.ReadAsStringAsync();
+            request.Headers.Add("apikey", "XaulSyIDQ0phVPhVF9UoXoezIzxKdpu2");
 
-                var fisk = 1;
-            }
-            //sätta basadress i program.cs
+            HttpResponseMessage response = await ApiInitializer.httpClient.SendAsync(request);
+
+            var responseStr = await response.Content.ReadAsStringAsync();
+
+            Root? result = JsonConvert.DeserializeObject<Root>(responseStr);
         }
     }
 }
