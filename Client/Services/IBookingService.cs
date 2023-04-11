@@ -4,6 +4,6 @@ namespace TicketHiveSpaceKittens.Client.Services
 {
     public interface IBookingService
     {
-        Task<bool> UpdateBookningAsync(EventModel bookedEvents);
+        Task<bool> UpdateBookningAsync(List<CartEventModel> bookedEvents);
     }
 }

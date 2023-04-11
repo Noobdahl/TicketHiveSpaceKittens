@@ -1,9 +1,4 @@
-﻿using Microsoft.AspNetCore.Components;
-using Newtonsoft.Json;
-using System.Net.Http.Json;
-using System.Net.NetworkInformation;
-using System.Security.Claims;
-using TicketHiveSpaceKittens.Client.Pages;
+﻿using System.Net.Http.Json;
 using TicketHiveSpaceKittens.Shared.Models;
 
 namespace TicketHiveSpaceKittens.Client.Services
@@ -19,9 +14,9 @@ namespace TicketHiveSpaceKittens.Client.Services
             this.httpClient = httpClient;
         }
 
-            public async Task<bool> UpdateBookningAsync(EventModel bookedEvents)
+        public async Task<bool> UpdateBookningAsync(List<CartEventModel> bookedEvents)
         {
-            foreach (CartEventModel cart in cartEventsList)
+            foreach (CartEventModel cart in bookedEvents)
             {
 
                 //var requestBody = new
@@ -33,7 +28,7 @@ namespace TicketHiveSpaceKittens.Client.Services
                 //var jsonRequest = JsonConvert.SerializeObject(requestBody);
                 //var response = await httpClient.PostAsJsonAsync<EventModel>("api/events", new StringContent(jsonRequest, Encoding.UTF8, "application/json"));
 
-                var response = await httpClient.PostAsJsonAsync<EventModel>("api/events",cart.Event);
+                var response = await httpClient.PostAsJsonAsync<EventModel>("api/events", cart.Event);
 
                 if (response.IsSuccessStatusCode)
                 {
