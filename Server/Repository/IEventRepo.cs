@@ -10,6 +10,6 @@ namespace TicketHiveSpaceKittens.Server.Repository
         Task<EventModel?> DeleteEvent(int id);
         Task<EventModel?> UpdateEvent(int id, EventModel updatedEvent);
         bool BookEventsToUser(List<EventModel> bookedEvent, string username);
-        Task<List<EventModel>?> GetEventsByUsernameAsync(string username);
+        Task<List<EventModel>> GetEventsByUsernameAsync(string username);
     }
 }

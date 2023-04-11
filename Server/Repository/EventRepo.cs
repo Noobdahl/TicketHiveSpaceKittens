@@ -26,7 +26,9 @@ namespace TicketHiveSpaceKittens.Server.Repository
                 EventDate = e.EventDate,
                 TicketsRemaining = e.TicketsRemaining,
                 ImageUrl = e.ImageUrl
-            }).ToListAsync();
+            })
+
+                .ToListAsync();
         }
 
         public async Task<EventModel?> GetEvent(int id)
@@ -99,16 +101,30 @@ namespace TicketHiveSpaceKittens.Server.Repository
             return false;
         }
 
-        public async Task<List<EventModel>?> GetEventsByUsernameAsync(string username)
+        public async Task<List<EventModel>> GetEventsByUsernameAsync(string username)
         {
             //return await context.Events.Include(e => e.Users).Include(e => e.Tags).Select(e => new EventModel
             //UserModel? user = await context.Users
             //    .Include(u => u.Bookings)
             //    .Where(u => u.Username == username).FirstOrDefaultAsync();
-            List<EventModel> listan = context.Events
+            List<EventModel> listan = await context.Events
                 .Include(e => e.Tags)
                 .Include(e => e.Users)
-                .Where(e => e.Users.Any(u => u.Username == username)).ToList();
+                .Where(e => e.Users.Any(e => e.Username == username))
+                .Select(e => new EventModel
+                {
+                    EventId = e.EventId,
+                    Name = e.Name,
+                    Location = e.Location,
+                    Description = e.Description,
+                    TicketPrice = e.TicketPrice,
+                    EventDate = e.EventDate,
+                    TicketsRemaining = e.TicketsRemaining,
+                    ImageUrl = e.ImageUrl,
+                    Tags = e.Tags,
+                    Users = e.Users
+                })
+                .ToListAsync();
 
             if (listan != null)
             {
