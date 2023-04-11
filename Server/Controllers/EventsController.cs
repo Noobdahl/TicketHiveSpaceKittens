@@ -6,6 +6,7 @@ using TicketHiveSpaceKittens.Shared.Models;
 
 namespace TicketHiveSpaceKittens.Server.Controllers
 {
+    //[Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class EventsController : ControllerBase
@@ -29,6 +30,13 @@ namespace TicketHiveSpaceKittens.Server.Controllers
         public async Task<ActionResult<EventModel?>> GetOneEvent(int id)
         {
             return Ok(await repo.GetEvent(id));
+        }
+
+        [HttpGet("userevents/{username}")]
+        public async Task<ActionResult<List<EventModel>>> GetEventsByUsernameAsync(string username)
+        {
+            var result = await repo.GetEventsByUsernameAsync(username);
+            return Ok(result);
         }
 
         [HttpPost]
@@ -76,11 +84,10 @@ namespace TicketHiveSpaceKittens.Server.Controllers
         }
 
         [HttpPost("book")]
-        public async Task<ActionResult> BookEventsToUserAsync([FromBody] List<CartEventModel> bookedEvent)
+        public async Task<ActionResult> BookEventsToUserAsync([FromBody] UserModel tempUser)
         {
-            string username = await userRepo.GetUserIdentityName();
 
-            if (repo.BookEventsToUser(bookedEvent, username))
+            if (repo.BookEventsToUser(tempUser.Bookings, tempUser.Username))
             {
                 return Ok();
             }

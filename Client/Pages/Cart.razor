@@ -7,7 +7,7 @@
 @inject ICartService cartService
 @inject IEventService eventService
 @inject NavigationManager navManager
-
+@inject AuthenticationStateProvider provider
 
 
 <div class="container mt-5">
@@ -111,6 +111,12 @@
 
 @code
 {
+    private string loggedInUsername;
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await provider.GetAuthenticationStateAsync();
+        loggedInUsername = authState.User.Identity.Name;
+    }
     private void GoToCheckout()
     {
         navManager.NavigateTo("confirm");
@@ -119,6 +125,18 @@
     private async Task BookEvents()
     {
         List<CartEventModel> cartItems = cartService.GetCartItems();
-        await eventService.BookEventsToUserAsync(cartItems);
+
+        UserModel tempUser = new()
+            {
+                Username = loggedInUsername,
+                Bookings = new List<EventModel>(){}
+            };
+
+        foreach(CartEventModel cartEvent in cartItems)
+        {
+            tempUser.Bookings.Add(cartEvent.Event);
+        }
+
+        await eventService.BookEventsToUserAsync(tempUser);
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.AspNetCore.Identity;
 using TicketHiveSpaceKittens.Server.Data;
 using TicketHiveSpaceKittens.Server.Models;
 using TicketHiveSpaceKittens.Shared.Models;
@@ -9,6 +10,7 @@ namespace TicketHiveSpaceKittens.Server.Repository
     {
         private readonly SignInManager<ApplicationUser> signInManager;
         private readonly EventDbContext context;
+        private readonly AuthenticationStateProvider provider;
 
         public UserRepo(SignInManager<ApplicationUser> signInManager, EventDbContext context)
         {
@@ -74,12 +76,15 @@ namespace TicketHiveSpaceKittens.Server.Repository
             return false;
         }
 
-        public async Task<string> GetUserIdentityName()
-        {
-            var user = await signInManager.UserManager.GetUserAsync(signInManager.Context.User);
+        //public async Task<string> GetUserIdentityName()
+        //{
 
-            return user.UserName;
-        }
+        //var state = await provider.GetAuthenticationStateAsync();
+        //var user = state.User;
+        //var user = await signInManager.UserManager.GetUserAsync(signInManager.Context.User);
+
+        //return user.Identity.Name;
+        //}
 
         //Admins ska kunna lägga till events med datum, tid, plats, pris och kapacitet(ticketamount)
     }

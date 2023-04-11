@@ -73,9 +73,9 @@ namespace TicketHiveSpaceKittens.Client.Services
             return false;
         }
 
-        public async Task<bool> BookEventsToUserAsync(List<CartEventModel> bookedEvents)
+        public async Task<bool> BookEventsToUserAsync(UserModel tempUser)
         {
-            var response = await httpClient.PostAsJsonAsync("api/events/book", bookedEvents);
+            var response = await httpClient.PostAsJsonAsync("api/events/book", tempUser);
 
             if (response.IsSuccessStatusCode)
             {
@@ -84,5 +84,29 @@ namespace TicketHiveSpaceKittens.Client.Services
 
             return false;
         }
+
+        public async Task<List<EventModel>?> GetEventsByUsernameAsync(string username)
+        {
+
+
+            //var response = await httpClient.GetAsync("api/events");
+
+            //if (response.IsSuccessStatusCode)
+            //{
+            //    var json = await response.Content.ReadAsStringAsync();
+            //    return JsonConvert.DeserializeObject<List<EventModel>>(json);
+            //}
+
+            var response = await httpClient.GetAsync($"api/events/userevents/{username}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                var json = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<List<EventModel>>(json);
+            }
+
+            return null;
+        }
+
     }
 }

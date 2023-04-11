@@ -83,20 +83,38 @@ namespace TicketHiveSpaceKittens.Server.Repository
             return eventToUpdate;
         }
 
-        public bool BookEventsToUser(List<CartEventModel> bookedEvent, string username)
+        public bool BookEventsToUser(List<EventModel> bookedEvent, string username)
         {
             UserModel? user = context.Users.Where(u => u.Username == username).FirstOrDefault();
 
             if (user != null)
             {
-                foreach (CartEventModel e in bookedEvent)
+                foreach (EventModel e in bookedEvent)
                 {
-                    user.Bookings.Add(e.Event);
+                    user.Bookings.Add(e);
                 }
                 context.SaveChanges();
                 return true;
             }
             return false;
+        }
+
+        public async Task<List<EventModel>?> GetEventsByUsernameAsync(string username)
+        {
+            //return await context.Events.Include(e => e.Users).Include(e => e.Tags).Select(e => new EventModel
+            //UserModel? user = await context.Users
+            //    .Include(u => u.Bookings)
+            //    .Where(u => u.Username == username).FirstOrDefaultAsync();
+            List<EventModel> listan = context.Events
+                .Include(e => e.Tags)
+                .Include(e => e.Users)
+                .Where(e => e.Users.Any(u => u.Username == username)).ToList();
+
+            if (listan != null)
+            {
+                return listan;
+            }
+            return null;
         }
     }
 }
