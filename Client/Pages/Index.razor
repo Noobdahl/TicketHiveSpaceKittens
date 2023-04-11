@@ -1,4 +1,5 @@
 ﻿@page "/"
+@using TicketHiveSpaceKittens.Client.Api;
 @using TicketHiveSpaceKittens.Client.Services;
 @using TicketHiveSpaceKittens.Shared.Models;
 
@@ -6,3 +7,13 @@
 
 <StartPageComponent />
 
+<button type="button" class="btn btn-danger" @onclick="CallApi">Call API</button>
+
+@code
+{
+    private async Task CallApi()
+    {
+        ApiCaller caller = new();
+        await caller.MakeCallAsync();
+    }
+}

@@ -31,5 +31,6 @@ builder.Services.AddBlazoredModal();
 builder.Services.AddBlazorStrap();
 
 ApiInitializer.httpClient.BaseAddress = new Uri("https://api.exchangeratesapi.io/v1/latest?access_key=");
+ApiInitializer.httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
 
 await builder.Build().RunAsync();
