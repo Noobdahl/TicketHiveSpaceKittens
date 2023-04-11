@@ -77,6 +77,21 @@
         }
 </div>
 
+<div>
+    <h1>hej</h1>
+    @if(userEvents != null)
+    {
+        foreach (var e in userEvents)
+        {
+            <div class="col-md-3 mt-5"></div>
+            <div class="card border-1 m-2 mb-2">@e.Users</div>
+            <h5>@e.Name</h5>
+            <h4>@e.Tags</h4>
+            <div class="card-header text-center"></div>
+        }
+    }
+</div>
+ 
 
 @code
 {
@@ -84,23 +99,6 @@
     private List<EventModel>? events;
     private List<EventModel>? userEvents;
     private string? username;
-
-    //private string? statusMessage;
-    //public List<string>? searchResult { get; set; }
-
-    //private List<EventModel> SortedEvents => SortEvent(events);
-
-    //private List<EventModel> SortEvent(List<EventModel> events, bool ascending = true)
-    //{
-    //    if (ascending)
-    //    {
-    //        return events.OrderBy(e => e.EventDate).ToList();
-    //    }
-    //    else
-    //    {
-    //        return events.OrderByDescending(e => e.TicketPrice).ToList();
-    //    }
-    //}
 
     protected override async Task OnInitializedAsync()
     {
