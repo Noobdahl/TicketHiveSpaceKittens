@@ -87,16 +87,6 @@ namespace TicketHiveSpaceKittens.Client.Services
 
         public async Task<List<EventModel>?> GetEventsByUsernameAsync(string username)
         {
-
-
-            //var response = await httpClient.GetAsync("api/events");
-
-            //if (response.IsSuccessStatusCode)
-            //{
-            //    var json = await response.Content.ReadAsStringAsync();
-            //    return JsonConvert.DeserializeObject<List<EventModel>>(json);
-            //}
-
             var response = await httpClient.GetAsync($"api/events/userevents/{username}");
 
             if (response.IsSuccessStatusCode)

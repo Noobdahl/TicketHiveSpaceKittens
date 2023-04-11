@@ -103,10 +103,6 @@ namespace TicketHiveSpaceKittens.Server.Repository
 
         public async Task<List<EventModel>> GetEventsByUsernameAsync(string username)
         {
-            //return await context.Events.Include(e => e.Users).Include(e => e.Tags).Select(e => new EventModel
-            //UserModel? user = await context.Users
-            //    .Include(u => u.Bookings)
-            //    .Where(u => u.Username == username).FirstOrDefaultAsync();
             List<EventModel> listan = await context.Events
                 .Include(e => e.Tags)
                 .Include(e => e.Users)
