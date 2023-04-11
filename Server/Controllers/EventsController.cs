@@ -25,6 +25,13 @@ namespace TicketHiveSpaceKittens.Server.Controllers
             return Ok(await repo.GetEvents());
         }
 
+        [HttpGet]
+        [Route("AdminAddEvent")]
+        public IActionResult AdminAddEvent()
+        {
+            return View();
+        }
+
         [HttpGet("{id}")]
         public async Task<ActionResult<EventModel?>> GetOneEvent(int id)
         {
@@ -97,11 +104,5 @@ namespace TicketHiveSpaceKittens.Server.Controllers
             return Ok();
         }
 
-        private async Task<bool> DisplayDeleteConfirmation()
-        {
-            // Implementera en bekräftelsedialog här.
-            // Returnera true om användaren bekräftar att hen vill radera evenemanget, annars false.
-
-        }
     }
 }

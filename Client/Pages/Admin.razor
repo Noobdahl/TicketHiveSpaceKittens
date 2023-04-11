@@ -1,8 +1,70 @@
 ﻿@page "/admin"
 @using Microsoft.AspNetCore.Authorization;
+@using TicketHiveSpaceKittens.Client.Services;
+@using TicketHiveSpaceKittens.Shared.Models;
 @attribute [Authorize (Roles = "Admin")]
+@inject IEventService service
+@inject NavigationManager navManager
 
-<h1>Admin</h1>
+<h1>Admin page</h1>
+
+<a href="/api/events/AdminAddEvent">Add a new event</a>
 
 
+<div class="container mt-5 shadow-lg">
+    <div class="row">
+        <div class="col-md-12">
+            <BSCarousel>
+                @if (events != null)
+                {
+                    @foreach (var e in events)
+                    {
+                        if (e.TicketsRemaining > 0)
+                        {
+                            <BSCarouselItem Active="item == events.First()">
+                                <div class="row">
 
+                                    <div class=" col-md-6">
+                                        <div class="event-image mb-3 mt-3">
+                                            <img class=" img-fluid " src="/Images/Event images/@e.ImageUrl" alt="eventImg">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6 p-5">
+                                        <h3 class="fw-bolder">@e.Name</h3>
+                                        <hr>
+                                        <p>@e.Description</p>
+                                        <p><strong>Date:</strong> @e.EventDate</p>
+
+                                        <a href="details/@e.EventId" class="btn btn-lg btn-warning w-100 fs-6 fw-bolder">See more info</a>
+
+                                    </div>
+                                </div>
+
+                            </BSCarouselItem>
+                        }
+                    }
+                }
+            </BSCarousel>
+        </div>
+    </div>
+</div>
+
+<DeleteConfirmation @ref="deleteConfirmation" Title="Delete Event" Message="Are you sure you want to delete this event?" ConfirmedChanged="async confirmed => { if (confirmed) await DeleteConfirmed(ev.Id); }">
+    <ButtonContent>
+        Delete
+    </ButtonContent>
+    <MessageTemplate>
+        <div class="popconfirm">
+            <h3>@Title</h3>
+            <p>@Message</p>
+            <button class="@Class btn-yes" @onclick="() => ConfirmedChanged.InvokeAsync(true)">Yes</button>
+            <button class="@Class btn-no" @onclick="() => ConfirmedChanged.InvokeAsync(false)">No</button>
+        </div>
+    </MessageTemplate>
+</DeleteConfirmation>
+
+@code{
+    private List<EventModel>? events;
+    private DeleteConfirmation? deleteConfirmation;
+}
