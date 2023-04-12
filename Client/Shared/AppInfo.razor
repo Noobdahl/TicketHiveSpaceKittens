@@ -1,1 +1,38 @@
-﻿<p>Info....</p>
+﻿@using Microsoft.AspNetCore.Authorization;
+@using TicketHiveSpaceKittens.Client.Services;
+@using TicketHiveSpaceKittens.Shared.Models;
+@attribute [Authorize]
+@inject IEventService service
+@inject NavigationManager navManager
+@inject AuthenticationStateProvider provider
+@inject IModalService modal
+
+@if(userEvents != null)
+{
+    foreach (var bookedEvent in userEvents)
+    {
+        <p>@bookedEvent.Name</p>
+    }
+}
+
+@code
+{
+    private string? searchText;
+    private List<EventModel>? events;
+    private List<EventModel>? userEvents;
+    private string? username;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await provider.GetAuthenticationStateAsync();
+        username = authState.User.Identity.Name;
+        await GetEvents();
+    }
+
+    private async Task GetEvents()
+    {
+        events = await service.GetEventsAsync();
+        userEvents = await service.GetEventsByUsernameAsync(username);
+
+    }
+}
