@@ -12,9 +12,9 @@
     <div class="row">
         <div class="col-md-12">
                 <BSCarousel>
-                @if (events != null)
+                @if (randomEvents != null)
                 {
-                    @foreach (var e in events)
+                    @foreach (var e in randomEvents)
                     {
                         if (e.TicketsRemaining > 0)
                         {
@@ -97,6 +97,7 @@
 @code
 {
     private string? searchText;
+    private List<EventModel>? randomEvents;
     private List<EventModel>? events;
     private List<EventModel>? userEvents;
     private string? username;
@@ -110,7 +111,8 @@
 
     private async Task GetEvents()
     {
-        events = await service.GetEventsRandomAsync();
+        randomEvents = await service.GetEventsRandomAsync();
+        events = await service.GetEventsAsync();
         userEvents = await service.GetEventsByUsernameAsync(username);
 
     }
