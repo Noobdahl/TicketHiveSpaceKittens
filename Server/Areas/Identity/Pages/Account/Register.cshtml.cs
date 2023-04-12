@@ -10,7 +10,9 @@ namespace TicketHiveSpaceKittens.Server.Areas.Identity.Pages.Account
     public class RegisterModel : PageModel
     {
         private readonly IUserRepo repo;
+        //required
         public string? Username { get; set; }
+        //required
         public string? Password { get; set; }
         public Countries selectedCountry { get; set; }
 
@@ -31,6 +33,7 @@ namespace TicketHiveSpaceKittens.Server.Areas.Identity.Pages.Account
                     return Redirect("~/");
                 }
             }
+            //misslyckad registrering? meddelande!
             return Page();
         }
     }

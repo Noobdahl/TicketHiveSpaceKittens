@@ -83,6 +83,7 @@
         loggedInUsername = authState.User.Identity.Name;
     }
 
+    //Kolla om där finns biljetter innan bokningen går igenom
     private async Task BookEvents()
     {
         List<CartEventModel> cartItems = cartService.GetCartItems();
