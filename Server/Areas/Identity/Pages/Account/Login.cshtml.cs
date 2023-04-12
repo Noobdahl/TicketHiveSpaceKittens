@@ -27,6 +27,7 @@ namespace TicketHiveSpaceKittens.Server.Areas.Identity.Pages.Account
             {
                 return Redirect("~/home");
             }
+            //Misslyckad inloggning, meddelande?
             return Page();
         }
     }
