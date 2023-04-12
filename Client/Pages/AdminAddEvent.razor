@@ -1,0 +1,133 @@
+﻿@page "/admin/addevent"
+@using Microsoft.AspNetCore.Authorization;
+@using TicketHiveSpaceKittens.Client.Services;
+@using TicketHiveSpaceKittens.Shared.Models
+@attribute [Authorize(Roles = "Admin")]
+@inject IEventService service;
+@inject NavigationManager navManager;
+
+<h3 style="text-align:center">Create A New Event</h3>
+
+<div class="container mt-2">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" class="form-control" id="name" @bind="@newEvent.Name" />
+            </div>
+            <div class="form-group">
+                <label for="location">Location:</label>
+                <input type="text" class="form-control" id="location" @bind="@newEvent.Location" />
+            </div>
+            <div class="form-group">
+                <label for="description">Description:</label>
+                <textarea class="form-control" id="description" rows="5" @bind="@newEvent.Description"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="ticketPrice">Ticket Price:</label>
+                <input type="number" class="form-control" id="ticketPrice" step="0.01" @bind="@newEvent.TicketPrice" />
+            </div>
+        </div>
+        <div class="col-md-6">          
+            <div class="form-group">
+                <label for="eventDate">Event Date:</label>
+                <input type="date" class="form-control" id="eventDate" @bind="@newEvent.EventDate" />
+            </div>
+            <div class="form-group">
+                <label for="capacity">Number of tickets:</label>
+                <input type="number" class="form-control" id="capacity" @bind="@newEvent.TicketsRemaining" />
+            </div>
+            <div class="form-group">
+                <label for="eventTag">Event Tag:</label>
+                <input type="text" class="form-control" id="eventTag" @bind="@TagInput" />
+                <button class="btn btn-primary mt-2" @onclick="AddTag">Add Tag</button>
+                <ul>
+                    @foreach (var tag in newEvent.Tags)
+                    {
+                        <li>@tag.TagName</li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <!-------------------------------------The Button and add confirm dialog--------------------------------------------------->
+           @* <button type="submit" class="btn btn-primary" @onclick="AddConfirmed">
+                <i class="fa fa-plus"></i> Add Event
+                </button> 
+            <ConfirmationDialog Title="Add Event"
+                                Class="btn btn-psl-add"
+                                Message="Add this event?"
+                                YesCssClass="btn-yes"
+                                NoCssClass="btn-no"
+                                ConfirmedChanged="@EventCallback.Factory.Create(this, async (bool isConfirmed) => await AddConfirmed(isConfirmed))">
+                <ButtonContent>
+                    <ion-icon name="trash-outline" style="font-size:2em;color:white;"></ion-icon>
+                </ButtonContent>
+                <MessageTemplate>
+                    <div class="card pop-message-card">
+                        <div class="card-header">Add Event?</div>
+                        <div class="card-body">
+                            <p>
+                                This will create the event!<br />
+                                Are you sure?
+                            </p>
+                        </div>
+                    </div>
+                </MessageTemplate>
+            </ConfirmationDialog>*@
+            <ConfirmationDialog Title="Add Event"
+                                Class="btn btn-psl-add mt-2"
+                                Message="Add this event?"
+                                YesCssClass="btn-yes btn-success"
+                                NoCssClass="btn-no btn-danger"                               
+                                ConfirmedChanged="@(async (bool confirmed) => await AddConfirmed(confirmed))">
+                <ButtonContent>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fa fa-plus"></i> Add Event
+                    </button>
+                </ButtonContent>
+                <MessageTemplate>
+                    <div class="card border-primary pop-message-card">
+                        <div class="card-header bg-primary text-white">Add Event?</div>
+                        <div class="card-body">
+                            <p>
+                                This will create the event!<br />
+                                Are you sure?
+                            </p>
+                        </div>
+                    </div>
+                </MessageTemplate>
+            </ConfirmationDialog>
+        </div>
+    </div>
+</div>
+
+@code{
+    public string? TagInput { get; set; }
+    public EventModel newEvent = new();
+
+    public void AddTag()
+    {
+        if(!string.IsNullOrEmpty(TagInput))
+        {
+            newEvent.Tags.Add(new TagModel {TagName = TagInput});
+            TagInput = "";
+        }
+    }
+
+    private async Task AddConfirmed(bool confirmed)
+    {
+        if (confirmed)
+        {
+            await AddEvent();
+        }
+    }
+
+    private async Task AddEvent()
+    {
+        await service.CreateEventAsync(newEvent);
+        navManager.NavigateTo("admin");
+    }
+}

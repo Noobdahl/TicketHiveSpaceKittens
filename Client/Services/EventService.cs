@@ -68,7 +68,8 @@ namespace TicketHiveSpaceKittens.Client.Services
                 return true;
             }
 
-            return false;
+            var errorMessage = await response.Content.ReadAsStringAsync();
+            throw new Exception($"Failed to create event. StatusCode: {response.StatusCode}, Error: {errorMessage}");
         }
 
         public async Task<bool> DeleteEventByIdAsync(int id)

@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using TicketHiveSpaceKittens.Server.Repository;
 using TicketHiveSpaceKittens.Shared.Models;
 
@@ -6,7 +8,9 @@ using TicketHiveSpaceKittens.Shared.Models;
 
 namespace TicketHiveSpaceKittens.Server.Controllers
 {
-    //[Authorize]
+
+    [Authorize(Roles = "Admin")]
+
     [Route("api/[controller]")]
     [ApiController]
     public class EventsController : ControllerBase
@@ -82,6 +86,8 @@ namespace TicketHiveSpaceKittens.Server.Controllers
 
             return BadRequest();
         }
+
+
 
         [HttpPost("book")]
         public async Task<ActionResult> BookEventsToUserAsync([FromBody] UserModel tempUser)

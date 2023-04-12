@@ -17,5 +17,6 @@ namespace TicketHiveSpaceKittens.Shared.Models
         public string? ImageUrl { get; set; }
 
         //Futures: Followers
+
     }
 }
