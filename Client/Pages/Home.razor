@@ -53,17 +53,13 @@
             <input class="form-control-sm fw-bolder" @bind-value="@searchText" type="text" placeholder="Search for event..." />
             <button class="btn btn-sm btn-primary" @onclick="@(() => GoToSearch())">Search</button>
     </div>
-    <div class="text-center">
-        <button @onclick="@(()=>modal.Show<AppInfo>("My booknings"))" class="btn btn-primary center mx-auto fs-6  mb-4 mt-3">Watch your previous bookings</button>
-    </div>
+
     @if (userEvents != null)
         {
         foreach (var e in userEvents)
             {
                 <div class="col-md-3 mt-5">
                     <div class="card border-1 m-2 mb-2">
-                <!----------------------- Booked Events  -------------------------->
-
                         <div class="d-flex justify-content-start align-items-end h-100">
                             <h5><span class="badge bg-danger ms-2">Booked</span></h5>
                         </div>

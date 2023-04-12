@@ -31,18 +31,13 @@ namespace TicketHiveSpaceKittens.Server.Areas.Identity.Pages.Account
                 {
                     return Redirect("~/home");
                 }
-            
-            else
-            {
-                ModelState.AddModelError("", "Invalid login .");
-            }
-            }
                 else
                 {
-                    ModelState.AddModelError("Username", "Username Is Wrong");
-                    ModelState.AddModelError("Password", "Password Is Wrong");
+                    ModelState.AddModelError("Error", "Invalid username or password");
                 }
-                    return Page();
+            }
+         
+            return Page();
         }
     }
 }

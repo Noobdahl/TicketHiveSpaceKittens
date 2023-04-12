@@ -30,20 +30,21 @@
                     <p>Welcome to SpaceKittens Events!</p>
                 </div>
                 <form method="post">
-                    <span class="text-danger" asp-validation-for="Username"></span>
                 <div class="input-group mb-3">
                     <input id="username" type="text" asp-for="Username" placeholder="Enter Username" class="form-control form-control-lg bg-light fs-6" />
                       
                 </div>
-                    <span class="text-danger" asp-validation-for="Password"></span>
                 <div class="input-group mb-1">
                     <input id="password" type="password" asp-for="Password" placeholder="Enter Password" class="form-control form-control-lg bg-light fs-6" />
                       
                 </div>
-
                 <div class="input-group mt-3">
                     <button class="btn btn-lg btn-primary w-100 fs-6">Login</button>
                 </div>
+                    @if (!ModelState.IsValid)
+                    {
+                        <div asp-validation-summary="All" class="text-danger"></div>
+                    }
 
                 </form>
                 <div class="row mt-3">

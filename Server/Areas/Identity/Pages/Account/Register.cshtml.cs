@@ -13,8 +13,12 @@ namespace TicketHiveSpaceKittens.Server.Areas.Identity.Pages.Account
     {
         private readonly IUserRepo repo;
         [Required(ErrorMessage = "Username is required")]
+        [MinLength(5)]
+        [MaxLength(15)]
         public string? Username { get; set; }
         [Required(ErrorMessage = "Password is required")]
+        [MinLength(8)]
+        [MaxLength(15)]
         public string? Password { get; set; }
         [Required(ErrorMessage = "Country is required")]
         public Countries selectedCountry { get; set; }
@@ -35,8 +39,11 @@ namespace TicketHiveSpaceKittens.Server.Areas.Identity.Pages.Account
                 {
                     return Redirect("~/");
                 }
+                else
+                {
+                    ModelState.AddModelError("Error", "Something went wrong. Maybe the user already exists or the username/password hasn't the correct format. For Password: Text-number-symbol > 10 and Username > 5 char.!");
+                }
             }
-            //misslyckad registrering? meddelande!
             return Page();
         }
     }
