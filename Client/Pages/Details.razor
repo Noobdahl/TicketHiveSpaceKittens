@@ -71,7 +71,6 @@ else
     private async Task AddToCart()
     {
         await cartService.AddToCartAsync(selectedEvent);
-        navigationManager.NavigateTo("/cart"); // Tillfällig lösning /Gabriel
     }
 
     protected override async Task OnParametersSetAsync()

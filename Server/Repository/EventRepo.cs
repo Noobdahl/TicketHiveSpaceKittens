@@ -14,7 +14,7 @@ namespace TicketHiveSpaceKittens.Server.Repository
             this.context = context;
         }
 
-        public async Task<List<EventModel>> GetEvents()
+        public async Task<List<EventModel>?> GetEvents()
         {
             return await context.Events.Include(e => e.Users).Include(e => e.Tags).Select(e => new EventModel
             {
@@ -29,7 +29,28 @@ namespace TicketHiveSpaceKittens.Server.Repository
                 Tags = e.Tags,
                 Users = e.Users
             })
-                .ToListAsync();
+                .ToListAsync()
+                .ContinueWith(e =>
+                {
+                    if (e.Result == null)
+                    {
+                        return null;
+                    }
+                    foreach (var item in e.Result)
+                    {
+                        if (item.Tags == null)
+                        {
+                            item.Tags = new List<TagModel>();
+                        }
+
+                        if (item.Users == null)
+                        {
+                            item.Users = new List<UserModel>();
+                        }
+                    }
+
+                    return e.Result;
+                });
         }
 
         public async Task<EventModel?> GetEvent(int id)
