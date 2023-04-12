@@ -53,30 +53,6 @@
     <div class="row">
         <div class="col-md-12 text-center">
             <!-------------------------------------The Button and add confirm dialog--------------------------------------------------->
-           @* <button type="submit" class="btn btn-primary" @onclick="AddConfirmed">
-                <i class="fa fa-plus"></i> Add Event
-                </button> 
-            <ConfirmationDialog Title="Add Event"
-                                Class="btn btn-psl-add"
-                                Message="Add this event?"
-                                YesCssClass="btn-yes"
-                                NoCssClass="btn-no"
-                                ConfirmedChanged="@EventCallback.Factory.Create(this, async (bool isConfirmed) => await AddConfirmed(isConfirmed))">
-                <ButtonContent>
-                    <ion-icon name="trash-outline" style="font-size:2em;color:white;"></ion-icon>
-                </ButtonContent>
-                <MessageTemplate>
-                    <div class="card pop-message-card">
-                        <div class="card-header">Add Event?</div>
-                        <div class="card-body">
-                            <p>
-                                This will create the event!<br />
-                                Are you sure?
-                            </p>
-                        </div>
-                    </div>
-                </MessageTemplate>
-            </ConfirmationDialog>*@
             <ConfirmationDialog Title="Add Event"
                                 Class="btn btn-psl-add mt-2"
                                 Message="Add this event?"
