@@ -1,0 +1,105 @@
+﻿@page "/confirm"
+@using Microsoft.AspNetCore.Authorization;
+@using TicketHiveSpaceKittens.Client.Services;
+@using TicketHiveSpaceKittens.Shared.Models;
+@inject Blazored.LocalStorage.ILocalStorageService localStorage
+@attribute [Authorize]
+@inject ICartService cartService
+@inject IEventService eventService
+
+@inject AuthenticationStateProvider provider
+
+
+<h1>Confirm page</h1>
+
+
+@if (cart != null)
+{
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-12">
+                <div class="card shadow">
+                    <div class="row">
+                        <div class="col-lg-8 px-4 py-5 px-md-5">
+                            <div class="d-flex justify-content-between align-items-center mb-5">
+                                <h1 class="fw-bold mb-0 text-black">Receipt</h1>
+                            </div>
+                            @foreach (var item in cart)
+                            {
+                                <hr class="my-4">
+                                <div class="row mb-4 d-flex justify-content-between align-items-center">
+                                    <div class="col-md-2 col-lg-2 col-xl-2">
+                                        <img src="/Images/Event images/@item.Event.ImageUrl" alt="eventImg" class="img-fluid rounded-3">
+                                    </div>
+
+                                    <div class="col-md-3 col-lg-3 col-xl-3">
+                                        <h6 class="text-muted">Event Name</h6>
+                                        <h6 class="text-black mb-0">@item.Quantity x - @item.Event.Name</h6>
+                                    </div>
+
+                                    <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
+                                        <h6 class="text-muted">Price</h6>
+                                        <h6 class="mb-0">@item.Event.TicketPrice kr</h6>
+                                    </div>
+
+                                    <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
+                                        <h6 class="text-muted">Date:</h6>
+                                        <h6 class="mb-0">@item.Event.EventDate </h6>
+                                    </div>
+                                </div>
+                            }
+                            <hr class="my-4">
+
+                            <div class="d-flex justify-content-between">
+                                <h5><strong>Total price:</strong></h5>
+                                <h5><strong>@Total kr</strong></h5>
+                            </div>
+                            <button class="btn btn-primary mt-3" @onclick="@(async () => await BookEvents())"> Buy Ticket  </button>
+
+                            <hr class="my-4">
+                            <h6 class="mb-0">
+                                <a href="/booking" class="text-body">Back to shop</a>
+                            </h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@code
+{
+    private string loggedInUsername;
+    public List<CartEventModel>? cart { get; set; }
+    public decimal Total { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        cart = cartService.GetCartItems();
+        Total = cartService.TotalCart();
+
+        var authState = await provider.GetAuthenticationStateAsync();
+        loggedInUsername = authState.User.Identity.Name;
+    }
+
+    //Kolla om där finns biljetter innan bokningen går igenom
+    private async Task BookEvents()
+    {
+        List<CartEventModel> cartItems = cartService.GetCartItems();
+
+        UserModel tempUser = new()
+            {
+                Username = loggedInUsername,
+                Bookings = new List<EventModel>() { }
+            };
+
+        foreach (CartEventModel cartEvent in cartItems)
+        {
+            tempUser.Bookings.Add(cartEvent.Event);
+        }
+
+        await eventService.BookEventsToUserAsync(tempUser);
+    }
+
+}

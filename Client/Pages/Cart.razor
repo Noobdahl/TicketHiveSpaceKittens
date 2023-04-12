@@ -2,42 +2,116 @@
 @using Microsoft.AspNetCore.Authorization;
 @using TicketHiveSpaceKittens.Client.Services;
 @using TicketHiveSpaceKittens.Shared.Models;
+@inject Blazored.LocalStorage.ILocalStorageService localStorage
 @attribute [Authorize]
 @inject ICartService cartService
+@inject IEventService eventService
+@inject NavigationManager navManager
 
-<h1>Cart</h1>
 
-@if (cartService.GetCartItemsAsync().Count > 0)
-{
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Price</th>
-                <th>Total</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in cartService.GetCartItemsAsync())
-            {
-                <tr>
-                    <td>@item.Name</td>
-                    <td>@item.TicketPrice kr</td>
-                    <td><button class="btn btn-danger" @onclick="() => cartService.RemoveFromCartAsync(item)">Remove</button></td>
+<div class="container mt-5">
+<div class="row">
+    <div class="col-12">
+    <div class="card shadow">
+        <div class="row">
 
-                    @if(item.TicketsRemaining > 0)
+                <!----------------------- LeftBox ShopingCard -------------------------->
+            <div class="col-lg-8 px-4 py-5 px-md-5">
+                <div class="d-flex justify-content-between align-items-center mb-5">
+                <h1 class="fw-bold mb-0 text-black">Shopping Cart</h1>
+                </div>
+
+                @if (cartService.GetCartItems().Count > 0)
+                {
+                    @foreach (var item in cartService.GetCartItems())
                     {
-                        <button type="button" @onclick="@(() => cartService.RemoveFromCartAsync(item))">-</button>
-                        <button type="button" @onclick="@(() => cartService.AddToCartAsync(item))">+</button>
-                    }
-                </tr>
-            }
-        </tbody>
-    </table>
-    <h3>Total: @cartService.TotalCartAsync() kr</h3>
+                        <hr class="my-4">
+                        <div class="row mb-4 d-flex justify-content-between align-items-center">
+                            <div class="col-md-2 col-lg-2 col-xl-2">
+                                <img src="/Images/Event images/@item.Event.ImageUrl" alt="eventImg" class="img-fluid rounded-3">
+                            </div>
 
-}
-else
+                            <div class="col-md-3 ">
+                                <h6 class="text-muted">Event Name</h6>
+                                <h6 class="text-black mb-0">@item.Event.Name</h6>
+                            </div>
+
+                            <div class="col-md-3 ">
+                                <h6 class="text-muted">Price</h6>
+                                <h6 class="mb-0">@item.Event.TicketPrice kr</h6>
+                            </div>
+
+                            <div class="col-md-3 ">
+                                <h6 class="text-muted">Date:</h6>
+                                <h6 class="mb-0">@item.Event.EventDate </h6>
+                            </div>
+
+                            <div class="col-md-3"><br>
+                                <button class="btn btn-danger mr-1" @onclick="() => cartService.RemoveFromCartAsync(item)">Remove</button>
+
+                                @if (item.Quantity == 1)
+                                {
+                                  <button class="btn btn-warning" type="button" @onclick="@(() => cartService.RemoveFromCartAsync(item))">-</button>
+                                }
+                                else
+                                {
+                                   <button class="btn btn-warning" type="button" @onclick="@(() => item.Quantity--)">-</button>
+                                }
+                                   <button class="btn btn-success" type="button" @onclick="@(() => item.Quantity++)">+</button>
+                            </div>
+                        </div>
+
+
+                    }
+                }else
+                {
+                    <h3>Your cart is empty</h3>
+                }
+
+                <hr class="my-4">
+                <h6 class="mb-0">
+                    <a href="/booking" class="text-body">Back to shop</a>
+                </h6>
+            </div>
+
+                <!----------------------- RightBox Summary -------------------------->
+
+            <div class="col-lg-4 bg-grey">
+            <div class="p-5">
+                <h3 class="fw-bold mb-5 mt-2 pt-1">Summary</h3>
+                    @foreach (var item in cartService.GetCartItems())
+                    {
+                    <hr class="my-4">
+                    <div class="d-flex justify-content-between mb-4">
+                        <span>@item.Event.Name (x @item.Quantity)</span>
+                        <span><strong>@(item.Event.TicketPrice * @item.Quantity) kr</strong></span>
+                    </div>
+                    }
+
+
+                <hr class="my-4">
+
+                <div class="d-flex justify-content-between">
+                                    <h5><strong>Total price:</strong></h5>
+                    <h5><strong>@cartService.TotalCart() kr</strong></h5>
+                </div>
+
+                <button type="button" class="btn btn-danger" @onclick="GoToCheckout">Buy Tickets</button>
+
+            </div>
+            </div>
+        </div>
+        </div>
+    </div>
+</div>
+</div>
+
+
+@code
 {
-    <h3>Your cart is empty</h3>
+
+    private void GoToCheckout()
+    {
+        navManager.NavigateTo("confirm");
+    }
 }

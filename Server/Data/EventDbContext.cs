@@ -14,8 +14,11 @@ namespace TicketHiveSpaceKittens.Server.Data
         public DbSet<TagModel> Tags { get; set; }
         public DbSet<UserModel> Users { get; set; }
 
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
+
             modelBuilder.Entity<UserModel>().HasData(
                 new UserModel()
                 {
@@ -73,7 +76,7 @@ namespace TicketHiveSpaceKittens.Server.Data
                     TicketPrice = 70,
                     EventDate = new DateTime(2023, 04, 28),
                     TicketsRemaining = 110,
-                    ImageUrl = "image 13.jpg"              
+                    ImageUrl = "image 13.jpg"
                 },
                 new EventModel()
                 {

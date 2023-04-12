@@ -1,21 +1,21 @@
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using TicketHiveSpaceKittens.Server.Models;
+using TicketHiveSpaceKittens.Server.Repository;
 
 namespace TicketHiveSpaceKittens.Server.Areas.Identity.Pages.Account
 {
     [BindProperties]
     public class LoginModel : PageModel
     {
-        private readonly SignInManager<ApplicationUser> signInManager;
+        private readonly IUserRepo repo;
+
         public string Username { get; set; }
 
         public string Password { get; set; }
 
-        public LoginModel(SignInManager<ApplicationUser> signInManager)
+        public LoginModel(IUserRepo repo)
         {
-            this.signInManager = signInManager;
+            this.repo = repo;
         }
         public void OnGet()
         {
@@ -23,16 +23,11 @@ namespace TicketHiveSpaceKittens.Server.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPost()
         {
-
-            var signInResult = await signInManager.PasswordSignInAsync(Username, Password, false, false);
-
-            if (signInResult.Succeeded)
+            if (await repo.SignInUser(Username, Password))
             {
                 return Redirect("~/home");
             }
-
-
-
+            //Misslyckad inloggning, meddelande?
             return Page();
         }
     }

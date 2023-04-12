@@ -1,45 +1,81 @@
-﻿using Newtonsoft.Json;
-using System.Net.Http;
+﻿using Blazored.LocalStorage;
 using TicketHiveSpaceKittens.Shared.Models;
 
 namespace TicketHiveSpaceKittens.Client.Services
 {
     public class CartService : ICartService
     {
-        private List<EventModel> cartItems;
+        private List<CartEventModel> cartCookies;
+        private readonly ISyncLocalStorageService localStorage;
 
-        public CartService()
+        public CartService(ISyncLocalStorageService localStorage)
         {
-            cartItems = new List<EventModel>();
+            this.localStorage = localStorage;
+
+            cartCookies = localStorage.GetItem<List<CartEventModel>>("shoppingCart");
+
+            if (cartCookies == null)
+            {
+                localStorage.SetItem<List<CartEventModel>>("shoppingCart", new List<CartEventModel>());
+                cartCookies = localStorage.GetItem<List<CartEventModel>>("shoppingCart");
+            }
         }
 
-        public async Task AddToCartAsync(EventModel toCart)
+        public async Task AddToCartAsync(EventModel eventToAdd)
         {
-            cartItems.Add(toCart);
-            await Task.CompletedTask;
+            bool isEventInCart = false;
+            
+            foreach (var cartEventModel in cartCookies)
+            {
+                if (cartEventModel.Event.EventId == eventToAdd.EventId)
+                {
+                    cartEventModel.Quantity++;
+                    isEventInCart = true;
+                    break;
+                }
+            }
+
+            if (!isEventInCart)
+            {
+                CartEventModel newCartItem = new()
+                {
+                    Event = eventToAdd,
+                    Quantity = 1
+                };
+
+                cartCookies.Add(newCartItem);
+                localStorage.SetItem<List<CartEventModel>>("shoppingCart", cartCookies);
+                await Task.CompletedTask;
+            }
         }
 
-        public List<EventModel> GetCartItemsAsync()
+        public List<CartEventModel> GetCartItems()
         {
-            return cartItems;
+            return cartCookies;
         }
 
-        public decimal TotalCartAsync()
+        public decimal TotalCart()
         {
             decimal total = 0;
 
-            foreach (var cartItems in cartItems)
+            foreach (var cartItem in cartCookies)
             {
-                total += cartItems.TicketPrice;
+                total += cartItem.Quantity * cartItem.Event.TicketPrice;
             }
-
             return total;
         }
 
-        public async Task RemoveFromCartAsync(EventModel eventToRemove)
+        public async Task RemoveFromCartAsync(CartEventModel eventToRemove)
         {
-            cartItems.Remove(eventToRemove);
+            cartCookies.Remove(eventToRemove);
+            localStorage.SetItem<List<CartEventModel>>("shoppingCart", cartCookies);
             await Task.CompletedTask;
+        }
+
+        public void ClearCookie()
+        {
+            cartCookies.Clear();
+            localStorage.SetItem<List<CartEventModel>>("shoppingCart", cartCookies);
         }
     }
 }

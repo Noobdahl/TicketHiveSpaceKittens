@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using System.Net.Http.Json;
 using TicketHiveSpaceKittens.Shared.Models;
 
@@ -26,6 +28,24 @@ namespace TicketHiveSpaceKittens.Client.Services
             return null;
         }
 
+        public async Task<List<EventModel>?> GetEventsRandomAsync()
+        {
+
+            var response = await httpClient.GetAsync("api/events");
+
+            if (response.IsSuccessStatusCode)
+            {
+                var json = await response.Content.ReadAsStringAsync();
+                var events = JsonConvert.DeserializeObject<List<EventModel>>(json);
+                var random = new Random();
+                var randomEvents = events.OrderBy(e => random.Next()).Take(5).ToList();
+
+                return randomEvents;
+            }
+
+            return null;
+        }
+
         public async Task<EventModel?> GetOneEventAsync(int id)
         {
             var response = await httpClient.GetAsync($"api/events/{id}");
@@ -43,7 +63,7 @@ namespace TicketHiveSpaceKittens.Client.Services
         {
             var response = await httpClient.PostAsJsonAsync<EventModel>("api/events", eventModel);
 
-            if(response.IsSuccessStatusCode)
+            if (response.IsSuccessStatusCode)
             {
                 return true;
             }
@@ -73,5 +93,31 @@ namespace TicketHiveSpaceKittens.Client.Services
             }
             return false;
         }
+
+        public async Task<bool> BookEventsToUserAsync(UserModel tempUser)
+        {
+            var response = await httpClient.PostAsJsonAsync("api/events/book", tempUser);
+
+            if (response.IsSuccessStatusCode)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public async Task<List<EventModel>?> GetEventsByUsernameAsync(string username)
+        {
+            var response = await httpClient.GetAsync($"api/events/userevents/{username}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                var json = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<List<EventModel>>(json);
+            }
+
+            return null;
+        }
+
     }
 }

@@ -38,6 +38,7 @@
                             <span class="card-text font-weight-bold"><strong>Location:</strong> @e.Location</span><br>
                             <span class="card-text font-weight-bold"><strong>Events date:</strong> @e.EventDate</span><br>
                             <span class="card-text font-weight-bold"><strong>Ticket price:</strong> @e.TicketPrice</span><br>
+                            @*ta bort navigate to cart - success meddelande?*@
                             <button class="btn btn-primary mt-3" @onclick="@(() => {cartService.AddToCartAsync(e); navigationManager.NavigateTo("/cart"); })"> Buy Ticket  </button>
                             </div>  
                     </div>
@@ -48,7 +49,9 @@
                 <div class="col-md-3">
                     <div class="card border-1 m-2 mb-2">
                         <div class="card-header text-center">
-                            <img src="/Images/Event images/@e.ImageUrl" style="width:200px; height:150px;" />
+                            <a href="details/@e.EventId">
+                                <img src="/Images/Event images/@e.ImageUrl" style="width:200px; height:150px;" />
+                            </a>
                         </div>
                         <div class="card-body">
                             <h5 class="card-title"><strong>@e.Name:</strong></h5>
@@ -56,7 +59,7 @@
                             <span class="card-text font-weight-bold"><strong>Events date:</strong> @e.EventDate</span><br>
                             <span class="card-text font-weight-bold"><strong>Ticket price:</strong> @e.TicketPrice</span><br>
 
-                            <button class="btn btn-primary mt-3" @onclick="@(() => {cartService.AddToCartAsync(e); navigationManager.NavigateTo("/cart"); })"> Buy Ticket  </button>
+                            <button disabled class="btn btn-primary mt-3" @onclick="@(() => {cartService.AddToCartAsync(e); navigationManager.NavigateTo("/cart"); })"> Sold Out </button>
                         </div>
                     </div>
                 </div>
