@@ -24,8 +24,8 @@ namespace TicketHiveSpaceKittens.Server.Repository
             if (registerResult.Succeeded)
             {
                 AddUser(newUser.UserName, country);
-                var signInResult = await signInManager.PasswordSignInAsync(newUser, password, false, false);
-                return signInResult.Succeeded;
+                //var signInResult = await signInManager.PasswordSignInAsync(newUser, password, false, false);
+                //return signInResult.Succeeded;
             }
             return registerResult.Succeeded;
         }
