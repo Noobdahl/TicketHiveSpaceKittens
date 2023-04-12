@@ -9,8 +9,6 @@ using TicketHiveSpaceKittens.Shared.Models;
 namespace TicketHiveSpaceKittens.Server.Controllers
 {
 
-    [Authorize(Roles = "Admin")]
-
     [Route("api/[controller]")]
     [ApiController]
     public class EventsController : ControllerBase
