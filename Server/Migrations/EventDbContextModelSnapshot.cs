@@ -40,7 +40,7 @@ namespace TicketHiveSpaceKittens.Server.Migrations
                         new
                         {
                             EventsEventId = 1,
-                            TagsTagName = "Outdoor/Nature"
+                            TagsTagName = "Nature"
                         },
                         new
                         {
@@ -55,7 +55,7 @@ namespace TicketHiveSpaceKittens.Server.Migrations
                         new
                         {
                             EventsEventId = 4,
-                            TagsTagName = "Outdoor/Indoor"
+                            TagsTagName = "Indoor"
                         },
                         new
                         {
@@ -65,7 +65,7 @@ namespace TicketHiveSpaceKittens.Server.Migrations
                         new
                         {
                             EventsEventId = 6,
-                            TagsTagName = "Outdoor/Nature"
+                            TagsTagName = "Outdoor"
                         },
                         new
                         {
@@ -80,7 +80,7 @@ namespace TicketHiveSpaceKittens.Server.Migrations
                         new
                         {
                             EventsEventId = 9,
-                            TagsTagName = "Outdoor/Indoor"
+                            TagsTagName = "Outdoor"
                         },
                         new
                         {
@@ -127,23 +127,6 @@ namespace TicketHiveSpaceKittens.Server.Migrations
                     b.HasIndex("UsersUserId");
 
                     b.ToTable("EventModelUserModel");
-
-                    b.HasData(
-                        new
-                        {
-                            BookingsEventId = 1,
-                            UsersUserId = 1
-                        },
-                        new
-                        {
-                            BookingsEventId = 2,
-                            UsersUserId = 1
-                        },
-                        new
-                        {
-                            BookingsEventId = 1,
-                            UsersUserId = 2
-                        });
                 });
 
             modelBuilder.Entity("TicketHiveSpaceKittens.Shared.Models.EventModel", b =>
@@ -364,15 +347,11 @@ namespace TicketHiveSpaceKittens.Server.Migrations
                         },
                         new
                         {
-                            TagName = "Outdoor/Nature"
+                            TagName = "Nature"
                         },
                         new
                         {
                             TagName = "Indoor"
-                        },
-                        new
-                        {
-                            TagName = "Outdoor/Indoor"
                         });
                 });
 

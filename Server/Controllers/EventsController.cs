@@ -97,5 +97,12 @@ namespace TicketHiveSpaceKittens.Server.Controllers
             }
             return BadRequest();
         }
+
+        [HttpPost("remove")]
+        public async Task<ActionResult> RemoveTicket([FromBody] CartEventModel e)
+        {
+            await repo.RemoveTicket(e);
+            return Ok();
+        }
     }
 }

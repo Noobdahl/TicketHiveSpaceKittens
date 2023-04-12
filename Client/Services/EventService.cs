@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System.Net.Http.Json;
 using TicketHiveSpaceKittens.Shared.Models;
 
@@ -106,6 +104,16 @@ namespace TicketHiveSpaceKittens.Client.Services
             return false;
         }
 
+        public async Task RemoveTicket(CartEventModel e)
+        {
+            var response = await httpClient.PostAsJsonAsync($"api/events/remove", e);
+            if (response.IsSuccessStatusCode)
+            {
+
+            }
+
+        }
+
         public async Task<List<EventModel>?> GetEventsByUsernameAsync(string username)
         {
             var response = await httpClient.GetAsync($"api/events/userevents/{username}");
@@ -118,6 +126,8 @@ namespace TicketHiveSpaceKittens.Client.Services
 
             return null;
         }
+
+
 
     }
 }

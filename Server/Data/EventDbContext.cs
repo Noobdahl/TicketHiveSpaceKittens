@@ -208,21 +208,17 @@ namespace TicketHiveSpaceKittens.Server.Data
                 },
                 new TagModel()
                 {
-                    TagName = "Outdoor/Nature"
+                    TagName = "Nature"
                 },
                 new TagModel()
                 {
                     TagName = "Indoor",
-                },
-                new TagModel()
-                {
-                    TagName = "Outdoor/Indoor"
                 }
             );
             modelBuilder.Entity("EventModelTagModel").HasData(
                 new
                 {
-                    TagsTagName = "Outdoor/Nature",
+                    TagsTagName = "Nature",
                     EventsEventId = 1
                 },
                 new
@@ -237,7 +233,7 @@ namespace TicketHiveSpaceKittens.Server.Data
                 },
                 new
                 {
-                    TagsTagName = "Outdoor/Indoor",
+                    TagsTagName = "Indoor",
                     EventsEventId = 4
                 },
                 new
@@ -247,7 +243,7 @@ namespace TicketHiveSpaceKittens.Server.Data
                 },
                 new
                 {
-                    TagsTagName = "Outdoor/Nature",
+                    TagsTagName = "Outdoor",
                     EventsEventId = 6
                 },
                 new
@@ -262,7 +258,7 @@ namespace TicketHiveSpaceKittens.Server.Data
                 },
                 new
                 {
-                    TagsTagName = "Outdoor/Indoor",
+                    TagsTagName = "Outdoor",
                     EventsEventId = 9
                 },
                 new

@@ -1,0 +1,21 @@
+﻿@using Microsoft.AspNetCore.Authorization;
+@using TicketHiveSpaceKittens.Client.Services;
+@using TicketHiveSpaceKittens.Shared.Models;
+@attribute [Authorize]
+@inject NavigationManager navManager
+
+<div class="text-center card m-2 p-2">
+    <p class="m-2 p-2">Are you sure?</p>
+    <div class="text-center">
+        <button class="btn btn-primary" @onclick="GoToCheckout">Book events</button>
+    </div>
+</div>
+
+
+@code
+{
+    private void GoToCheckout()
+    {
+        navManager.NavigateTo("confirm");
+    }
+}
