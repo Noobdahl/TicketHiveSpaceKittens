@@ -7,6 +7,9 @@
 @inject ICartService cartService
 @inject IEventService eventService
 
+@inject AuthenticationStateProvider provider
+
+
 <h1>Confirm page</h1>
 
 
@@ -66,6 +69,7 @@
 
 @code
 {
+    private string loggedInUsername;
     public List<CartEventModel>? cart { get; set; }
     public decimal Total { get; set; }
 
@@ -73,5 +77,27 @@
     {
         cart = cartService.GetCartItems();
         Total = cartService.TotalCart();
+
+        var authState = await provider.GetAuthenticationStateAsync();
+        loggedInUsername = authState.User.Identity.Name;
     }
+
+    private async Task BookEvents()
+    {
+        List<CartEventModel> cartItems = cartService.GetCartItems();
+
+        UserModel tempUser = new()
+            {
+                Username = loggedInUsername,
+                Bookings = new List<EventModel>() { }
+            };
+
+        foreach (CartEventModel cartEvent in cartItems)
+        {
+            tempUser.Bookings.Add(cartEvent.Event);
+        }
+
+        await eventService.BookEventsToUserAsync(tempUser);
+    }
+
 }
