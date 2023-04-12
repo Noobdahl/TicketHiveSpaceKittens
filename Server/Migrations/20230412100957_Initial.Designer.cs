@@ -12,8 +12,8 @@ using TicketHiveSpaceKittens.Server.Data;
 namespace TicketHiveSpaceKittens.Server.Migrations
 {
     [DbContext(typeof(EventDbContext))]
-    [Migration("20230407151311_NewEvents")]
-    partial class NewEvents
+    [Migration("20230412100957_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -43,7 +43,7 @@ namespace TicketHiveSpaceKittens.Server.Migrations
                         new
                         {
                             EventsEventId = 1,
-                            TagsTagName = "Outdoor/Nature"
+                            TagsTagName = "Nature"
                         },
                         new
                         {
@@ -58,7 +58,7 @@ namespace TicketHiveSpaceKittens.Server.Migrations
                         new
                         {
                             EventsEventId = 4,
-                            TagsTagName = "Outdoor/Indoor"
+                            TagsTagName = "Indoor"
                         },
                         new
                         {
@@ -68,7 +68,7 @@ namespace TicketHiveSpaceKittens.Server.Migrations
                         new
                         {
                             EventsEventId = 6,
-                            TagsTagName = "Outdoor/Nature"
+                            TagsTagName = "Outdoor"
                         },
                         new
                         {
@@ -83,7 +83,7 @@ namespace TicketHiveSpaceKittens.Server.Migrations
                         new
                         {
                             EventsEventId = 9,
-                            TagsTagName = "Outdoor/Indoor"
+                            TagsTagName = "Outdoor"
                         },
                         new
                         {
@@ -350,15 +350,11 @@ namespace TicketHiveSpaceKittens.Server.Migrations
                         },
                         new
                         {
-                            TagName = "Outdoor/Nature"
+                            TagName = "Nature"
                         },
                         new
                         {
                             TagName = "Indoor"
-                        },
-                        new
-                        {
-                            TagName = "Outdoor/Indoor"
                         });
                 });
 

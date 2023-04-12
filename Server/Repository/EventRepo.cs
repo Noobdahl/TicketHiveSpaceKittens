@@ -25,14 +25,16 @@ namespace TicketHiveSpaceKittens.Server.Repository
                 TicketPrice = e.TicketPrice,
                 EventDate = e.EventDate,
                 TicketsRemaining = e.TicketsRemaining,
-                ImageUrl = e.ImageUrl
+                ImageUrl = e.ImageUrl,
+                Tags = e.Tags,
+                Users = e.Users
             })
                 .ToListAsync();
         }
 
         public async Task<EventModel?> GetEvent(int id)
         {
-            return await context.Events.FirstOrDefaultAsync(e => e.EventId == id);
+            return await context.Events.Include(e => e.Users).Include(e => e.Tags).FirstOrDefaultAsync(e => e.EventId == id);
         }
 
         public async Task<bool> CreateEvent(EventModel newEvent)
@@ -86,18 +88,29 @@ namespace TicketHiveSpaceKittens.Server.Repository
 
         public bool BookEventsToUser(List<EventModel> bookedEvent, string username)
         {
-            UserModel? user = context.Users.Where(u => u.Username == username).FirstOrDefault();
+            UserModel? user = context.Users.Where(u => u.Username == username).Include(u => u.Bookings).ThenInclude(b => b.Tags).FirstOrDefault();
 
-            if (user != null)
+            foreach (EventModel e in bookedEvent)
             {
-                foreach (EventModel e in bookedEvent)
-                {
-                    user.Bookings.Add(e);
-                }
+                EventModel fucktiskaEvent = context.Events.Where(ev => ev.EventId == e.EventId).Include(ev => ev.Tags).Include(ev => ev.Users).FirstOrDefault();
+                fucktiskaEvent.Users.Add(user);
                 context.SaveChanges();
-                return true;
             }
-            return false;
+
+            return true;
+
+
+
+            //if (user != null)
+            //{
+            //    foreach (EventModel e in bookedEvent)
+            //    {
+            //        user.Bookings.Add(e);
+            //    }
+            //    context.SaveChanges();
+            //    return true;
+            //}
+            //return false;
         }
 
         public async Task<List<EventModel>> GetEventsByUsernameAsync(string username)
@@ -126,6 +139,13 @@ namespace TicketHiveSpaceKittens.Server.Repository
                 return listan;
             }
             return null;
+        }
+
+        public async Task RemoveTicket(CartEventModel e)
+        {
+            EventModel dbEvent = context.Events.Where(ev => ev.EventId == e.Event.EventId).FirstOrDefault();
+            dbEvent.TicketsRemaining -= e.Quantity;
+            context.SaveChanges();
         }
     }
 }
