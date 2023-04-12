@@ -34,7 +34,22 @@ namespace TicketHiveSpaceKittens.Server.Repository
 
         public async Task<EventModel?> GetEvent(int id)
         {
-            return await context.Events.Where(e => e.EventId == id).Include(e => e.Users).Include(e => e.Tags).FirstOrDefaultAsync();
+            return await context.Events.Include(e => e.Users).Include(e => e.Tags).Where(e => e.EventId == id).Select(e => new EventModel
+            {
+                EventId = e.EventId,
+                Name = e.Name,
+                Location = e.Location,
+                Description = e.Description,
+                TicketPrice = e.TicketPrice,
+                EventDate = e.EventDate,
+                TicketsRemaining = e.TicketsRemaining,
+                ImageUrl = e.ImageUrl,
+                Tags = e.Tags,
+                Users = e.Users
+            })
+                .FirstOrDefaultAsync(e => e.EventId == id);
+            
+            //return await context.Events.Include(e => e.Users).Include(e => e.Tags).Where(e => e.EventId == id).FirstOrDefaultAsync();
             //return await context.Events.FirstOrDefaultAsync(e => e.EventId == id);
         }
 
