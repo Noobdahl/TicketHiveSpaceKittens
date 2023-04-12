@@ -39,7 +39,7 @@
                             <span class="card-text font-weight-bold"><strong>Location:</strong> @e.Location</span><br>
                             <span class="card-text font-weight-bold"><strong>Events date:</strong> @e.EventDate</span><br>
                             <span class="card-text font-weight-bold"><strong>Ticket price:</strong> @e.TicketPrice</span><br>
-                            <button class="btn btn-primary mt-3" @onclick="@Confrim">Buy Ticket</button>
+                            <button class="btn btn-primary mt-3" style="font-family: 'Times New Roman', Times, serif" @onclick="@(() => {cartService.AddToCartAsync(e); modal.Show<AppInfo>("Event is added to cart!");})">Buy Ticket</button>
                             </div>  
                     </div>
                 </div>
@@ -125,15 +125,7 @@
 
     //private void Confrim()
     //{
-    //    allEvents = service.GetEventsAsync().Result;
-
-    //    if(allEvents != null)
-    //    {
-    //        foreach(var e in allEvents)
-    //        {
-    //            <em>@e.Name</em>
-    //        }
-    //    }
+    //    cartService.AddToCartAsync();
     //}
 
 }
