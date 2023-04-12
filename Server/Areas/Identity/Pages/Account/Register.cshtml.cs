@@ -1,5 +1,7 @@
+using Duende.IdentityServer.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.ComponentModel.DataAnnotations;
 using TicketHiveSpaceKittens.Server.Models;
 using TicketHiveSpaceKittens.Server.Repository;
 using TicketHiveSpaceKittens.Shared.Models;
@@ -10,10 +12,11 @@ namespace TicketHiveSpaceKittens.Server.Areas.Identity.Pages.Account
     public class RegisterModel : PageModel
     {
         private readonly IUserRepo repo;
-        //required
+        [Required(ErrorMessage = "Username is required")]
         public string? Username { get; set; }
-        //required
+        [Required(ErrorMessage = "Password is required")]
         public string? Password { get; set; }
+        [Required(ErrorMessage = "Country is required")]
         public Countries selectedCountry { get; set; }
 
         public RegisterModel(IUserRepo repo)

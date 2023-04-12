@@ -32,12 +32,16 @@ namespace TicketHiveSpaceKittens.Server.Repository
 
         public async Task<bool> SignInUser(string username, string password)
         {
-            var signInResult = await signInManager.PasswordSignInAsync(username, password, false, false);
+            if(username != null && password != null)
+            {           
+                var signInResult = await signInManager.PasswordSignInAsync(username, password, false, false);
 
-            if (signInResult.Succeeded)
-            {
-                return true;
+                if (signInResult.Succeeded)
+                {
+                    return true;
+                }
             }
+
             return false;
         }
 

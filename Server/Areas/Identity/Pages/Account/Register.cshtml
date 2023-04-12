@@ -32,13 +32,16 @@
                     <p>Welcome to SpaceKittens Events Register Page!</p>
                 </div>
                 <form method="post">
+                    <span class="text-danger" asp-validation-for="Username"></span>
                     <div class="input-group mb-3">
                         <input id="input-username" type="text" asp-for="Username" placeholder="Enter Username" class="form-control form-control-lg bg-light fs-6" />
                     </div>
+                    <span class="text-danger" asp-validation-for="Username"></span>
                     <div class="input-group mb-1">
                         <input id="input-password" type="password" asp-for="Password" placeholder="Enter Password" class="form-control form-control-lg bg-light fs-6" />
                     </div>
                     <!-------------------- ------ Select Section ---------------------------->
+                    <span class="text-danger" asp-validation-for="selectedCountry"></span>
                     <div>
                         <label for="country">Select your Country:</label>
                         <select class="form-select" id="selectedCountries" asp-for="selectedCountry">
