@@ -32,33 +32,33 @@
                                 <img src="/Images/Event images/@item.Event.ImageUrl" alt="eventImg" class="img-fluid rounded-3">
                             </div>
 
-                            <div class="col-md-3 col-lg-3 col-xl-3">
+                            <div class="col-md-3 ">
                                 <h6 class="text-muted">Event Name</h6>
                                 <h6 class="text-black mb-0">@item.Event.Name</h6>
                             </div>
 
-                            <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
+                            <div class="col-md-3 ">
                                 <h6 class="text-muted">Price</h6>
                                 <h6 class="mb-0">@item.Event.TicketPrice kr</h6>
                             </div>
 
-                            <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
+                            <div class="col-md-3 ">
                                 <h6 class="text-muted">Date:</h6>
                                 <h6 class="mb-0">@item.Event.EventDate </h6>
                             </div>
 
-                            <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
-                                <button class="btn btn-danger" @onclick="() => cartService.RemoveFromCartAsync(item)">Remove</button>
+                            <div class="col-md-3"><br>
+                                <button class="btn btn-danger mr-1" @onclick="() => cartService.RemoveFromCartAsync(item)">Remove</button>
 
                                 @if (item.Quantity == 1)
                                 {
-                                    <button type="button" @onclick="@(() => cartService.RemoveFromCartAsync(item))">-</button>
+                                  <button class="btn btn-warning" type="button" @onclick="@(() => cartService.RemoveFromCartAsync(item))">-</button>
                                 }
                                 else
                                 {
-                                    <button type="button" @onclick="@(() => item.Quantity--)">-</button>
+                                   <button class="btn btn-warning" type="button" @onclick="@(() => item.Quantity--)">-</button>
                                 }
-                                <button type="button" @onclick="@(() => item.Quantity++)">+</button>
+                                   <button class="btn btn-success" type="button" @onclick="@(() => item.Quantity++)">+</button>
                             </div>
                         </div>
 

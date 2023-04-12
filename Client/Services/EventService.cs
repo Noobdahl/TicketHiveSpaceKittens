@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using System.Net.Http.Json;
 using TicketHiveSpaceKittens.Shared.Models;
 
@@ -21,6 +23,24 @@ namespace TicketHiveSpaceKittens.Client.Services
             {
                 var json = await response.Content.ReadAsStringAsync();
                 return JsonConvert.DeserializeObject<List<EventModel>>(json);
+            }
+
+            return null;
+        }
+
+        public async Task<List<EventModel>?> GetEventsRandomAsync()
+        {
+
+            var response = await httpClient.GetAsync("api/events");
+
+            if (response.IsSuccessStatusCode)
+            {
+                var json = await response.Content.ReadAsStringAsync();
+                var events = JsonConvert.DeserializeObject<List<EventModel>>(json);
+                var random = new Random();
+                var randomEvents = events.OrderBy(e => random.Next()).Take(5).ToList();
+
+                return randomEvents;
             }
 
             return null;
