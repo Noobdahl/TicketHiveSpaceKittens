@@ -1,10 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using System.Reflection;
 using TicketHiveSpaceKittens.Server.Models;
 using TicketHiveSpaceKittens.Server.Repository;
-using TicketHiveSpaceKittens.Shared;
 using TicketHiveSpaceKittens.Shared.Models;
 
 namespace TicketHiveSpaceKittens.Server.Areas.Identity.Pages.Account
@@ -29,8 +26,7 @@ namespace TicketHiveSpaceKittens.Server.Areas.Identity.Pages.Account
             if (ModelState.IsValid)
             {
                 ApplicationUser newUser = new() { UserName = Username };
-                bool result =  await repo.SignInUser(newUser, Password!, selectedCountry.ToString());
-                if (result)
+                if (await repo.RegisterUser(newUser, Password!, selectedCountry.ToString()))
                 {
                     return Redirect("~/");
                 }
