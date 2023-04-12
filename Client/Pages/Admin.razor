@@ -8,22 +8,22 @@
 
 
  
-<div class="card">
+<div class="card bg-light">
     <div class="card-body">
-        <h1 class="text-center">Admin page</h1>
+        <h1 class="text-center">Welcome Admin</h1>
     </div>
 </div>
 
 
 <div class="card">
-    <div class="card-body">
+    <div class="card-body align-self-end">
         <a class="btn btn-primary btn-lg btn-block" href="admin/addevent">Add Event</a>
     </div>
 </div>
 
 
 <div class=" form-group mt-5 text-center">
-    <h1 class="fw-bolder">Search your favorite events</h1>
+    <h1 class="fw-bolder">Search for the event</h1>
     <input class="form-control-sm" type="text" @bind-value="@searchText" @oninput="@FilterEvents" placeholder="Search event..." />
     <button class="btn btn-sm btn-outline-primary" @onclick="SortByPrice">Price</button>
     <button class="btn btn-sm btn-warning" @onclick="SortByDate">Date</button>
