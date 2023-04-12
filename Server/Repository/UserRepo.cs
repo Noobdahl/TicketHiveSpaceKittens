@@ -18,7 +18,7 @@ namespace TicketHiveSpaceKittens.Server.Repository
             this.context = context;
         }
 
-        public async Task<bool> SignInUser(ApplicationUser newUser, string password, string country)
+        public async Task<bool> RegisterUser(ApplicationUser newUser, string password, string country)
         {
             IdentityResult? registerResult = await signInManager.UserManager.CreateAsync(newUser, password);
             if (registerResult.Succeeded)
@@ -28,6 +28,17 @@ namespace TicketHiveSpaceKittens.Server.Repository
                 return signInResult.Succeeded;
             }
             return registerResult.Succeeded;
+        }
+
+        public async Task<bool> SignInUser(string username, string password)
+        {
+            var signInResult = await signInManager.PasswordSignInAsync(username, password, false, false);
+
+            if (signInResult.Succeeded)
+            {
+                return true;
+            }
+            return false;
         }
 
         public void AddUser(string username, string country)
