@@ -47,10 +47,7 @@ namespace TicketHiveSpaceKittens.Server.Repository
                 Tags = e.Tags,
                 Users = e.Users
             })
-                .FirstOrDefaultAsync(e => e.EventId == id);
-            
-            //return await context.Events.Include(e => e.Users).Include(e => e.Tags).Where(e => e.EventId == id).FirstOrDefaultAsync();
-            //return await context.Events.FirstOrDefaultAsync(e => e.EventId == id);
+                .FirstOrDefaultAsync();
         }
 
         public async Task<bool> CreateEvent(EventModel newEvent)
