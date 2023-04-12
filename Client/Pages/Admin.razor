@@ -130,9 +130,9 @@
 {
     private List<EventModel>? allEvents = new();
     private List<EventModel>? filteredEvents = new();
-    private ConfirmationDialog deleteConfirmation;
+    private ConfirmationDialog? deleteConfirmation;
     [Parameter]
-    public string searchText { get; set; }
+    public string? searchText { get; set; }
     private bool isCheapestFirst = true;
 
     protected override async Task OnInitializedAsync()
@@ -145,7 +145,7 @@
         base.OnParametersSet();
         if (searchText != null)
         {
-            filteredEvents = allEvents.Where(e => e.Name!.ToLower().Contains(searchText.ToLower())).ToList();
+            filteredEvents = allEvents?.Where(e => e.Name!.ToLower().Contains(searchText.ToLower())).ToList();
         }
     }
 
