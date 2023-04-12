@@ -131,8 +131,5 @@ namespace TicketHiveSpaceKittens.Client.Services
 
             return null;
         }
-
-
-
     }
 }
