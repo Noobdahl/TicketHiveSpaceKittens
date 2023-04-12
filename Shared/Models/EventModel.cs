@@ -12,10 +12,11 @@ namespace TicketHiveSpaceKittens.Shared.Models
         public decimal TicketPrice { get; set; }
         public DateTime EventDate { get; set; }
         public int TicketsRemaining { get; set; }
-        public List<TagModel> Tags { get; set; } = null!;
+        public List<TagModel> Tags { get; set; } = new();
         public List<UserModel> Users { get; set; } = new();
         public string? ImageUrl { get; set; }
 
         //Futures: Followers
+
     }
 }

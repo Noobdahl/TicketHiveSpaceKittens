@@ -6,19 +6,16 @@
 @inject IEventService service
 @inject NavigationManager navManager
 
-<h1>Admin page</h1>
+ <h1 class="text-center">Admin page</h1>
 
 <div class="container">
-    <div class="card-link">
-        <a href="@navManager.ToBaseRelativePath("home")">Add Event</a>
+    <div class="link-danger">
+        <a class="text-lg-center text-black" href="admin/addevent" style="font-size:larger">Add Event</a>
     </div>
-    <div class="card-link">
-        <a href="@navManager.ToBaseRelativePath("admin/addevent")">Add Event</a>
-    </div> 
 </div>
 
 
-<div class="container mt-5 shadow-lg">
+<div class="container mt-5 shadow-lg" style="background-color:ButtonHighlight">
     <div class="row">
         <div class="col-md-12">
             <BSCarousel>
@@ -49,15 +46,15 @@
                                         <ConfirmationDialog Title="Delete Event" 
                                                 Class="btn btn-psl-delete"
                                                 Message="Are you sure you want to delete this event?"
-                                                YesCssClass="btn-yes"
-                                                NoCssClass="btn-no"
+                                                YesCssClass="btn-yes btn-success"
+                                                NoCssClass="btn-no btn-danger"
                                                 ConfirmedChanged="@EventCallback.Factory.Create(this, async (bool isConfirmed) => await DeleteEvent(e.EventId, isConfirmed))">
                                                 <ButtonContent>
                                                       <ion-icon name="trash-outline" style="font-size:2em;color:white;"></ion-icon>
                                                 </ButtonContent>
                                                 <MessageTemplate>
-                                                    <div class="card pop-message-card">
-                                                          <div class="card-header">Delete Event?</div>
+                                                    <div class="card border-primary pop-message-card">
+                                                          <div class="card-header bg-primary">Delete Event?</div>
                                                           <div class="card-body">
                                                         <p>
                                                             This will delete the record!<br />
@@ -92,8 +89,6 @@
     {
         if (isConfirmed)
         {
-            // Here you can implement the code to delete the event
-            // For example: await service.DeleteEvent(eventId);
             await service.DeleteEventByIdAsync(eventId);
         }
     }
