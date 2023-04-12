@@ -1,5 +1,7 @@
+using Duende.IdentityServer.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.ComponentModel.DataAnnotations;
 using TicketHiveSpaceKittens.Server.Repository;
 
 namespace TicketHiveSpaceKittens.Server.Areas.Identity.Pages.Account
@@ -8,9 +10,9 @@ namespace TicketHiveSpaceKittens.Server.Areas.Identity.Pages.Account
     public class LoginModel : PageModel
     {
         private readonly IUserRepo repo;
-
+        [Required(ErrorMessage = "Username is required")]
         public string Username { get; set; }
-
+        [Required(ErrorMessage = "Password is required")]
         public string Password { get; set; }
 
         public LoginModel(IUserRepo repo)
@@ -23,11 +25,18 @@ namespace TicketHiveSpaceKittens.Server.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPost()
         {
-            if (await repo.SignInUser(Username, Password))
+            if (ModelState.IsValid)
             {
-                return Redirect("~/home");
+                if (await repo.SignInUser(Username, Password))
+                {
+                    return Redirect("~/home");
+                }
+                else
+                {
+                    ModelState.AddModelError("Error", "Invalid username or password");
+                }
             }
-            //Misslyckad inloggning, meddelande?
+         
             return Page();
         }
     }
