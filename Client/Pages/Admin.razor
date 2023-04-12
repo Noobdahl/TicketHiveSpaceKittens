@@ -9,13 +9,13 @@
 
  
 <div class="card bg-light">
-    <div class="card-body">
+    <div class="card-body"style="background-color:#fbe89c">
         <h1 class="text-center">Welcome Admin</h1>
     </div>
 </div>
 
 
-<div class="card">
+<div class="card border-0" style="margin-right:80px">
     <div class="card-body align-self-end">
         <a class="btn btn-primary btn-lg btn-block" href="admin/addevent">Add Event</a>
     </div>
@@ -130,9 +130,9 @@
 {
     private List<EventModel>? allEvents = new();
     private List<EventModel>? filteredEvents = new();
-    private ConfirmationDialog deleteConfirmation;
+    private ConfirmationDialog? deleteConfirmation;
     [Parameter]
-    public string searchText { get; set; }
+    public string? searchText { get; set; }
     private bool isCheapestFirst = true;
 
     protected override async Task OnInitializedAsync()
@@ -145,7 +145,7 @@
         base.OnParametersSet();
         if (searchText != null)
         {
-            filteredEvents = allEvents.Where(e => e.Name!.ToLower().Contains(searchText.ToLower())).ToList();
+            filteredEvents = allEvents?.Where(e => e.Name!.ToLower().Contains(searchText.ToLower())).ToList();
         }
     }
 
