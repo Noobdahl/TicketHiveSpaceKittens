@@ -105,13 +105,12 @@ namespace TicketHiveSpaceKittens.Server.Repository
 
             foreach (EventModel e in bookedEvent)
             {
-                EventModel fucktiskaEvent = context.Events.Where(ev => ev.EventId == e.EventId).Include(ev => ev.Tags).Include(ev => ev.Users).FirstOrDefault();
-                fucktiskaEvent.Users.Add(user);
+                EventModel eventToUser = context.Events.Where(ev => ev.EventId == e.EventId).Include(ev => ev.Tags).Include(ev => ev.Users).FirstOrDefault();
+                eventToUser.Users.Add(user);
                 context.SaveChanges();
             }
 
             return true;
-
         }
 
         public async Task<List<EventModel>> GetEventsByUsernameAsync(string username)
