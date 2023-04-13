@@ -112,18 +112,6 @@ namespace TicketHiveSpaceKittens.Server.Repository
 
             return true;
 
-
-
-            //if (user != null)
-            //{
-            //    foreach (EventModel e in bookedEvent)
-            //    {
-            //        user.Bookings.Add(e);
-            //    }
-            //    context.SaveChanges();
-            //    return true;
-            //}
-            //return false;
         }
 
         public async Task<List<EventModel>> GetEventsByUsernameAsync(string username)

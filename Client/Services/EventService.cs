@@ -53,13 +53,7 @@ namespace TicketHiveSpaceKittens.Client.Services
                 var json = await response.Content.ReadAsStringAsync();
                 return JsonConvert.DeserializeObject<EventModel>(json);
             }
-            else
-            {
-                // Ska ta bort sen
-                Console.WriteLine($"Fuck {id}");
-                return null;
-            }
-
+            return null;
         }
 
         public async Task<bool> CreateEventAsync(EventModel eventModel)

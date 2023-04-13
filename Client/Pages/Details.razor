@@ -54,10 +54,5 @@
     protected override async Task OnParametersSetAsync()
     {
         selectedEvent = await eventService.GetOneEventAsync(Id);
-
-        if(selectedEvent == null)
-        {
-            Console.WriteLine($"Event with Id {Id} not found");
-        }
     }
 }
