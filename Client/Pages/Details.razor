@@ -1,10 +1,12 @@
 ﻿@page "/details/{id:int}"
+@using Microsoft.AspNetCore.Authorization;
 @using TicketHiveSpaceKittens.Client.Services;
 @using TicketHiveSpaceKittens.Shared.Models;
 @inject IEventService eventService
 @inject ICartService cartService
 @inject IModalService modal
 @inject NavigationManager navigationManager;
+@attribute [Authorize]
 
  <div class="container">
     <div class="form-group mt-5 text-center">
