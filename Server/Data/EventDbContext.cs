@@ -23,14 +23,12 @@ namespace TicketHiveSpaceKittens.Server.Data
                 new UserModel()
                 {
                     UserId = 1,
-                    Username = "user",
-                    Country = "Sweden"
+                    Username = "user"
                 },
                 new UserModel()
                 {
                     UserId = 2,
-                    Username = "admin",
-                    Country = "Sweden"
+                    Username = "admin"
                 }
                 );
             modelBuilder.Entity<EventModel>().HasData(
