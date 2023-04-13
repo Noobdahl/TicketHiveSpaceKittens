@@ -12,8 +12,8 @@ using TicketHiveSpaceKittens.Server.Data;
 namespace TicketHiveSpaceKittens.Server.Migrations
 {
     [DbContext(typeof(EventDbContext))]
-    [Migration("20230413160522_AddTimeToEvents-DeleteCountryFromUserModel")]
-    partial class AddTimeToEventsDeleteCountryFromUserModel
+    [Migration("20230413162649_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
