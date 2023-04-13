@@ -50,19 +50,60 @@ namespace TicketHiveSpaceKittens.Server.Repository
                 .FirstOrDefaultAsync();
         }
 
+        public async Task<TagModel> TagChecker(string Tagname)
+        {
+            TagModel? tag = await context.Tags.Where(t => t.TagName == Tagname).Include(t => t.Events).FirstOrDefaultAsync();
+            //TagModel? tag = await context.Tags.FirstOrDefaultAsync(t => t.TagName == Tagname);
+
+            if (tag == null)
+            {
+                tag = new TagModel()
+                {
+                    TagName = Tagname,
+                };
+            }
+
+            return tag;
+        }
+
         public async Task<bool> CreateEvent(EventModel newEvent)
         {
-            try
+            EventModel eventToAdd = new()
             {
-                context.Events.Add(newEvent);
-                await context.SaveChangesAsync();
+                Name = newEvent.Name,
+                Location = newEvent.Location,
+                Description = newEvent.Description,
+                TicketPrice = newEvent.TicketPrice,
+                EventDate = newEvent.EventDate,
+                TicketsRemaining = newEvent.TicketsRemaining,
+                Tags = new List<TagModel>(),
+                Users = newEvent.Users,
+                ImageUrl = newEvent.ImageUrl
+            };
 
-                return true;
-            }
-            catch
+            foreach (var tag in newEvent.Tags)
             {
-                return false;
+
+                TagModel functioningTag = await TagChecker(tag.TagName);
+                eventToAdd.Tags.Add(functioningTag);
             }
+
+            context.Events.Add(eventToAdd);
+            await context.SaveChangesAsync();
+
+            return true;
+
+            //try
+            //{
+            //    context.Events.Add(newEvent);
+            //    await context.SaveChangesAsync();
+
+            //    return true;
+            //}
+            //catch
+            //{
+            //    return false;
+            //}
         }
 
         public async Task<EventModel?> DeleteEvent(int id)
