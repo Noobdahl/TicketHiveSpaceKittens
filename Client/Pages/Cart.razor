@@ -1,5 +1,6 @@
 ﻿@page "/cart"
 @using Microsoft.AspNetCore.Authorization;
+@using TicketHiveSpaceKittens.Client.Manager;
 @using TicketHiveSpaceKittens.Client.Services;
 @using TicketHiveSpaceKittens.Shared.Models;
 @inject Blazored.LocalStorage.ILocalStorageService localStorage
@@ -39,7 +40,7 @@
 
                             <div class="col-md-3 ">
                                 <h6 class="text-muted">Price</h6>
-                                <h6 class="mb-0">@item.Event.TicketPrice kr</h6>
+                                <h6 class="mb-0">@RatesManager.GetPrice(item.Event.TicketPrice)</h6>
                             </div>
 
                             <div class="col-md-3 ">
@@ -88,9 +89,7 @@
                             <hr class="my-4">
                             <div class="d-flex justify-content-between mb-4">
                                 <span>@item.Event.Name (x @item.Quantity)</span>
-                                <span><strong>@(
-                                        item.Event.TicketPrice * @item.Quantity
-                                        ) kr</strong></span>
+                                <span><strong>@RatesManager.GetPrice((item.Event.TicketPrice * @item.Quantity))</strong></span>
                             </div>
                         }
 
@@ -98,7 +97,7 @@
 
                         <div class="d-flex justify-content-between">
                             <h5><strong>Total price:</strong></h5>
-                            <h5><strong>@cartService.TotalCart() kr</strong></h5>
+                            <h5><strong>@RatesManager.GetPrice(cartService.TotalCart())</strong></h5>
                         </div>
 
                         <button type="button" class="btn btn-danger" @onclick="@(()=>modal.Show<ConfirmBooking>(""))">Buy Tickets</button>

@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using TicketHiveSpaceKittens.Client.Manager;
 using TicketHiveSpaceKittens.Shared.Models;
 
 namespace TicketHiveSpaceKittens.Client.Api
@@ -18,6 +19,9 @@ namespace TicketHiveSpaceKittens.Client.Api
             var responseStr = await response.Content.ReadAsStringAsync();
 
             Root? result = JsonConvert.DeserializeObject<Root>(responseStr);
+
+            RatesManager.GBP = (decimal)result.Rates.GBP;
+            RatesManager.EUR = (decimal)result.Rates.EUR;
         }
     }
 }
