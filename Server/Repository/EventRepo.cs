@@ -1,5 +1,4 @@
-﻿using Azure;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using TicketHiveSpaceKittens.Server.Data;
 using TicketHiveSpaceKittens.Shared.Models;
 
@@ -53,7 +52,8 @@ namespace TicketHiveSpaceKittens.Server.Repository
 
         public async Task<TagModel> TagChecker(string Tagname)
         {
-            var tag = await context.Tags.FirstOrDefaultAsync(t => t.TagName == Tagname);
+            TagModel? tag = await context.Tags.Where(t => t.TagName == Tagname).Include(t => t.Events).FirstOrDefaultAsync();
+            //TagModel? tag = await context.Tags.FirstOrDefaultAsync(t => t.TagName == Tagname);
 
             if (tag == null)
             {
@@ -68,30 +68,29 @@ namespace TicketHiveSpaceKittens.Server.Repository
 
         public async Task<bool> CreateEvent(EventModel newEvent)
         {
+            EventModel eventToAdd = new()
+            {
+                Name = newEvent.Name,
+                Location = newEvent.Location,
+                Description = newEvent.Description,
+                TicketPrice = newEvent.TicketPrice,
+                EventDate = newEvent.EventDate,
+                TicketsRemaining = newEvent.TicketsRemaining,
+                Tags = new List<TagModel>(),
+                Users = newEvent.Users,
+                ImageUrl = newEvent.ImageUrl
+            };
 
             foreach (var tag in newEvent.Tags)
             {
 
-                var existingTag = await TagChecker(tag.TagName);
-
-                tag.TagName = existingTag.TagName;
-            }
-            
-            var existingEvent = await context.Events.Include(e => e.Tags).FirstOrDefaultAsync(e => e.Name == newEvent.Name);
-
-            if(existingEvent != null)
-            {
-                foreach(var tag in newEvent.Tags)
-                {
-                    existingEvent.Tags.Add(tag);
-                }
-            }
-            else
-            {
-                context.Events.Add(newEvent);
+                TagModel functioningTag = await TagChecker(tag.TagName);
+                eventToAdd.Tags.Add(functioningTag);
             }
 
+            context.Events.Add(eventToAdd);
             await context.SaveChangesAsync();
+
             return true;
 
             //try
