@@ -44,7 +44,9 @@
 
                             <div class="col-md-3 ">
                                 <h6 class="text-muted">Date:</h6>
-                                <h6 class="mb-0">@item.Event.EventDate </h6>
+                                <h6 class="mb-0">@item.Event.EventDate.ToString("yyyy-MM-dd") </h6>
+                                        <h6 class="text-muted">Local time:</h6>
+                                        <h6 class="mb-0">@item.Event.EventDate.ToString("HH:mm") </h6>
                             </div>
 
                             <div class="col-md-3"><br>

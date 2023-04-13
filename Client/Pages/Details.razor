@@ -25,7 +25,8 @@
                     <span><strong>Ticket Price:</strong> @selectedEvent.TicketPrice kr</span><br>
                     <span><strong>Tickets Remaining:</strong> @selectedEvent.TicketsRemaining st</span><br>
                     <span><strong>Location:</strong> @selectedEvent.Location </span><br>
-                    <span><strong>Date:</strong> @selectedEvent.EventDate </span>
+                    <span><strong>Date:</strong> @selectedEvent.EventDate.ToString("yyyy-MM-dd") </span><br>
+                    <span><strong>Local time:</strong> @selectedEvent.EventDate.ToString("HH:mm") </span><br>
                 </div>
 
                 <p class="lead">@selectedEvent.Description</p>

@@ -51,7 +51,6 @@ namespace TicketHiveSpaceKittens.Server.Repository
             UserModel newUser = new()
             {
                 Username = username,
-                //Country = country
             };
             context.Users.Add(newUser);
             context.SaveChanges();
@@ -78,7 +77,7 @@ namespace TicketHiveSpaceKittens.Server.Repository
         public async Task<string> GetCountryAsync(string username)
         {
             var user = await signInManager.UserManager.FindByNameAsync(username);
-            return user.Country;
+            return user?.Country;
         }
         public async Task<bool> ChangeCountry(string newCountry)
         {
