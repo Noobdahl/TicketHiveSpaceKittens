@@ -1,5 +1,6 @@
 ﻿@page "/confirm"
 @using Microsoft.AspNetCore.Authorization;
+@using TicketHiveSpaceKittens.Client.Manager;
 @using TicketHiveSpaceKittens.Client.Services;
 @using TicketHiveSpaceKittens.Shared.Models;
 @inject Blazored.LocalStorage.ILocalStorageService localStorage
@@ -55,7 +56,7 @@ else
 
                                         <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
                                             <h6 class="text-muted">Price</h6>
-                                            <h6 class="mb-0">@item.Event.TicketPrice kr</h6>
+                                            <h6 class="mb-0">@RatesManager.GetPrice(item.Event.TicketPrice)</h6>
                                         </div>
 
                                         <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
@@ -75,7 +76,7 @@ else
                                 {
                                     <div class="d-flex justify-content-between">
                                         <h5><strong>Total price:</strong></h5>
-                                        <h5><strong>@Total kr</strong></h5>
+                                        <h5><strong>@RatesManager.GetPrice(Total)</strong></h5>
                                     </div>
                                 }
                                 @*<button class="btn btn-primary mt-3" @onclick="@(async () => await BookEvents())"> Buy Ticket  </button>*@

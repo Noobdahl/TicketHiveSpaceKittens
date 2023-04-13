@@ -1,5 +1,6 @@
 ﻿@page "/details/{id:int}"
 @using Microsoft.AspNetCore.Authorization;
+@using TicketHiveSpaceKittens.Client.Manager;
 @using TicketHiveSpaceKittens.Client.Services;
 @using TicketHiveSpaceKittens.Shared.Models;
 @inject IEventService eventService
@@ -22,7 +23,7 @@
             <div class="col-md-6">
                 <h1 class="display-5 fw-bolder">@selectedEvent.Name</h1>
                 <div class="fs-5 mb-5">
-                    <span><strong>Ticket Price:</strong> @selectedEvent.TicketPrice kr</span><br>
+                    <span><strong>Ticket Price:</strong> @RatesManager.GetPrice(selectedEvent.TicketPrice)</span><br>
                     <span><strong>Tickets Remaining:</strong> @selectedEvent.TicketsRemaining st</span><br>
                     <span><strong>Location:</strong> @selectedEvent.Location </span><br>
                     <span><strong>Date:</strong> @selectedEvent.EventDate.ToString("yyyy-MM-dd") </span><br>

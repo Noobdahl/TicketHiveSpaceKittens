@@ -1,6 +1,7 @@
 ﻿@page "/booking"
 @page "/booking/{searchText}"
 @using Microsoft.AspNetCore.Authorization;
+@using TicketHiveSpaceKittens.Client.Manager;
 @using TicketHiveSpaceKittens.Client.Services;
 @using TicketHiveSpaceKittens.Shared.Models;
 @inject IEventService service
@@ -39,7 +40,7 @@
                             <span class="card-text font-weight-bold"><strong>Location:</strong> @e.Location</span><br>
                             <span class="card-text font-weight-bold"><strong>Events date:</strong> @e.EventDate.ToString("yyyy-MM-dd")</span><br>
                             <span class="card-text font-weight-bold"><strong>Local time:</strong> @e.EventDate.ToString("HH:mm")</span><br>
-                            <span class="card-text font-weight-bold"><strong>Ticket price:</strong> @e.TicketPrice</span><br>
+                            <span class="card-text font-weight-bold"><strong>Ticket price:</strong> @RatesManager.GetPrice(e.TicketPrice)</span><br>
                             <button class="btn btn-primary mt-3" style="font-family: 'Times New Roman', Times, serif" @onclick="@(() => {cartService.AddToCartAsync(e); modal.Show<StepBeforeCart>("Event added to cart!");})">Buy Ticket</button>
                             </div>  
                     </div>
@@ -59,7 +60,7 @@
                             <span class="card-text font-weight-bold"><strong>Location:</strong> @e.Location</span><br>
                             <span class="card-text font-weight-bold"><strong>Events date:</strong> @e.EventDate.ToString("yyyy-MM-dd")</span><br>
                             <span class="card-text font-weight-bold"><strong>Local time:</strong> @e.EventDate.ToString("HH:mm")</span><br>
-                            <span class="card-text font-weight-bold"><strong>Ticket price:</strong> @e.TicketPrice</span><br>
+                            <span class="card-text font-weight-bold"><strong>Ticket price:</strong> @RatesManager.GetPrice(e.TicketPrice)</span><br>
 
                             <button disabled class="btn btn-primary mt-3" @onclick="@(() => {cartService.AddToCartAsync(e);})"> Sold Out </button>
                         </div>

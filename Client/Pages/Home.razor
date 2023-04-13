@@ -1,5 +1,7 @@
 ﻿@page "/home"
 @using Microsoft.AspNetCore.Authorization;
+@using TicketHiveSpaceKittens.Client.Api;
+@using TicketHiveSpaceKittens.Client.Manager;
 @using TicketHiveSpaceKittens.Client.Services;
 @using TicketHiveSpaceKittens.Shared.Models;
 @attribute [Authorize]
@@ -96,6 +98,12 @@
         var authState = await provider.GetAuthenticationStateAsync();
         username = authState.User.Identity.Name;
         userCountry = await userService.GetUserCountryAsync(username);
+        RatesManager.CheckRates(userCountry);
+        if (userCountry != "Sweden")
+        {
+            await RatesManager.ApiCallForRates();
+        }
+
         await GetEvents();
     }
 

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
+using TicketHiveSpaceKittens.Client.Manager;
 using TicketHiveSpaceKittens.Server.Data;
 using TicketHiveSpaceKittens.Server.Models;
 using TicketHiveSpaceKittens.Shared.Models;
@@ -83,6 +84,7 @@ namespace TicketHiveSpaceKittens.Server.Repository
         {
             var user = await signInManager.UserManager.GetUserAsync(signInManager.Context.User);
             user.Country = newCountry;
+            RatesManager.CheckRates(newCountry);
             var result = await signInManager.UserManager.UpdateAsync(user);
             if (result.Succeeded)
             {
