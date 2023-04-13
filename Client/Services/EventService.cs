@@ -53,7 +53,6 @@ namespace TicketHiveSpaceKittens.Client.Services
                 var json = await response.Content.ReadAsStringAsync();
                 return JsonConvert.DeserializeObject<EventModel>(json);
             }
-
             return null;
         }
 
@@ -126,8 +125,5 @@ namespace TicketHiveSpaceKittens.Client.Services
 
             return null;
         }
-
-
-
     }
 }

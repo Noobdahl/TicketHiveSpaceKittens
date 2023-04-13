@@ -85,8 +85,6 @@ namespace TicketHiveSpaceKittens.Server.Controllers
             return BadRequest();
         }
 
-
-
         [HttpPost("book")]
         public async Task<ActionResult> BookEventsToUserAsync([FromBody] UserModel tempUser)
         {

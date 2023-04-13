@@ -3,6 +3,7 @@
 @using TicketHiveSpaceKittens.Shared.Models;
 @inject IEventService eventService
 @inject ICartService cartService
+@inject IModalService modal
 @inject NavigationManager navigationManager;
 
  <div class="container">
@@ -29,11 +30,11 @@
                 <div class="d-flex">
                     @if (selectedEvent.TicketsRemaining > 0)
                     {
-                        <button class="btn btn-primary mt-3" @onclick="AddToCart">Buy Ticket</button>
+                            <button class="btn btn-primary mt-3" style="font-family: 'Times New Roman', Times, serif" @onclick="@(() => {cartService.AddToCartAsync(selectedEvent); modal.Show<StepBeforeCart>("Event added to cart!");})">Buy Ticket</button>
                     }
                     else
                     {
-                        <button disabled class="btn btn-primary mt-3" @onclick="AddToCart">Sold Out</button>
+                            <button class="btn btn-primary mt-3" style="font-family: 'Times New Roman', Times, serif" @onclick="@(() => {cartService.AddToCartAsync(selectedEvent); modal.Show<StepBeforeCart>("Something went wrong");})">Sold Out</button>
                     }
                 </div>
             </div>
@@ -45,34 +46,10 @@
     }
 </div>
 
-<!--
-    @if (selectedEvent != null)
-{
-    <h1>@selectedEvent.Name</h1>
-    <h3>@selectedEvent.Description</h3>
-    <h4>@selectedEvent.Location</h4>
-    <h5>@selectedEvent.TicketPrice kr</h5>
-    <h6>@selectedEvent.TicketsRemaining st</h6>
-    <em><strong>@selectedEvent.EventDate</strong></em>
-    <img src="/Images/Event images/@selectedEvent.ImageUrl" style="max-width:150px;" />
-    <button @onclick="AddToCart">Add To Cart</button>
-
-}} 
-else
-{
-    <h1>Loading event...</h1>
-}
--->
 @code {
     [Parameter]
     public int Id { get; set; }
     private EventModel? selectedEvent;
-
-    private async Task AddToCart()
-    {
-        await cartService.AddToCartAsync(selectedEvent);
-        navigationManager.NavigateTo("/cart"); // Tillfällig lösning /Gabriel
-    }
 
     protected override async Task OnParametersSetAsync()
     {
