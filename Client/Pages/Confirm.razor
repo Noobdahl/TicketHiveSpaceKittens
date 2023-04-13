@@ -79,7 +79,6 @@ else
                                         <h5><strong>@RatesManager.GetPrice(Total)</strong></h5>
                                     </div>
                                 }
-                                @*<button class="btn btn-primary mt-3" @onclick="@(async () => await BookEvents())"> Buy Ticket  </button>*@
 
                                 <hr class="my-4">
                                 <h6 class="mb-0">
@@ -109,7 +108,7 @@ else
         {
             cart.Add(pomp);
         }
-        //cart = cartService.GetCartItems();
+
         Total = cartService.TotalCart();
         errorString = IsTicketsAvailableInEvents();
 
@@ -118,7 +117,6 @@ else
             if(errorString == "")
             {
                 await BookEvents();
-                //cartService.ClearCookie();
             }
         }
 

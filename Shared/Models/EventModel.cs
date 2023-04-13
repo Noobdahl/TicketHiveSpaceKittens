@@ -15,10 +15,8 @@ namespace TicketHiveSpaceKittens.Shared.Models
         public List<TagModel> Tags { get; set; } = new();
         public List<UserModel> Users { get; set; } = new();
         public string? ImageUrl { get; set; }
-
         public DateTime Date => EventDate.Date;
         public TimeSpan Time => EventDate.TimeOfDay;
-        //Futures: Followers
 
     }
 }

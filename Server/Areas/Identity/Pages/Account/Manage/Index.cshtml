@@ -19,11 +19,7 @@
                 <input asp-for="DisplayCountry" class="form-control" disabled />
                 <label asp-for="DisplayCountry" class="form-label"></label>
             </div>
-            @*<div class="form-floating mb-3">
-                <input asp-for="Input.Country" class="form-control" placeholder="Please enter your country." />
-                <label asp-for="Input.Country" class="form-label"></label>
-                <span asp-validation-for="Input.Country" class="text-danger"></span>
-            </div>*@
+
             <div class ="form-select mb-3">
                 <label asp-for="Input.Country" class="form-label">Select your Country:</label>
                 <select class="form-control" asp-for="Input.Country" asp-items="Html.GetEnumSelectList(typeof(Countries))">
