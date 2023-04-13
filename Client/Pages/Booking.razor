@@ -101,7 +101,15 @@
 
     private void FilterEvents(ChangeEventArgs e)
     {
-        filteredEvents = allEvents!.Where(ev => ev.Name!.ToLower().Contains(e.Value!.ToString())).ToList();
+        filteredEvents = allEvents!.Where(ev => 
+            ev.Name!.ToLower().Contains(e.Value!.ToString())
+            ||
+            ev.Location!.ToLower().Contains(e.Value!.ToString())
+            ||
+            ev.Tags.Any(tag => tag.TagName.ToLower().Contains(e.Value!.ToString()))
+            ||
+            ev.Description!.ToLower().Contains(e.Value!.ToString())
+        ).ToList();
     }
 
     private void SortByPrice()
