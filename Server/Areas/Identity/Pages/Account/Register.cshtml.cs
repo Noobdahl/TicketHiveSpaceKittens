@@ -37,7 +37,7 @@ namespace TicketHiveSpaceKittens.Server.Areas.Identity.Pages.Account
                 ApplicationUser newUser = new() { UserName = Username };
                 if (await repo.RegisterUser(newUser, Password!, selectedCountry.ToString()))
                 {
-                    return Redirect("~/");
+                    return Redirect("~/Identity/Account/Login");
                 }
                 else
                 {
