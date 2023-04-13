@@ -27,6 +27,14 @@
                     <span><strong>Location:</strong> @selectedEvent.Location </span><br>
                     <span><strong>Date:</strong> @selectedEvent.EventDate.ToString("yyyy-MM-dd") </span><br>
                     <span><strong>Local time:</strong> @selectedEvent.EventDate.ToString("HH:mm") </span><br>
+                    <span><strong>Tags:</strong> <p>
+                        @foreach(var tag in selectedEvent.Tags)
+                        {
+                            <i>@tag.TagName</i>
+                            
+                        }
+                        </p>
+                    </span><br>
                 </div>
 
                 <p class="lead">@selectedEvent.Description</p>
