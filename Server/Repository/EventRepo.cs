@@ -51,52 +51,65 @@ namespace TicketHiveSpaceKittens.Server.Repository
                 .FirstOrDefaultAsync();
         }
 
+        public async Task<TagModel> TagChecker(string Tagname)
+        {
+            var tag = context.Tags.Include(t => t.Events).FirstOrDefault(t => t.TagName == Tagname);
+
+            if (tag == null)
+            {
+                tag = new TagModel()
+                {
+                    TagName = Tagname,
+                };
+
+                context.Tags.Add(tag);
+                await context.SaveChangesAsync();
+            }
+
+            return tag;
+        }
+
         public async Task<bool> CreateEvent(EventModel newEvent)
         {
-            EventModel? existingEvent = await context.Events.Include(e => e.Tags).FirstOrDefaultAsync(e => e.EventId == newEvent.EventId);
 
-            if (existingEvent != null)
+            foreach (var tag in newEvent.Tags)
             {
-                foreach (TagModel tag in newEvent.Tags)
+                var existingTag = await TagChecker(tag.TagName);
+
+                tag.TagName = existingTag.TagName;
+
+
+                if (existingTag.Events.Count == 0)
                 {
-                    TagModel? existingTag = await context.Tags.FirstOrDefaultAsync(t => t.TagName == tag.TagName);
-
-                    if (existingTag != null)
+                    var newEventModel = new EventModel()
                     {
-                        existingEvent.Tags.Add(existingTag);
-                    }
-                    else
-                    {
-                        existingEvent.Tags.Add(tag);
-                        context.Tags.Add(tag);
-                    }
+                        EventId = newEvent.EventId,
+                        Tags = newEvent.Tags,
+                        Name = newEvent.Name,
+                        Description = newEvent.Description,
+                        TicketPrice = newEvent.TicketPrice,
+                        TicketsRemaining = newEvent.TicketsRemaining,
+                    };
+                    context.Events.Add(newEventModel);
                 }
-
-                await context.SaveChangesAsync();
-                return true;
             }
-            else
-            {
-                return false;
-            }
-            //EventModel? tagers = context.Events.Where(e => e.EventId == newEvent.EventId).Include(e => e.Tags).FirstOrDefault();
+            await context.SaveChangesAsync();
+            return true;
 
-            //foreach (TagModel tag in newEvent.Tags)
+
+            
+            //foreach (var tag in newEvent.Tags)
             //{
-            //    TagModel? tagDb = context.Tags.FirstOrDefault(t => t.TagName == tag.TagName);
+            //    var existingTag = await TagChecker(tag.TagName);
 
-            //    if (tagDb != null)
-            //    {
-            //        tagers.Tags.Add(tagDb);
-            //    }
-            //    else
-            //    {
-            //        tagers.Tags.Add(tag);
-            //        context.Tags.Add(tag);
-            //    }
+            //    tag.TagName = existingTag.TagName;
             //}
+
+            //context.Events.Add(newEvent);
             //await context.SaveChangesAsync();
             //return true;
+
+
             //try
             //{
             //    context.Events.Add(newEvent);

@@ -12,5 +12,6 @@ namespace TicketHiveSpaceKittens.Server.Repository
         bool BookEventsToUser(List<EventModel> bookedEvent, string username);
         Task<List<EventModel>> GetEventsByUsernameAsync(string username);
         Task RemoveTicket(CartEventModel e);
+        Task<TagModel> TagChecker(string Tagname);
     }
 }
