@@ -32,7 +32,7 @@
                                         <h3 class="fw-bolder">@e.Name</h3>
                                         <hr>
                                         <p>@e.Description</p>
-                                        <p><strong>Date:</strong> @e.EventDate</p>
+                                        <p><strong>Date:</strong> @e.EventDate.ToString("yyyy-MM-dd")</p>
 
                                         <a href="details/@e.EventId" class="btn btn-lg btn-warning w-100 fs-6 fw-bolder">See more info</a>
 
@@ -72,8 +72,8 @@
                         </div>
                         <div class="card-body">
                             <h5 class="card-title"><strong>@e.Name:</strong></h5><br>
-                            <span class="card-text"><strong>Location:</strong> @e.Location</span><br>
-                            <span class="card-text"><strong>Events date:</strong> @e.EventDate</span><br>
+                         <span class="card-text"><strong>Location:</strong> @e.Location</span><br>
+                        <span class="card-text"><strong>Events date:</strong> @e.EventDate.ToString("yyyy-MM-dd")</span><br>
                         </div>
                     </div>
                 </div>

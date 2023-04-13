@@ -12,8 +12,8 @@ using TicketHiveSpaceKittens.Server.Data;
 namespace TicketHiveSpaceKittens.Server.Migrations
 {
     [DbContext(typeof(EventDbContext))]
-    [Migration("20230413121315_DeletedCountryFormUserModel")]
-    partial class DeletedCountryFormUserModel
+    [Migration("20230413160522_AddTimeToEvents-DeleteCountryFromUserModel")]
+    partial class AddTimeToEventsDeleteCountryFromUserModel
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -143,8 +143,8 @@ namespace TicketHiveSpaceKittens.Server.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("EventDate")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTimeOffset>("EventDate")
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<string>("ImageUrl")
                         .HasColumnType("nvarchar(max)");
@@ -171,7 +171,7 @@ namespace TicketHiveSpaceKittens.Server.Migrations
                         {
                             EventId = 1,
                             Description = "A music and arts festival featuring popular and up-and-coming artists, interactive art installations, and food vendors.",
-                            EventDate = new DateTime(2023, 5, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            EventDate = new DateTimeOffset(new DateTime(2023, 5, 15, 8, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 2, 0, 0, 0)),
                             ImageUrl = "image 21.jpg",
                             Location = "Indio, California",
                             Name = "Coachella Valley Music and Arts Festival",
@@ -182,7 +182,7 @@ namespace TicketHiveSpaceKittens.Server.Migrations
                         {
                             EventId = 2,
                             Description = "A film festival showcasing independent films from around the world, with screenings, panel discussions, and special events.",
-                            EventDate = new DateTime(2023, 2, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            EventDate = new DateTimeOffset(new DateTime(2023, 2, 19, 20, 30, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 1, 0, 0, 0)),
                             ImageUrl = "Sundance.jpg",
                             Location = "Park City, Utah",
                             Name = "Sundance Film Festival",
@@ -193,7 +193,7 @@ namespace TicketHiveSpaceKittens.Server.Migrations
                         {
                             EventId = 3,
                             Description = "A comic book and pop culture convention featuring panels, celebrity appearances, and exhibits.",
-                            EventDate = new DateTime(2023, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            EventDate = new DateTimeOffset(new DateTime(2023, 7, 20, 16, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 2, 0, 0, 0)),
                             ImageUrl = "ComicCon.jpg",
                             Location = "San Diego, California",
                             Name = "Comic-Con International",
@@ -204,7 +204,7 @@ namespace TicketHiveSpaceKittens.Server.Migrations
                         {
                             EventId = 4,
                             Description = "A music festival celebrating the culture and heritage of New Orleans, featuring jazz, blues, and other genres of music, as well as food and crafts vendors.",
-                            EventDate = new DateTime(2023, 4, 28, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            EventDate = new DateTimeOffset(new DateTime(2023, 4, 28, 17, 30, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 2, 0, 0, 0)),
                             ImageUrl = "image 13.jpg",
                             Location = "New Orleans, Louisiana",
                             Name = "New Orleans Jazz & Heritage Festival",
@@ -215,7 +215,7 @@ namespace TicketHiveSpaceKittens.Server.Migrations
                         {
                             EventId = 5,
                             Description = "A horse racing event featuring the best thoroughbreds from around the world, as well as fashion and entertainment events.",
-                            EventDate = new DateTime(2023, 5, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            EventDate = new DateTimeOffset(new DateTime(2023, 5, 6, 12, 45, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 2, 0, 0, 0)),
                             ImageUrl = "KentuckyDerby.jpg",
                             Location = "Louisville, Kentucky",
                             Name = "Kentucky Derby",
@@ -226,7 +226,7 @@ namespace TicketHiveSpaceKittens.Server.Migrations
                         {
                             EventId = 6,
                             Description = "An annual gathering of artists and free spirits, featuring large-scale art installations, live music, and a sense of community.",
-                            EventDate = new DateTime(2023, 8, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            EventDate = new DateTimeOffset(new DateTime(2023, 8, 27, 19, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 2, 0, 0, 0)),
                             ImageUrl = "Burningman.jpg",
                             Location = "Black Rock Desert, Nevada",
                             Name = "Burning Man",
@@ -237,7 +237,7 @@ namespace TicketHiveSpaceKittens.Server.Migrations
                         {
                             EventId = 7,
                             Description = "A festival celebrating music, film, and interactive media, with performances, screenings, and panel discussions.",
-                            EventDate = new DateTime(2023, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            EventDate = new DateTimeOffset(new DateTime(2023, 3, 10, 21, 30, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 1, 0, 0, 0)),
                             ImageUrl = "SXSW.jpg",
                             Location = "Austin, Texas",
                             Name = "South by Southwest (SXSW)",
@@ -248,7 +248,7 @@ namespace TicketHiveSpaceKittens.Server.Migrations
                         {
                             EventId = 8,
                             Description = "A music festival featuring electronic dance music (EDM) acts, carnival rides, and immersive art installations.",
-                            EventDate = new DateTime(2023, 5, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            EventDate = new DateTimeOffset(new DateTime(2023, 5, 19, 20, 25, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 2, 0, 0, 0)),
                             ImageUrl = "image 15.jpg",
                             Location = "Las Vegas, Nevada",
                             Name = "Electric Daisy Carnival (EDC)",
@@ -259,7 +259,7 @@ namespace TicketHiveSpaceKittens.Server.Migrations
                         {
                             EventId = 9,
                             Description = "A music festival featuring electronic dance music (EDM) acts, carnival rides, and immersive art installations.",
-                            EventDate = new DateTime(2023, 9, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            EventDate = new DateTimeOffset(new DateTime(2023, 9, 16, 22, 30, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 2, 0, 0, 0)),
                             ImageUrl = "OktoberFest.jpg",
                             Location = "Munich, Germany",
                             Name = "Oktoberfest",
@@ -270,7 +270,7 @@ namespace TicketHiveSpaceKittens.Server.Migrations
                         {
                             EventId = 10,
                             Description = "A cycling race through the French countryside, featuring some of the best professional cyclists in the world.",
-                            EventDate = new DateTime(2023, 6, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            EventDate = new DateTimeOffset(new DateTime(2023, 6, 24, 13, 40, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 2, 0, 0, 0)),
                             ImageUrl = "TDF.jpg",
                             Location = "France",
                             Name = "Tour de France",
@@ -281,7 +281,7 @@ namespace TicketHiveSpaceKittens.Server.Migrations
                         {
                             EventId = 11,
                             Description = "A golf tournament featuring some of the best professional golfers in the world, played on the historic Augusta National Golf Club course.",
-                            EventDate = new DateTime(2023, 4, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            EventDate = new DateTimeOffset(new DateTime(2023, 4, 6, 8, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 2, 0, 0, 0)),
                             ImageUrl = "Masters.jpg",
                             Location = "Augusta, Georgia",
                             Name = "The Masters Tournament",
@@ -292,7 +292,7 @@ namespace TicketHiveSpaceKittens.Server.Migrations
                         {
                             EventId = 12,
                             Description = "An art exhibition featuring works from contemporary artists from around the world, with installations throughout the city.",
-                            EventDate = new DateTime(2023, 5, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            EventDate = new DateTimeOffset(new DateTime(2023, 5, 13, 15, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 2, 0, 0, 0)),
                             ImageUrl = "Venice.jpg",
                             Location = "Venice, Italy",
                             Name = "Venice Biennale",
@@ -303,7 +303,7 @@ namespace TicketHiveSpaceKittens.Server.Migrations
                         {
                             EventId = 13,
                             Description = "A tennis tournament featuring the world's best players, played on the historic grass courts of the All England Lawn Tennis and Croquet Club.",
-                            EventDate = new DateTime(2023, 6, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            EventDate = new DateTimeOffset(new DateTime(2023, 6, 26, 17, 45, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 2, 0, 0, 0)),
                             ImageUrl = "Wimbledon.jpg",
                             Location = "London, United Kingdom",
                             Name = "Wimbledon Championships",
@@ -314,7 +314,7 @@ namespace TicketHiveSpaceKittens.Server.Migrations
                         {
                             EventId = 14,
                             Description = "A music festival featuring electronic dance music (EDM) acts, as well as art installations and other performances.",
-                            EventDate = new DateTime(2023, 3, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            EventDate = new DateTimeOffset(new DateTime(2023, 3, 24, 20, 20, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 1, 0, 0, 0)),
                             ImageUrl = "image 4.jpg",
                             Location = "Miami, Florida",
                             Name = "Ultra Music Festival",
@@ -325,7 +325,7 @@ namespace TicketHiveSpaceKittens.Server.Migrations
                         {
                             EventId = 15,
                             Description = "A digital festival featuring esports tournaments, gaming competitions, and other gaming-related activities, as well as live music performances and exhibitors.",
-                            EventDate = new DateTime(2023, 6, 17, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            EventDate = new DateTimeOffset(new DateTime(2023, 6, 17, 15, 30, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 2, 0, 0, 0)),
                             ImageUrl = "image 2.jpg",
                             Location = "Jönköping, Sweden",
                             Name = "DreamHack Summer",

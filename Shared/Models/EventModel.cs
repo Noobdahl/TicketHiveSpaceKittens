@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore.Diagnostics;
+using System.ComponentModel.DataAnnotations;
 
 namespace TicketHiveSpaceKittens.Shared.Models
 {
@@ -10,12 +11,14 @@ namespace TicketHiveSpaceKittens.Shared.Models
         public string? Location { get; set; }
         public string? Description { get; set; }
         public decimal TicketPrice { get; set; }
-        public DateTime EventDate { get; set; }
+        public DateTimeOffset EventDate { get; set; }
         public int TicketsRemaining { get; set; }
         public List<TagModel> Tags { get; set; } = new();
         public List<UserModel> Users { get; set; } = new();
         public string? ImageUrl { get; set; }
 
+        public DateTime Date => EventDate.Date;
+        public TimeSpan Time => EventDate.TimeOfDay;
         //Futures: Followers
 
     }

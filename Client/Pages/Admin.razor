@@ -50,7 +50,8 @@
                             <div class="card-body">
                             <h5 class="card-title"><strong>@e.Name:</strong></h5><br>
                             <span class="card-text font-weight-bold"><strong>Location:</strong> @e.Location</span><br>
-                            <span class="card-text font-weight-bold"><strong>Events date:</strong> @e.EventDate</span><br>
+                            <span class="card-text font-weight-bold"><strong>Events date:</strong> @e.EventDate.ToString("yyyy-MM-dd")</span><br>
+                            <span class="card-text font-weight-bold"><strong>Local time:</strong> @e.EventDate.ToString("HH:mm")</span><br>
                             <span class="card-text font-weight-bold"><strong>Ticket price:</strong> @e.TicketPrice</span><br>
                                         <!-----------------------------------------------Button with delete dialog--------------------------------------------------->
                             <ConfirmationDialog Title="Delete Event"
@@ -92,7 +93,8 @@
                         <div class="card-body">
                             <h5 class="card-title"><strong>@e.Name:</strong></h5>
                             <span class="card-text font-weight-bold"><strong>Location:</strong> @e.Location</span><br>
-                            <span class="card-text font-weight-bold"><strong>Events date:</strong> @e.EventDate</span><br>
+                            <span class="card-text font-weight-bold"><strong>Events date:</strong> @e.EventDate.ToString("yyyy-MM-dd")</span><br>
+                            <span class="card-text font-weight-bold"><strong>Local time:</strong> @e.EventDate.ToString("HH:mm")</span><br>
                             <span class="card-text font-weight-bold"><strong>Ticket price:</strong> @e.TicketPrice</span><br>
                             <!-----------------------------------------------Button with delete dialog--------------------------------------------------->
                             <ConfirmationDialog Title="Delete Event"
