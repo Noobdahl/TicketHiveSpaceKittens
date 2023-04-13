@@ -4,6 +4,7 @@
 @using TicketHiveSpaceKittens.Shared.Models;
 @attribute [Authorize]
 @inject IEventService service
+@inject IUserService userService
 @inject NavigationManager navManager
 @inject AuthenticationStateProvider provider
 @inject IModalService modal
@@ -88,11 +89,13 @@
     private List<EventModel>? events;
     private List<EventModel>? userEvents;
     private string? username;
+    private string? userCountry;
 
     protected override async Task OnInitializedAsync()
     {
         var authState = await provider.GetAuthenticationStateAsync();
         username = authState.User.Identity.Name;
+        userCountry = await userService.GetUserCountryAsync(username);
         await GetEvents();
     }
 
