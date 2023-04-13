@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ActionConstraints;
-using Microsoft.EntityFrameworkCore;
-using System.Diagnostics.Eventing.Reader;
+﻿using Microsoft.EntityFrameworkCore;
 using TicketHiveSpaceKittens.Server.Data;
 using TicketHiveSpaceKittens.Shared.Models;
 
@@ -28,28 +25,85 @@ namespace TicketHiveSpaceKittens.Server.Repository
                 TicketPrice = e.TicketPrice,
                 EventDate = e.EventDate,
                 TicketsRemaining = e.TicketsRemaining,
-                ImageUrl = e.ImageUrl
-            }).ToListAsync();
+                ImageUrl = e.ImageUrl,
+                Tags = e.Tags,
+                Users = e.Users
+            })
+                .ToListAsync();
         }
 
         public async Task<EventModel?> GetEvent(int id)
         {
-            return await context.Events.FirstOrDefaultAsync(e => e.EventId == id);
+            return await context.Events.Include(e => e.Users).Include(e => e.Tags).Where(e => e.EventId == id).Select(e => new EventModel
+            {
+                EventId = e.EventId,
+                Name = e.Name,
+                Location = e.Location,
+                Description = e.Description,
+                TicketPrice = e.TicketPrice,
+                EventDate = e.EventDate,
+                TicketsRemaining = e.TicketsRemaining,
+                ImageUrl = e.ImageUrl,
+                Tags = e.Tags,
+                Users = e.Users
+            })
+                .FirstOrDefaultAsync();
+        }
+
+        public async Task<TagModel> TagChecker(string Tagname)
+        {
+            TagModel? tag = await context.Tags.Where(t => t.TagName == Tagname).Include(t => t.Events).FirstOrDefaultAsync();
+            //TagModel? tag = await context.Tags.FirstOrDefaultAsync(t => t.TagName == Tagname);
+
+            if (tag == null)
+            {
+                tag = new TagModel()
+                {
+                    TagName = Tagname,
+                };
+            }
+
+            return tag;
         }
 
         public async Task<bool> CreateEvent(EventModel newEvent)
         {
-            try
+            EventModel eventToAdd = new()
             {
-                context.Events.Add(newEvent);
-                await context.SaveChangesAsync();
+                Name = newEvent.Name,
+                Location = newEvent.Location,
+                Description = newEvent.Description,
+                TicketPrice = newEvent.TicketPrice,
+                EventDate = newEvent.EventDate,
+                TicketsRemaining = newEvent.TicketsRemaining,
+                Tags = new List<TagModel>(),
+                Users = newEvent.Users,
+                ImageUrl = newEvent.ImageUrl
+            };
 
-                return true;
-            }
-            catch
+            foreach (var tag in newEvent.Tags)
             {
-                return false;
+
+                TagModel functioningTag = await TagChecker(tag.TagName);
+                eventToAdd.Tags.Add(functioningTag);
             }
+
+            context.Events.Add(eventToAdd);
+            await context.SaveChangesAsync();
+
+            return true;
+
+            //try
+            //{
+            //    context.Events.Add(newEvent);
+            //    await context.SaveChangesAsync();
+
+            //    return true;
+            //}
+            //catch
+            //{
+            //    return false;
+            //}
         }
 
         public async Task<EventModel?> DeleteEvent(int id)
@@ -84,6 +138,55 @@ namespace TicketHiveSpaceKittens.Server.Repository
             }
 
             return eventToUpdate;
+        }
+
+        public bool BookEventsToUser(List<EventModel> bookedEvent, string username)
+        {
+            UserModel? user = context.Users.Where(u => u.Username == username).Include(u => u.Bookings).ThenInclude(b => b.Tags).FirstOrDefault();
+
+            foreach (EventModel e in bookedEvent)
+            {
+                EventModel eventToUser = context.Events.Where(ev => ev.EventId == e.EventId).Include(ev => ev.Tags).Include(ev => ev.Users).FirstOrDefault();
+                eventToUser.Users.Add(user);
+                context.SaveChanges();
+            }
+
+            return true;
+        }
+
+        public async Task<List<EventModel>> GetEventsByUsernameAsync(string username)
+        {
+            List<EventModel> listan = await context.Events
+                .Include(e => e.Tags)
+                .Include(e => e.Users)
+                .Where(e => e.Users.Any(e => e.Username == username))
+                .Select(e => new EventModel
+                {
+                    EventId = e.EventId,
+                    Name = e.Name,
+                    Location = e.Location,
+                    Description = e.Description,
+                    TicketPrice = e.TicketPrice,
+                    EventDate = e.EventDate,
+                    TicketsRemaining = e.TicketsRemaining,
+                    ImageUrl = e.ImageUrl,
+                    Tags = e.Tags,
+                    Users = e.Users
+                })
+                .ToListAsync();
+
+            if (listan != null)
+            {
+                return listan;
+            }
+            return null;
+        }
+
+        public async Task RemoveTicket(CartEventModel e)
+        {
+            EventModel dbEvent = context.Events.Where(ev => ev.EventId == e.Event.EventId).FirstOrDefault();
+            dbEvent.TicketsRemaining -= e.Quantity;
+            context.SaveChanges();
         }
     }
 }

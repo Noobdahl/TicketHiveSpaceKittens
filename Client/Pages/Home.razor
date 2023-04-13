@@ -1,18 +1,23 @@
 ﻿@page "/home"
 @using Microsoft.AspNetCore.Authorization;
+@using TicketHiveSpaceKittens.Client.Api;
+@using TicketHiveSpaceKittens.Client.Manager;
 @using TicketHiveSpaceKittens.Client.Services;
 @using TicketHiveSpaceKittens.Shared.Models;
 @attribute [Authorize]
 @inject IEventService service
+@inject IUserService userService
 @inject NavigationManager navManager
+@inject AuthenticationStateProvider provider
+@inject IModalService modal
 
 <div class="container mt-5 shadow-lg">
     <div class="row">
         <div class="col-md-12">
                 <BSCarousel>
-                @if (events != null)
+                @if (randomEvents != null)
                 {
-                    @foreach (var e in events)
+                    @foreach (var e in randomEvents)
                     {
                         if (e.TicketsRemaining > 0)
                         {
@@ -20,8 +25,8 @@
                                 <div class="row">
 
                                     <div class=" col-md-6">
-                                        <div class="event-image mb-3 mt-3">
-                                            <img class=" img-fluid " src="/Images/Event images/@e.ImageUrl" alt="eventImg">
+                                        <div class="event-image mb-3 mt-3 text-center">
+                                            <img class=" img-fluid " src="/Images/Event images/@e.ImageUrl" alt="eventImg" style="height:380px;">
                                         </div>
                                     </div>
 
@@ -29,7 +34,7 @@
                                         <h3 class="fw-bolder">@e.Name</h3>
                                         <hr>
                                         <p>@e.Description</p>
-                                        <p><strong>Date:</strong> @e.EventDate</p>
+                                        <p><strong>Date:</strong> @e.EventDate.ToString("yyyy-MM-dd")</p>
 
                                         <a href="details/@e.EventId" class="btn btn-lg btn-warning w-100 fs-6 fw-bolder">See more info</a>
 
@@ -51,62 +56,63 @@
             <input class="form-control-sm fw-bolder" @bind-value="@searchText" type="text" placeholder="Search for event..." />
             <button class="btn btn-sm btn-primary" @onclick="@(() => GoToSearch())">Search</button>
     </div>
-        @if (events != null)
+
+    @if (userEvents != null)
         {
-            foreach (var e in events)
+        foreach (var e in userEvents)
             {
-                if(e.TicketsRemaining > 0)
-                {
-                        <div class="col-md-3 mt-5">
-                            <div class="card border-1 m-2 mb-2">
-                                <div class="card-header text-center">
-                                    <a href="details/@e.EventId">
-                                        <img class="card-img-top" src="/Images/Event images/@e.ImageUrl" style="width:200px; height:150px" />
-                                    </a>
-                                </div>
-                                <div class="card-body">
-                                    <h5 class="card-title"><strong>@e.Name:</strong></h5><br>
-                                    <span class="card-text"><strong>Location:</strong> @e.Location</span><br>
-                                    <span class="card-text"><strong>Events date:</strong> @e.EventDate</span><br>
-                                </div>
-                            </div>
+                <div class="col-md-3 mt-5">
+                    <div class="card border-1 m-2 mb-2">
+                        <div class="d-flex justify-content-start align-items-end h-100">
+                            <h5><span class="badge bg-danger ms-2">Booked</span></h5>
                         </div>
-                }
-            }
+
+                        <div class="card-header text-center">
+                            <a href="details/@e.EventId">
+                                <img class="card-img-top" src="/Images/Event images/@e.ImageUrl" style="width:200px; height:150px" />
+                            </a>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title"><strong>@e.Name:</strong></h5><br>
+                         <span class="card-text"><strong>Location:</strong> @e.Location</span><br>
+                        <span class="card-text"><strong>Events date:</strong> @e.EventDate.ToString("yyyy-MM-dd")</span><br>
+                        </div>
+                    </div>
+                </div>
+            
         }
+    }
 </div>
-
-
+ 
 @code
 {
     private string? searchText;
+    private List<EventModel>? randomEvents;
     private List<EventModel>? events;
-
-    //private string? statusMessage;
-    //public List<string>? searchResult { get; set; }
-
-    //private List<EventModel> SortedEvents => SortEvent(events);
-
-    //private List<EventModel> SortEvent(List<EventModel> events, bool ascending = true)
-    //{
-    //    if (ascending)
-    //    {
-    //        return events.OrderBy(e => e.EventDate).ToList();
-    //    }
-    //    else
-    //    {
-    //        return events.OrderByDescending(e => e.TicketPrice).ToList();
-    //    }
-    //}
+    private List<EventModel>? userEvents;
+    private string? username;
+    private string? userCountry;
 
     protected override async Task OnInitializedAsync()
     {
+        var authState = await provider.GetAuthenticationStateAsync();
+        username = authState.User.Identity.Name;
+        userCountry = await userService.GetUserCountryAsync(username);
+        RatesManager.CheckRates(userCountry);
+        if (userCountry != "Sweden")
+        {
+            await RatesManager.ApiCallForRates();
+        }
+
         await GetEvents();
     }
 
     private async Task GetEvents()
     {
+        randomEvents = await service.GetEventsRandomAsync();
         events = await service.GetEventsAsync();
+        userEvents = await service.GetEventsByUsernameAsync(username);
+
     }
 
     private void GoToSearch()

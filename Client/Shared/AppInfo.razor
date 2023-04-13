@@ -1,1 +1,41 @@
-﻿<p>Info....</p>
+﻿@using Microsoft.AspNetCore.Authorization;
+@using TicketHiveSpaceKittens.Client.Services;
+@using TicketHiveSpaceKittens.Shared.Models;
+@attribute [Authorize]
+@inject IEventService service
+@inject NavigationManager navManager
+@inject AuthenticationStateProvider provider
+@inject IModalService modal
+
+@if(userEvents != null)
+{
+    foreach (var bookedEvent in userEvents)
+    {
+        <p>@bookedEvent.Name</p>
+    }
+}
+
+<div class="text-center" style="font-size:20px; font-family:'Times New Roman', Times, serif">
+    <p>Ticket Hive Made by Space Kittens is a state-of-the-art web app that provides a comprehensive solution for buying and selling event tickets. Our platform offers a hassle-free experience for sellers, who can easily list their events of any kind, including concerts, festivals, sports events, and theater shows, without worrying about the technical details of uploading and selling. Meanwhile, buyers can enjoy a seamless browsing and purchasing experience, thanks to our user-friendly interface and advanced search features. Join Ticket Hive Made by Space Kittens now and take advantage of our cutting-edge technology for your next event.</p>
+</div>
+
+@code
+{
+    private string? searchText;
+    private List<EventModel>? events;
+    private List<EventModel>? userEvents;
+    private string? username;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await provider.GetAuthenticationStateAsync();
+        username = authState.User.Identity.Name;
+        await GetEvents();
+    }
+
+    private async Task GetEvents()
+    {
+        events = await service.GetEventsAsync();
+        userEvents = await service.GetEventsByUsernameAsync(username);
+    }
+}

@@ -1,21 +1,23 @@
-using Microsoft.AspNetCore.Identity;
+using Duende.IdentityServer.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using TicketHiveSpaceKittens.Server.Models;
+using System.ComponentModel.DataAnnotations;
+using TicketHiveSpaceKittens.Server.Repository;
 
 namespace TicketHiveSpaceKittens.Server.Areas.Identity.Pages.Account
 {
     [BindProperties]
     public class LoginModel : PageModel
     {
-        private readonly SignInManager<ApplicationUser> signInManager;
+        private readonly IUserRepo repo;
+        [Required(ErrorMessage = "Username is required")]
         public string Username { get; set; }
-
+        [Required(ErrorMessage = "Password is required")]
         public string Password { get; set; }
 
-        public LoginModel(SignInManager<ApplicationUser> signInManager)
+        public LoginModel(IUserRepo repo)
         {
-            this.signInManager = signInManager;
+            this.repo = repo;
         }
         public void OnGet()
         {
@@ -23,16 +25,18 @@ namespace TicketHiveSpaceKittens.Server.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPost()
         {
-
-            var signInResult = await signInManager.PasswordSignInAsync(Username, Password, false, false);
-
-            if (signInResult.Succeeded)
+            if (ModelState.IsValid)
             {
-                return Redirect("~/home");
+                if (await repo.SignInUser(Username, Password))
+                {
+                    return Redirect("~/home");
+                }
+                else
+                {
+                    ModelState.AddModelError("Error", "Invalid username or password");
+                }
             }
-
-
-
+         
             return Page();
         }
     }

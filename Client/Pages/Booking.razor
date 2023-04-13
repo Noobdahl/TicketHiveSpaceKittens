@@ -1,11 +1,13 @@
 ﻿@page "/booking"
 @page "/booking/{searchText}"
 @using Microsoft.AspNetCore.Authorization;
+@using TicketHiveSpaceKittens.Client.Manager;
 @using TicketHiveSpaceKittens.Client.Services;
 @using TicketHiveSpaceKittens.Shared.Models;
 @inject IEventService service
 @inject ICartService cartService
 @inject NavigationManager navigationManager;
+@inject IModalService modal
 @attribute [Authorize]
 
 <div class=" form-group mt-5 text-center">
@@ -36,9 +38,10 @@
                             <div class="card-body">
                             <h5 class="card-title"><strong>@e.Name:</strong></h5><br>
                             <span class="card-text font-weight-bold"><strong>Location:</strong> @e.Location</span><br>
-                            <span class="card-text font-weight-bold"><strong>Events date:</strong> @e.EventDate</span><br>
-                            <span class="card-text font-weight-bold"><strong>Ticket price:</strong> @e.TicketPrice</span><br>
-                            <button class="btn btn-primary mt-3" @onclick="@(() => {cartService.AddToCartAsync(e); navigationManager.NavigateTo("/cart"); })"> Buy Ticket  </button>
+                            <span class="card-text font-weight-bold"><strong>Events date:</strong> @e.EventDate.ToString("yyyy-MM-dd")</span><br>
+                            <span class="card-text font-weight-bold"><strong>Local time:</strong> @e.EventDate.ToString("HH:mm")</span><br>
+                            <span class="card-text font-weight-bold"><strong>Ticket price:</strong> @RatesManager.GetPrice(e.TicketPrice)</span><br>
+                            <button class="btn btn-primary mt-3" style="font-family: 'Times New Roman', Times, serif" @onclick="@(() => {cartService.AddToCartAsync(e); modal.Show<StepBeforeCart>("Event added to cart!");})">Buy Ticket</button>
                             </div>  
                     </div>
                 </div>
@@ -55,10 +58,11 @@
                         <div class="card-body">
                             <h5 class="card-title"><strong>@e.Name:</strong></h5>
                             <span class="card-text font-weight-bold"><strong>Location:</strong> @e.Location</span><br>
-                            <span class="card-text font-weight-bold"><strong>Events date:</strong> @e.EventDate</span><br>
-                            <span class="card-text font-weight-bold"><strong>Ticket price:</strong> @e.TicketPrice</span><br>
+                            <span class="card-text font-weight-bold"><strong>Events date:</strong> @e.EventDate.ToString("yyyy-MM-dd")</span><br>
+                            <span class="card-text font-weight-bold"><strong>Local time:</strong> @e.EventDate.ToString("HH:mm")</span><br>
+                            <span class="card-text font-weight-bold"><strong>Ticket price:</strong> @RatesManager.GetPrice(e.TicketPrice)</span><br>
 
-                            <button disabled class="btn btn-primary mt-3" @onclick="@(() => {cartService.AddToCartAsync(e); navigationManager.NavigateTo("/cart"); })"> Sold Out </button>
+                            <button disabled class="btn btn-primary mt-3" @onclick="@(() => {cartService.AddToCartAsync(e);})"> Sold Out </button>
                         </div>
                     </div>
                 </div>
@@ -98,7 +102,15 @@
 
     private void FilterEvents(ChangeEventArgs e)
     {
-        filteredEvents = allEvents!.Where(ev => ev.Name!.ToLower().Contains(e.Value!.ToString())).ToList();
+        filteredEvents = allEvents!.Where(ev => 
+            ev.Name!.ToLower().Contains(e.Value!.ToString())
+            ||
+            ev.Location!.ToLower().Contains(e.Value!.ToString())
+            ||
+            ev.Tags.Any(tag => tag.TagName.ToLower().Contains(e.Value!.ToString()))
+            ||
+            ev.Description!.ToLower().Contains(e.Value!.ToString())
+        ).ToList();
     }
 
     private void SortByPrice()
@@ -121,5 +133,4 @@
         filteredEvents = sortedList;
         isCheapestFirst = !isCheapestFirst;
     }
-
 }

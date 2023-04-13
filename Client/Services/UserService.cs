@@ -14,5 +14,17 @@ namespace TicketHiveSpaceKittens.Client.Services
         {
             await httpClient.PostAsJsonAsync("api/users", username);
         }
+
+        public async Task<string> GetUserCountryAsync(string username)
+        {
+            var response = await httpClient.GetAsync($"api/users/{username}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                var json = await response.Content.ReadAsStringAsync();
+                return json;
+            }
+            return "";
+        }
     }
 }

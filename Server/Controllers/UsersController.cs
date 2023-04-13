@@ -23,10 +23,11 @@ namespace TicketHiveSpaceKittens.Server.Controllers
         }
 
         // GET api/<UsersController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpGet("{username}")]
+        public async Task<ActionResult<string>> Get(string username)
         {
-            return "value";
+            var result = await repo.GetCountryAsync(username);
+            return Ok(result);
         }
 
         // POST api/<UsersController>

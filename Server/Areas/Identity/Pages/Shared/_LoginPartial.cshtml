@@ -14,12 +14,16 @@
 <ul class="navbar-nav">
 @if (SignInManager.IsSignedIn(User))
 {
-    <li class="nav-item">
-        <a  class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/ChangePassword" title="Manage">HALLÅ @User.Identity?.Name!</a>
+    <li class="nav-item active" style="margin-right:100px">
+        <a  class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hi @User.Identity?.Name!</a>
     </li>
-    <li class="nav-item">
+  
+     <li class="oi oi-home nav-item card active" style="background-color:#305076; margin-right:50px">
+            <a class="oi oi-home nav-link text-white" href="/home" aria-hidden="true">Home</a>
+    </li>
+    <li class="nav-item card active" style="background-color:#305076">
         <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="/" method="post">
-            <button  type="submit" class="nav-link btn btn-link text-dark">Logout</button>
+            <button  type="submit" class="nav-link btn btn-link text-white">Logout</button>
         </form>
     </li>
 }
@@ -33,3 +37,7 @@ else
     </li>
 }
 </ul>
+
+
+     
+    

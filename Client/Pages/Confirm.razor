@@ -1,5 +1,6 @@
 ﻿@page "/confirm"
 @using Microsoft.AspNetCore.Authorization;
+@using TicketHiveSpaceKittens.Client.Manager;
 @using TicketHiveSpaceKittens.Client.Services;
 @using TicketHiveSpaceKittens.Shared.Models;
 @inject Blazored.LocalStorage.ILocalStorageService localStorage
@@ -7,85 +8,156 @@
 @inject ICartService cartService
 @inject IEventService eventService
 
-<h1>Confirm page</h1>
+@inject AuthenticationStateProvider provider
 
-@*@if(cart != null)
+@if(errorString == null)
 {
-    @foreach(var item in cart)
-    {
-        <div class="card m-2 p-2">
-            <h1>@item.Event.Name</h1>
-            <em>Tickets remaining: @item.Event.TicketsRemaining</em>
-            <em>To buy: @item.Quantity</em>
-        </div>
-    }
-}*@
-
+    <h1>Loading...</h1>
+}
+else
+{
 @if (cart != null)
-{
-    <div class="container mt-5">
-        <div class="row">
-            <div class="col-12">
-                <div class="card shadow">
-                    <div class="row">
-                        <div class="col-lg-8 px-4 py-5 px-md-5">
-                            <div class="d-flex justify-content-between align-items-center mb-5">
-                                <h1 class="fw-bold mb-0 text-black">Receipt</h1>
-                            </div>
-                            @foreach (var item in cart)
-                            {
-                                <hr class="my-4">
-                                <div class="row mb-4 d-flex justify-content-between align-items-center">
-                                    <div class="col-md-2 col-lg-2 col-xl-2">
-                                        <img src="/Images/Event images/@item.Event.ImageUrl" alt="eventImg" class="img-fluid rounded-3">
-                                    </div>
-
-                                    <div class="col-md-3 col-lg-3 col-xl-3">
-                                        <h6 class="text-muted">Event Name</h6>
-                                        <h6 class="text-black mb-0">@item.Quantity x - @item.Event.Name</h6>
-                                    </div>
-
-                                    <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
-                                        <h6 class="text-muted">Price</h6>
-                                        <h6 class="mb-0">á @item.Event.TicketPrice kr</h6>
-                                    </div>
-
-                                    <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
-                                        <h6 class="text-muted">Date:</h6>
-                                        <h6 class="mb-0">@item.Event.EventDate </h6>
-                                    </div>
+    {
+        <div class="container mt-5">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card shadow">
+                        <div class="row">
+                            <div class="col-lg-8 px-4 py-5 px-md-5">
+                                <div class="d-flex justify-content-between align-items-center mb-5">
+                                    @if(errorString != "")
+                                    {
+                                        <h1 class="fw-bold mb-0 text-black">Order cancelled</h1>
+                                    }
+                                    else
+                                    {
+                                        <h1 class="fw-bold mb-0 text-black">Receipt</h1>
+                                    }
                                 </div>
-                            }
-                            <hr class="my-4">
+                                @foreach (var item in cart)
+                                {
+                                    <hr class="my-4">
+                                    <div class="row mb-4 d-flex justify-content-between align-items-center">
+                                        <div class="col-md-2 col-lg-2 col-xl-2">
+                                            <img src="/Images/Event images/@item.Event.ImageUrl" alt="eventImg" class="img-fluid rounded-3">
+                                        </div>
 
-                            <div class="d-flex justify-content-between">
-                                <h5><strong>Total price:</strong></h5>
-                                <h5><strong>@Total kr</strong></h5>
+                                        <div class="col-md-3 col-lg-3 col-xl-3">
+                                            <h6 class="text-muted">Event Name</h6>
+                                            @if(item.Quantity > item.Event.TicketsRemaining)
+                                            {
+                                                <h6 class="mb-0 text-danger">@item.Quantity x - @item.Event.Name</h6>
+                                            }
+                                            else
+                                            {
+                                                <h6 class="text-black mb-0">@item.Quantity x - @item.Event.Name</h6>
+                                            }
+                                        </div>
+
+                                        <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
+                                            <h6 class="text-muted">Price</h6>
+                                            <h6 class="mb-0">@RatesManager.GetPrice(item.Event.TicketPrice)</h6>
+                                        </div>
+
+                                        <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
+                                            <h6 class="text-muted">Date:</h6>
+                                            <h6 class="mb-0">@item.Event.EventDate.ToString("yyyy-MM-dd") </h6>
+                                            <h6 class="text-muted">Local time:</h6>
+                                            <h6 class="mb-0">@item.Event.EventDate.ToString("HH:mm") </h6>
+                                        </div>
+                                    </div>
+                                }
+                                <hr class="my-4">
+                                @if (errorString != "")
+                                {
+                                    <pm>@errorString</pm>
+                                }
+                                else
+                                {
+                                    <div class="d-flex justify-content-between">
+                                        <h5><strong>Total price:</strong></h5>
+                                        <h5><strong>@RatesManager.GetPrice(Total)</strong></h5>
+                                    </div>
+                                }
+                                @*<button class="btn btn-primary mt-3" @onclick="@(async () => await BookEvents())"> Buy Ticket  </button>*@
+
+                                <hr class="my-4">
+                                <h6 class="mb-0">
+                                    <a href="/booking" class="text-body">Back to shop</a>
+                                </h6>
                             </div>
-
-                            <hr class="my-4">
-                            <h6 class="mb-0">
-                                <a href="/booking" class="text-body">Back to shop</a>
-                            </h6>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    }
 }
 
 @code
 {
-    public List<CartEventModel>? cart { get; set; }
+    private string loggedInUsername;
+    public List<CartEventModel> cart { get; set; } = new();
     public decimal Total { get; set; }
+    private string errorString;
 
     protected override async Task OnInitializedAsync()
     {
-        cart = cartService.GetCartItems();
+        var authState = await provider.GetAuthenticationStateAsync();
+        loggedInUsername = authState.User.Identity.Name;
+        foreach (var pomp in cartService.GetCartItems())
+        {
+            cart.Add(pomp);
+        }
+        //cart = cartService.GetCartItems();
         Total = cartService.TotalCart();
+        errorString = IsTicketsAvailableInEvents();
 
-        //Om köpet går igenom, clear cookies efteråt!
-        //cartService.ClearCookie();
+        if(errorString != null)
+        {
+            if(errorString == "")
+            {
+                await BookEvents();
+                //cartService.ClearCookie();
+            }
+        }
+
+    }
+
+    protected override void OnParametersSet()
+    {
+        if (errorString == "")
+        {
+            cartService.ClearCookie();
+        }
+    }
+
+    private async Task BookEvents()
+    {
+        List<CartEventModel> cartItems = cartService.GetCartItems();
+        UserModel tempUser = new()
+            {
+                Username = loggedInUsername,
+                Bookings = new List<EventModel>() { }
+            };
+        foreach (CartEventModel cartEvent in cartItems)
+        {
+            tempUser.Bookings.Add(cartEvent.Event);
+            await eventService.RemoveTicket(cartEvent);
+        }
+        await eventService.BookEventsToUserAsync(tempUser);
+    }
+
+    private string IsTicketsAvailableInEvents()
+    {
+        string returnMsg = "";
+        foreach(CartEventModel cEvent in cart)
+        {
+            if (cEvent.Quantity > cEvent.Event.TicketsRemaining)
+            {
+                returnMsg += $"{cEvent.Event.Name} has only {cEvent.Event.TicketsRemaining} ticket remaining. (Order on {cEvent.Quantity} tickets could not be met.)";
+            }
+        }
+        return returnMsg;
     }
 }

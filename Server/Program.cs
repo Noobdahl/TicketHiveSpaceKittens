@@ -1,4 +1,3 @@
-using Blazored.Modal;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -52,7 +51,8 @@ using (var serviceProvider = builder.Services.BuildServiceProvider())
     {
         adminUser = new()
         {
-            UserName = "admin"
+            UserName = "admin",
+            Country = "Sweden"
         };
         signInManager.UserManager.CreateAsync(adminUser, "Password1234!").GetAwaiter().GetResult();
     }
@@ -63,7 +63,8 @@ using (var serviceProvider = builder.Services.BuildServiceProvider())
     {
         user = new()
         {
-            UserName = "user"
+            UserName = "user",
+            Country = "Sweden"
         };
         signInManager.UserManager.CreateAsync(user, "Password1234!").GetAwaiter().GetResult();
     }
