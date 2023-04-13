@@ -53,7 +53,6 @@ namespace TicketHiveSpaceKittens.Server.Repository
         public async Task<TagModel> TagChecker(string Tagname)
         {
             TagModel? tag = await context.Tags.Where(t => t.TagName == Tagname).Include(t => t.Events).FirstOrDefaultAsync();
-            //TagModel? tag = await context.Tags.FirstOrDefaultAsync(t => t.TagName == Tagname);
 
             if (tag == null)
             {
@@ -92,18 +91,6 @@ namespace TicketHiveSpaceKittens.Server.Repository
             await context.SaveChangesAsync();
 
             return true;
-
-            //try
-            //{
-            //    context.Events.Add(newEvent);
-            //    await context.SaveChangesAsync();
-
-            //    return true;
-            //}
-            //catch
-            //{
-            //    return false;
-            //}
         }
 
         public async Task<EventModel?> DeleteEvent(int id)
@@ -146,7 +133,7 @@ namespace TicketHiveSpaceKittens.Server.Repository
 
             foreach (EventModel e in bookedEvent)
             {
-                EventModel eventToUser = context.Events.Where(ev => ev.EventId == e.EventId).Include(ev => ev.Tags).Include(ev => ev.Users).FirstOrDefault();
+                EventModel? eventToUser = context.Events.Where(ev => ev.EventId == e.EventId).Include(ev => ev.Tags).Include(ev => ev.Users).FirstOrDefault();
                 eventToUser.Users.Add(user);
                 context.SaveChanges();
             }
