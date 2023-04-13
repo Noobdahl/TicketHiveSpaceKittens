@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Azure;
+using Microsoft.EntityFrameworkCore;
 using TicketHiveSpaceKittens.Server.Data;
 using TicketHiveSpaceKittens.Shared.Models;
 
@@ -52,17 +53,61 @@ namespace TicketHiveSpaceKittens.Server.Repository
 
         public async Task<bool> CreateEvent(EventModel newEvent)
         {
-            try
-            {
-                context.Events.Add(newEvent);
-                await context.SaveChangesAsync();
+            EventModel? existingEvent = await context.Events.Include(e => e.Tags).FirstOrDefaultAsync(e => e.EventId == newEvent.EventId);
 
+            if (existingEvent != null)
+            {
+                foreach (TagModel tag in newEvent.Tags)
+                {
+                    TagModel? existingTag = await context.Tags.FirstOrDefaultAsync(t => t.TagName == tag.TagName);
+
+                    if (existingTag != null)
+                    {
+                        existingEvent.Tags.Add(existingTag);
+                    }
+                    else
+                    {
+                        existingEvent.Tags.Add(tag);
+                        context.Tags.Add(tag);
+                    }
+                }
+
+                await context.SaveChangesAsync();
                 return true;
             }
-            catch
+            else
             {
                 return false;
             }
+            //EventModel? tagers = context.Events.Where(e => e.EventId == newEvent.EventId).Include(e => e.Tags).FirstOrDefault();
+
+            //foreach (TagModel tag in newEvent.Tags)
+            //{
+            //    TagModel? tagDb = context.Tags.FirstOrDefault(t => t.TagName == tag.TagName);
+
+            //    if (tagDb != null)
+            //    {
+            //        tagers.Tags.Add(tagDb);
+            //    }
+            //    else
+            //    {
+            //        tagers.Tags.Add(tag);
+            //        context.Tags.Add(tag);
+            //    }
+            //}
+            //await context.SaveChangesAsync();
+            //return true;
+            //try
+            //{
+            //    context.Events.Add(newEvent);
+            //    await context.SaveChangesAsync();
+
+            //    return true;
+            //}
+            //catch
+            //{
+            //    return false;
+            //}
         }
 
         public async Task<EventModel?> DeleteEvent(int id)
