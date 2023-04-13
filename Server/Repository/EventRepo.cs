@@ -53,7 +53,7 @@ namespace TicketHiveSpaceKittens.Server.Repository
 
         public async Task<TagModel> TagChecker(string Tagname)
         {
-            var tag = context.Tags.Include(t => t.Events).FirstOrDefault(t => t.TagName == Tagname);
+            var tag = await context.Tags.FirstOrDefaultAsync(t => t.TagName == Tagname);
 
             if (tag == null)
             {
@@ -61,9 +61,6 @@ namespace TicketHiveSpaceKittens.Server.Repository
                 {
                     TagName = Tagname,
                 };
-
-                context.Tags.Add(tag);
-                await context.SaveChangesAsync();
             }
 
             return tag;
@@ -74,41 +71,28 @@ namespace TicketHiveSpaceKittens.Server.Repository
 
             foreach (var tag in newEvent.Tags)
             {
+
                 var existingTag = await TagChecker(tag.TagName);
 
                 tag.TagName = existingTag.TagName;
+            }
+            
+            var existingEvent = await context.Events.Include(e => e.Tags).FirstOrDefaultAsync(e => e.Name == newEvent.Name);
 
-
-                if (existingTag.Events.Count == 0)
+            if(existingEvent != null)
+            {
+                foreach(var tag in newEvent.Tags)
                 {
-                    var newEventModel = new EventModel()
-                    {
-                        EventId = newEvent.EventId,
-                        Tags = newEvent.Tags,
-                        Name = newEvent.Name,
-                        Description = newEvent.Description,
-                        TicketPrice = newEvent.TicketPrice,
-                        TicketsRemaining = newEvent.TicketsRemaining,
-                    };
-                    context.Events.Add(newEventModel);
+                    existingEvent.Tags.Add(tag);
                 }
             }
+            else
+            {
+                context.Events.Add(newEvent);
+            }
+
             await context.SaveChangesAsync();
             return true;
-
-
-            
-            //foreach (var tag in newEvent.Tags)
-            //{
-            //    var existingTag = await TagChecker(tag.TagName);
-
-            //    tag.TagName = existingTag.TagName;
-            //}
-
-            //context.Events.Add(newEvent);
-            //await context.SaveChangesAsync();
-            //return true;
-
 
             //try
             //{
