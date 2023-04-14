@@ -7,7 +7,10 @@
 
 <h3>@ViewData["Title"]</h3>
 <partial name="_StatusMessage" for="StatusMessage" />
-<div class="row">
+
+<div class="container px-4 py-5 px-md-5">
+    <div class="row border rounded-5 p-3 shadow box-area">
+
     <div class="col-md-6">
         <form id="profile-form" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
@@ -35,6 +38,7 @@
             <button id="update-profile-button" type="submit" class="w-100 btn btn-lg btn-primary">Save</button>
         </form>
     </div>
+</div>
 </div>
 
 @section Scripts {

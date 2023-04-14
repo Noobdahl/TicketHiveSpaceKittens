@@ -1,5 +1,6 @@
 ﻿@page "/admin/addevent"
 @using Microsoft.AspNetCore.Authorization;
+@using TicketHiveSpaceKittens.Client.Pages
 @using TicketHiveSpaceKittens.Client.Services;
 @using TicketHiveSpaceKittens.Shared.Models
 @attribute [Authorize(Roles = "Admin")]
@@ -7,13 +8,13 @@
 @inject NavigationManager navManager;
 
 
-<div class="card" style="background-color:#fbe89c">
+<div class="card" style="background-color:#305076">
     <div class="card-body">
-        <h3 style="text-align:center">Create a New Event</h3>
+        <h2 class="text-center" style="color:#fbe89c"><b>Create a New Event</b></h2>
     </div>
 </div>
 
-<div class="container mt-2" style="background-color:#FFA500">
+<div class="container mt-2" style="background-color:#fbe89c">
     <div class="row">
         <div class="col-md-6">
             <div class="form-group">
