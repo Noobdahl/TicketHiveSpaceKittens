@@ -9,13 +9,13 @@
 @inject NavigationManager navigationManager;
 @attribute [Authorize]
 
-@* <div class="container">
+ <div class="container">
     <div class="form-group mt-5 text-center">
         <h1 class="fw-bolder">Details event</h1>
     </div>
     @if (selectedEvent != null)
     {
-    @*<div class="row align-items-center mt-5">
+    <div class="row align-items-center mt-5">
         <div class="col-md-6">
             <img class="card-img-top mb-5" src="/Images/Event images/@selectedEvent.ImageUrl" alt="eventImgage" />
         </div>
@@ -50,63 +50,13 @@
                     }
                 </div>
             </div>
-    </div>*@
-
-    @*/Images/Event images/@selectedEvent.ImageUrl*@
-
-@*<div class="container-fluid h-100 p-0">
-    <div class="row h-100 m-0">
-        <div class="col-sm-8 bg-yellow position-relative">
-            <div class="row h-100">
-                <div class="col-md-6">
-                            <img class="img-fluid mb-3" src="/Images/Event images/@selectedEvent.ImageUrl" alt="@selectedEvent.Name">
-                </div>
-                <div class="col-md-6">
-                    <h1>@selectedEvent.Name</h1>
-                    <h2 class="text-muted">@selectedEvent.Location</h2>
-                    <p class="lead">@selectedEvent.Description</p>
-                    <p>
-                        <span class="text-warning font-weight-bold">@selectedEvent.TicketPrice</span>
-                        <small class="text-muted">per ticket</small>
-                    </p>
-                    <p>
-                        <span class="text-muted font-weight-bold">Date:</span>
-                        <span class="font-weight-bold">@selectedEvent.EventDate.ToString("yyyy-MM-dd")</span>
-                    </p>
-                    <p>
-                        <span class="text-muted font-weight-bold">Time:</span>
-                        <span class="font-weight-bold">@selectedEvent.EventDate.ToString("HH:mm")</span>
-                    </p>
-                    <p>
-                        <span class="text-muted font-weight-bold">Tag:</span>
-                        @foreach (var tag in selectedEvent.Tags)
-                        {
-                            <span>@tag.TagName</span>
-                        }
-                    </p>
-                    <p>
-                        <span class="text-muted font-weight-bold">Tickets remaining:</span>
-                        <span class="font-weight-bold">@selectedEvent.TicketsRemaining</span>
-                    </p>
-                    <button class="btn btn-primary">Buy ticket</button>
-                </div>
-            </div>
-            <div class="position-absolute h-100 w-100 bg-yellow" style="opacity: 0.3;"></div>
-        </div>
     </div>
-</div>
-
     }
     else
     {
         <h1>Loading event...</h1>
     }
-</div>*@
-
-<div>
-    <h1>asd</h1>
 </div>
-
 
 @code {
     [Parameter]
