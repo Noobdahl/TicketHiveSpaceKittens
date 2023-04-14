@@ -4,10 +4,17 @@
     var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
 }
 
-<link rel="stylesheet" type="text/css" href="~/css/LoginRegister-Style.css">
+<style>
+    .bg-white {
+        background-color: rgba(48, 80, 118) !important;}
+    .row{
+        background-color: #fbe89c !important;
+
+    }
+</style>
 
 
-<div class="container px-4 py-5 px-md-5">
+<div class="container">
     <div class="row border rounded-5 p-3 shadow box-area">
 
         <ul class="nav nav-pills flex-column">
