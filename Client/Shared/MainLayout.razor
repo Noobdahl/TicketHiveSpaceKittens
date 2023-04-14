@@ -1,17 +1,38 @@
 ﻿@inherits LayoutComponentBase
-
-<div class="page">
-    @*<div class="sidebar">
-        <NavMenu />
-    </div>*@
-
-    <main>
-        <div class="top-row px-4 auth">
-            <LoginDisplay />
-        </div>
-
-        <article class="content px-4">
-            @Body
-        </article>
-    </main>
+<div class="Mfiller appColorBlue">
+    <div class="appColorYellow page" style="height:revert">
+        <main>
+            <div class="top-row px-4 auth">
+                <LoginDisplay />
+            </div>
+            <div class="Mcontainer">
+                <div class="Msurrounding appColorBlue"></div>
+                <div class="Marticle">
+                    <article class="content px-4" style="height: contain">
+                        @Body
+                    </article>
+                </div>
+                <div class="Msurrounding appColorBlue"></div>
+            </div>
+        
+        </main>
+    </div>
 </div>
+
+<style>
+    .Mcontainer {
+        display: flex;
+        flex-direction: row;
+    }
+    .Msurrounding {
+        width: 25%;
+    }
+    .Marticle {
+        min-width: 75%;
+        min-height:auto;
+        
+    }
+    .Mfiller {
+        height: 100vh;
+    }
+</style>

@@ -8,13 +8,21 @@ main {
     flex: 1;
 }
 
+.appColorYellow {
+    background-color: #fbe89c;
+}
+
+.appColorBlue {
+    background-color: #305076;
+}
+
 .sidebar {
     background-image: linear-gradient(50deg, rgb( 251, 232, 156) 10%, #305076 70%);
 }
 
 .top-row {
     background-color: #305076;
-    border-bottom: 1px solid #d6d5d5;
+    /*border-bottom: 1px solid #d6d5d5;*/
     justify-content: flex-end;
     height: 3.5rem;
     display: flex;
