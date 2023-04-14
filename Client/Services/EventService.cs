@@ -103,14 +103,15 @@ namespace TicketHiveSpaceKittens.Client.Services
             return false;
         }
 
-        public async Task RemoveTicket(CartEventModel e)
+        public async Task<bool> RemoveTicket(CartEventModel e)
         {
             var response = await httpClient.PostAsJsonAsync($"api/events/remove", e);
-            if (response.IsSuccessStatusCode)
+            
+            if(response.IsSuccessStatusCode)
             {
-
+                return true;               
             }
-
+            return false;
         }
 
         public async Task<List<EventModel>?> GetEventsByUsernameAsync(string username)
