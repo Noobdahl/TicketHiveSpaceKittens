@@ -24,7 +24,7 @@ namespace TicketHiveSpaceKittens.Client.Services
         public async Task AddToCartAsync(EventModel eventToAdd)
         {
             bool isEventInCart = false;
-            
+
             foreach (var cartEventModel in cartCookies)
             {
                 if (cartEventModel.Event.EventId == eventToAdd.EventId)

@@ -6,6 +6,10 @@ namespace TicketHiveSpaceKittens.Client.Api
 {
     public class ApiCaller
     {
+        /// <summary>
+        /// Makes API call and adds the returned result into RatesManager-properties: GBP and EUR
+        /// </summary>
+        /// <returns></returns>
         public async Task MakeCallAsync()
         {
             string fullURL = "https://api.apilayer.com/exchangerates_data/latest?symbols=EUR,GBP&base=SEK";
