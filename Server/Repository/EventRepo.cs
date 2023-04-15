@@ -50,21 +50,6 @@ namespace TicketHiveSpaceKittens.Server.Repository
                 .FirstOrDefaultAsync();
         }
 
-        public async Task<TagModel> TagChecker(string Tagname)
-        {
-            TagModel? tag = await context.Tags.Where(t => t.TagName == Tagname).Include(t => t.Events).FirstOrDefaultAsync();
-
-            if (tag == null)
-            {
-                tag = new TagModel()
-                {
-                    TagName = Tagname,
-                };
-            }
-
-            return tag;
-        }
-
         public async Task<bool> CreateEvent(EventModel newEvent)
         {
             EventModel eventToAdd = new()
@@ -143,7 +128,7 @@ namespace TicketHiveSpaceKittens.Server.Repository
 
         public async Task<List<EventModel>> GetEventsByUsernameAsync(string username)
         {
-            List<EventModel> listan = await context.Events
+            List<EventModel> list = await context.Events
                 .Include(e => e.Tags)
                 .Include(e => e.Users)
                 .Where(e => e.Users.Any(e => e.Username == username))
@@ -162,18 +147,33 @@ namespace TicketHiveSpaceKittens.Server.Repository
                 })
                 .ToListAsync();
 
-            if (listan != null)
+            if (list != null)
             {
-                return listan;
+                return list;
             }
             return null;
         }
 
         public async Task RemoveTicket(CartEventModel e)
         {
-            EventModel dbEvent = context.Events.Where(ev => ev.EventId == e.Event.EventId).FirstOrDefault();
+            EventModel? dbEvent = context.Events.Where(ev => ev.EventId == e.Event.EventId).FirstOrDefault();
             dbEvent.TicketsRemaining -= e.Quantity;
-            context.SaveChanges();
+            await context.SaveChangesAsync();
         }
+        public async Task<TagModel> TagChecker(string Tagname)
+        {
+            TagModel? tag = await context.Tags.Where(t => t.TagName == Tagname).Include(t => t.Events).FirstOrDefaultAsync();
+
+            if (tag == null)
+            {
+                tag = new TagModel()
+                {
+                    TagName = Tagname,
+                };
+            }
+
+            return tag;
+        }
+
     }
 }
