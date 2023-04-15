@@ -110,7 +110,7 @@ else
         }
 
         Total = cartService.TotalCart();
-        errorString = IsTicketsAvailableInEvents();
+        errorString = GetMissingTicketsMessage();
 
         if(errorString != null)
         {
@@ -130,6 +130,9 @@ else
         }
     }
 
+    /// <summary>
+    /// Books all events in shopping cart and removes tickets from events TicketsRemaining.
+    /// </summary>
     private async Task BookEvents()
     {
         List<CartEventModel> cartItems = cartService.GetCartItems();
@@ -146,7 +149,11 @@ else
         await eventService.BookEventsToUserAsync(tempUser);
     }
 
-    private string IsTicketsAvailableInEvents()
+    /// <summary>
+    /// Gets a message with info from events that dont have enough tickets.
+    /// </summary>
+    /// <returns>Error message as string</returns>
+    private string GetMissingTicketsMessage()
     {
         string returnMsg = "";
         foreach(CartEventModel cEvent in cart)
