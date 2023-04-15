@@ -8,7 +8,7 @@
 @inject NavigationManager navManager;
 
 
-<div class="card" style="background-color:#305076">
+<div class="card mt-5" style="background-color:#305076">
     <div class="card-body">
         <h2 class="text-center" style="color:#fbe89c"><b>Create a New Event</b></h2>
     </div>
@@ -91,8 +91,15 @@
 </div>
 
 @code{
+    [Parameter]
+    public EventModel NewEvent { get; set; }
+
+    [Parameter]
+    public EventCallback<EventModel> OnEventAdded { get; set; }
+
     public string? TagInput { get; set; }
     public EventModel newEvent = new();
+
 
     public void AddTag()
     {
@@ -115,6 +122,9 @@
     private async Task AddEvent()
     {
         await service.CreateEventAsync(newEvent);
+        await OnEventAdded.InvokeAsync(newEvent);
         navManager.NavigateTo("admin");
     }
+
+
 }

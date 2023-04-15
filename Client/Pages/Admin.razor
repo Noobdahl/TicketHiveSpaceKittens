@@ -7,6 +7,8 @@
 @inject NavigationManager navManager
 @inject IModalService modal
 
+
+
 <style>
     .table-title {
         background: #fbe89c;
@@ -21,12 +23,25 @@
     <div class="table-responsive">
         <div class="table-wrapper">
     <!-----------------------------------------------Table Header--------------------------------------------------->
-            <div class="table-title mt-5 shadow" >
+            <div class="table-title mt-5 shadow">
                 <div class="row mt-5 ">
                     <div class="col-sm-6">
                         <h2><b>Manage Events</b></h2>
                     </div>
-                    <a @onclick="@(()=>modal.Show<AddEvents>())" class="btn btn-warning .btn-lg btn.block fs-6 "><strong>Add Events</strong></a> 
+                    <div class=" form-group text-center">
+                        <h1 class="fw-bolder">Search for the event</h1>
+                        <input class="form-control-lg" type="text" @bind-value="@searchText" @oninput="@FilterEvents" placeholder="Search event..." />
+                        <button class="btn btn-lg btn-outline-primary" @onclick="SortByPrice">Price</button>
+                        <button class="btn btn-lg btn-warning" @onclick="SortByDate">Date</button>
+                        <button class="btn btn-lg btn-success" @onclick="showAddEventComponent">Add Event</button>
+                        @if (showAddEvent)
+                        {
+                            <AddEvents OnEventAdded="HandleEventAdded" />
+                            <button class="btn btn-sm btn-danger " @onclick="CloseComponent">Close Window</button>
+                        }
+                    </div>
+
+
                 </div>
             </div>
 
@@ -45,15 +60,15 @@
 
                     </tr>
                 </thead>
+                
 
+    @if (filteredEvents != null)
+    {
+        var count = 1;
+        foreach (var e in filteredEvents)
+        {
 
-                <tbody>
-                    @if (allEvents != null)
-                    {
-                        var count = 1;
-                        foreach (var e in allEvents)
-                        {
-                           
+                                <tbody>
                                 <tr>
                                     <td>@(count++)</td>
                                     <td>@e.Name</td>
@@ -67,54 +82,112 @@
                                         </a>
                                     </td>
                                     <td>
-                                       <ConfirmationDialog Title="Delete Event"
+                                        <ConfirmationDialog Title="Delete Event"
                                        Class="btn btn-psl-add mt-2"
                                        Message="Delete this event?"
                                        YesCssClass="btn-yes btn-success"
                                        NoCssClass="btn-no btn-danger"
                                        ConfirmedChanged="@(async (bool confirmed) => await DeleteEvent(e.EventId, confirmed))">
-                                        <ButtonContent>
-                                            <button type="submit" class="btn btn-lg btn-danger w-100 fs-6 fw-bolder">
-                                                <ion-icon name="trash-outline" style="color:white;"></ion-icon> Delete
-                                            </button>
-                                        </ButtonContent>
-                                        <MessageTemplate>
-                                            <div class="card border-primary pop-message-card">
-                                                <div class="card-header bg-primary text-white">Delete Event?</div>
-                                                <div class="card-body">
-                                                    <p>
-                                                        This will delete the event!<br />
-                                                        Are you sure?
-                                                    </p>
+                                            <ButtonContent>
+                                                <button type="submit" class="btn btn-lg btn-danger w-100 fs-6 fw-bolder">
+                                                    <ion-icon name="trash-outline" style="color:white;"></ion-icon> Delete
+                                                </button>
+                                            </ButtonContent>
+                                            <MessageTemplate>
+                                                <div class="card border-primary pop-message-card">
+                                                    <div class="card-header bg-primary text-white">Delete Event?</div>
+                                                    <div class="card-body">
+                                                        <p>
+                                                            This will delete the event!<br />
+                                                            Are you sure?
+                                                        </p>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </MessageTemplate>
-                                    </ConfirmationDialog>
+                                            </MessageTemplate>
+                                        </ConfirmationDialog>
                                     </td>
                                 </tr>
-                        }
-                    }
-                </tbody>
+                         </tbody>
+            }
+        }
             </table>
         </div>
     </div>
 </div>
 
+
 @code
 {
+    bool showAddEvent = false;
+
+
+    private void showAddEventComponent()
+    {
+        showAddEvent = !showAddEvent;
+    }
+
+    private void CloseComponent()
+    {
+        showAddEvent = false;
+    }
+
     private List<EventModel>? allEvents = new();
+    private List<EventModel>? filteredEvents = new();
     private ConfirmationDialog? deleteConfirmation;
+    [Parameter]
+    public string? searchText { get; set; }
+    private bool isCheapestFirst = true;
 
     protected override async Task OnInitializedAsync()
     {
         await GetEvents();
     }
 
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        if (searchText != null)
+        {
+            filteredEvents = allEvents?.Where(e => e.Name!.ToLower().Contains(searchText.ToLower())).ToList();
+        }
+    }
+    private async Task HandleEventAdded(EventModel newEvent)
+    {
+        filteredEvents = await service.GetEventsAsync();
+    }
+
     private async Task GetEvents()
     {
         allEvents = await service.GetEventsAsync();
+        filteredEvents = allEvents;
     }
 
+
+    private void FilterEvents(ChangeEventArgs e)
+    {
+        filteredEvents = allEvents!.Where(ev => ev.Name!.ToLower().Contains(e.Value!.ToString())).ToList();
+    }
+
+    private void SortByPrice()
+    {
+        List<EventModel> sortedList;
+        if (isCheapestFirst)
+            sortedList = filteredEvents.OrderBy(e => e.TicketPrice).ToList();
+        else
+            sortedList = filteredEvents.OrderByDescending(e => e.TicketPrice).ToList();
+        filteredEvents = sortedList;
+        isCheapestFirst = !isCheapestFirst;
+    }
+    private void SortByDate()
+    {
+        List<EventModel> sortedList;
+        if (isCheapestFirst)
+            sortedList = filteredEvents.OrderBy(e => e.EventDate).ToList();
+        else
+            sortedList = filteredEvents.OrderByDescending(e => e.EventDate).ToList();
+        filteredEvents = sortedList;
+        isCheapestFirst = !isCheapestFirst;
+    }
     private async Task DeleteEvent(int eventId, bool isConfirmed)
     {
         if (isConfirmed)
@@ -123,5 +196,5 @@
             await GetEvents();
         }
     }
-
 }
+
