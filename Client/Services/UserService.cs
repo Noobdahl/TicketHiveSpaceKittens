@@ -2,6 +2,9 @@
 
 namespace TicketHiveSpaceKittens.Client.Services
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class UserService : IUserService
     {
         private readonly HttpClient httpClient;
