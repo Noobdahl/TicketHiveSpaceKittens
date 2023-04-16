@@ -1,5 +1,6 @@
 ﻿@page "/admin/addevent"
 @using Microsoft.AspNetCore.Authorization;
+@using TicketHiveSpaceKittens.Client.Pages
 @using TicketHiveSpaceKittens.Client.Services;
 @using TicketHiveSpaceKittens.Shared.Models
 @attribute [Authorize(Roles = "Admin")]
@@ -7,11 +8,12 @@
 @inject NavigationManager navManager;
 
 
-<div class="card" style="background-color:#fbe89c">
+<div class="card mt-5" style="background-color:#305076">
     <div class="card-body">
-        <h3 style="text-align:center">Create a New Event</h3>
+        <h2 class="text-center" style="color:#fbe89c"><b>Create a New Event</b></h2>
     </div>
 </div>
+
 
 <div class="container mt-2" style="background-color:#FFA500">
     <div class="row">
@@ -19,9 +21,9 @@
             <div class="form-group">
                 <label for="name">Name:</label>
                 <input type="text" class="form-control" id="name" @bind="@newEvent.Name" />
-                @if(string.IsNullOrEmpty(newEvent.Name))
+                @if (string.IsNullOrEmpty(newEvent.Name))
                 {
-                    <span class="text-danger">The event name is required!</span>
+                        <span class="text-danger">The event name is required!</span>
                 }
             </div>
             <div class="form-group">
@@ -40,7 +42,7 @@
         <div class="col-md-6">          
             <div class="form-group">
                 <label for="eventDate">Event Date:</label>
-                <input type="datetime-local" class="form-control" id="eventDate" @bind="@newEvent.EventDate" />
+                <input type="date" class="form-control" id="eventDate" @bind="@newEvent.EventDate" />
             </div>
             <div class="form-group">
                 <label for="capacity">Number of tickets:</label>
@@ -53,7 +55,7 @@
                 <ul>
                     @foreach (var tag in newEvent.Tags)
                     {
-                        <li>@tag.TagName</li>
+                            <li>@tag.TagName</li>
                     }
                 </ul>
             </div>
@@ -89,15 +91,22 @@
     </div>
 </div>
 
-@code{
+@code {
+    [Parameter]
+    public EventModel NewEvent { get; set; }
+
+    [Parameter]
+    public EventCallback<EventModel> OnEventAdded { get; set; }
+
     public string? TagInput { get; set; }
     public EventModel newEvent = new();
 
+
     public void AddTag()
     {
-        if(!string.IsNullOrEmpty(TagInput))
+        if (!string.IsNullOrEmpty(TagInput))
         {
-            newEvent.Tags.Add(new TagModel {TagName = TagInput});
+            newEvent.Tags.Add(new TagModel { TagName = TagInput });
             TagInput = "";
         }
     }
@@ -114,6 +123,8 @@
     private async Task AddEvent()
     {
         await service.CreateEventAsync(newEvent);
+        await OnEventAdded.InvokeAsync(newEvent);
         navManager.NavigateTo("admin");
     }
 }
+
