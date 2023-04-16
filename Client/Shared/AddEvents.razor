@@ -15,7 +15,7 @@
 </div>
 
 
-<div class="container mt-2" style="background-color:#FFA500">
+<div class="container mt-2" style="background-color:#305076">
     <div class="row">
         <div class="col-md-6">
             <div class="form-group">
@@ -64,6 +64,7 @@
     <div class="row">
         <div class="col-md-12 text-center">
             <!-------------------------------------The Button and add confirm dialog--------------------------------------------------->
+
             <ConfirmationDialog Title="Add Event"
                                 Class="btn btn-psl-add mt-2"
                                 Message="Add this event?"
@@ -92,15 +93,24 @@
 </div>
 
 @code {
+
+
+    /// <summary>
+    /// Property is set by the parent component, the parent will be notified when a new element is added
+    /// </summary>
     [Parameter]
     public EventModel NewEvent { get; set; }
-
     [Parameter]
     public EventCallback<EventModel> OnEventAdded { get; set; }
 
     public string? TagInput { get; set; }
     public EventModel newEvent = new();
 
+    /// <summary>
+    ///  Adds a new tag to the list of tags for a given event.
+    ///  If the TagInput property is not null or empty, a new TagModel object will be created and added to the list of tags for the event.
+    ///  The TagName property of the new tag will be set to the value of the TagInput property, and the TagInput property will be cleared.
+    /// </summary>
 
     public void AddTag()
     {
@@ -111,6 +121,10 @@
         }
     }
 
+    /// <summary>
+    /// If the confirmed parameter <param name="confirmed"></param> is true and the Name property of the new event is not null or empty, the AddEvent method will be called to add the new event to the database.
+    /// </summary>
+
     private async Task AddConfirmed(bool confirmed)
     {
 
@@ -119,6 +133,11 @@
             await AddEvent();
         }
     }
+
+    /// <summary>
+    /// Creates a new event using the service's CreateEventAsync method. OnEventAdded is a callback method  that is raised when an event is added.
+    /// </summary>
+    /// <returns></returns>
 
     private async Task AddEvent()
     {
