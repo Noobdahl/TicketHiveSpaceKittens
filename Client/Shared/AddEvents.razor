@@ -49,6 +49,11 @@
                 <input type="number" class="form-control" id="capacity" @bind="@newEvent.TicketsRemaining" />
             </div>
             <div class="form-group">
+                <label for="imageUrl">Your file:</label>
+                <InputFile type="file" class="form-control" id="imageUrl" @onchange="HandleFileSelection" />
+                <img src="path/to/image.jpg" />
+            </div>
+            <div class="form-group">
                 <label for="eventTag">Event Tag:</label>
                 <input type="text" class="form-control" id="eventTag" @bind="@TagInput" />
                 <button class="btn btn-primary mt-2" @onclick="AddTag">Add Tag</button>
@@ -101,7 +106,10 @@
     public string? TagInput { get; set; }
     public EventModel newEvent = new();
 
-
+    public async Task HandleFileSelection(InputFileChangeEventArgs e)
+    {
+        var fiel = e.File;
+    }
     public void AddTag()
     {
         if (!string.IsNullOrEmpty(TagInput))
