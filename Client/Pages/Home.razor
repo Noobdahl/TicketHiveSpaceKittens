@@ -21,6 +21,7 @@
                     {
                         if (e.TicketsRemaining > 0)
                         {
+                            //Randomly displays 5 items from the list of events in the carousel using method GetEventsRandomAsync from the IEventService
                             <BSCarouselItem Active="item == events.First()">
                                 <div class="row">
 
@@ -79,7 +80,6 @@
                         </div>
                     </div>
                 </div>
-            
         }
     }
 </div>
@@ -98,6 +98,12 @@
         var authState = await provider.GetAuthenticationStateAsync();
         username = authState.User.Identity.Name;
         userCountry = await userService.GetUserCountryAsync(username);
+
+        /// <summary>
+        /// This code calls the CheckRates method on a RatesManager object to check the rates for the user's country.
+        /// If the user's country is not Sweden, the ApiCallForRates method is called from the RatesManager and make an API call to retrieve the rates for the country
+        /// </summary>
+
         RatesManager.CheckRates(userCountry);
         if (userCountry != "Sweden")
         {
@@ -107,12 +113,18 @@
         await GetEvents();
     }
 
+    /// <summary>
+    ///  retrieve events from an event service using three different methods.
+    ///  The first method, GetEventsRandomAsync, retrieves a set of random events from the service and. 
+    ///  The second method, GetEventsAsync, retrieves all events from the service.
+    ///  The third method, GetEventsByUsernameAsync, retrieves events from the service that are associated with a specific user's username.
+    /// </summary>
+
     private async Task GetEvents()
     {
         randomEvents = await service.GetEventsRandomAsync();
         events = await service.GetEventsAsync();
         userEvents = await service.GetEventsByUsernameAsync(username);
-
     }
 
     private void GoToSearch()

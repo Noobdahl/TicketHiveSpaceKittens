@@ -84,6 +84,10 @@
         await GetEvents();
     }
 
+    /// <summary>
+    ///This method is called whenever the component's parameters change. It is responsible for updating the list of filtered events based on name parameter.
+    /// If the searchText field is not null, the filteredEvents field is updated
+    /// </summary>
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
@@ -99,6 +103,11 @@
         filteredEvents = allEvents;
     }
 
+    /// <summary>
+    /// Filters the list of events based on the search criteria provided in the <param name="e"></param> parameter.
+    /// ChangeEventArgs object containing the search value.
+    /// This method searches for events that match Name, Location, Tags and Description attributs
+    /// </summary>
 
     private void FilterEvents(ChangeEventArgs e)
     {
@@ -112,7 +121,10 @@
             ev.Description!.ToLower().Contains(e.Value!.ToString())
         ).ToList();
     }
-
+    /// <summary>
+    /// Sorts the list of events by ticket price, in ascending or descending order.
+    /// If the list is currently sorted in ascending order, it will be sorted in descending order, and vice versa.
+    /// </summary>
     private void SortByPrice()
     {
         List<EventModel> sortedList;
@@ -123,6 +135,9 @@
         filteredEvents = sortedList;
         isCheapestFirst = !isCheapestFirst;
     }
+    /// <summary>
+    /// Sorts the list of events by date, in ascending or descending order.
+    /// </summary>
     private void SortByDate()
     {
         List<EventModel> sortedList;

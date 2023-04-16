@@ -74,6 +74,10 @@
     [Parameter]
     public string Icon { get; set; } = "fa fa-check";
 
+    /// <summary>
+    /// This method is used to display a confirmation dialog to the user, and invoke an event callback when the user confirms or cancels the dialog.
+    /// The method takes a boolean <param name="value"></param>, which is used to indicate if the user confirmed or canceled the dialog.
+    /// </summary>
     public async Task Confirmation(bool value)
     {
         Show = false;

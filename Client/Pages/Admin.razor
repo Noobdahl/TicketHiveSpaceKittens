@@ -22,7 +22,7 @@
     <div class="table-responsive">
         <div class="table-wrapper">
     <!-----------------------------------------------Table Header--------------------------------------------------->
-            <div class="table-title mt-5 shadow text-center">
+            <div class="table-title mt-5 shadow text-center" style="background-color: white;">
                 <h1><b>Manage Events</b></h1>
                 <div class="row">
                     <div class="form-group text-center">
@@ -116,22 +116,11 @@
 
 @code
 {
-    bool showAddEvent = false;
-
-
-    private void showAddEventComponent()
-    {
-        showAddEvent = !showAddEvent;
-    }
-
-    private void CloseComponent()
-    {
-        showAddEvent = false;
-    }
 
     private List<EventModel>? allEvents = new();
     private List<EventModel>? filteredEvents = new();
     private ConfirmationDialog? deleteConfirmation;
+    bool showAddEvent = false;
     [Parameter]
     public string? searchText { get; set; }
     private bool isCheapestFirst = true;
@@ -141,6 +130,11 @@
         await GetEvents();
     }
 
+    /// <summary>
+    ///This method is called whenever the component's parameters change. It is responsible for updating the list of filtered events based on name parameter.
+    /// If the searchText field is not null, the filteredEvents field is updated
+    /// </summary>
+
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
@@ -149,22 +143,39 @@
             filteredEvents = allEvents?.Where(e => e.Name!.ToLower().Contains(searchText.ToLower())).ToList();
         }
     }
+    /// <summary>
+    /// This method is called when a new event is added to the database, is responsible for updating the list (adding the newly element to the list)
+    /// Adding a new element is made in the AddEvent component
+    /// </summary>
+    /// <param name="newEvent">The EventModel object representing the newly added event.</param>
     private async Task HandleEventAdded(EventModel newEvent)
     {
         filteredEvents = await service.GetEventsAsync();
     }
 
+    /// <summary>
+    /// Retrieves a list of all events from the service and sets it as the current list of events.
+    /// </summary>
     private async Task GetEvents()
     {
         allEvents = await service.GetEventsAsync();
         filteredEvents = allEvents;
     }
 
+    /// <summary>
+    /// Filters the list of events by name, depending on what the user writes in the input.
+    /// </summary>
+    /// <param name="e">The ChangeEventArgs object containing the user's input.</param>
 
     private void FilterEvents(ChangeEventArgs e)
     {
         filteredEvents = allEvents!.Where(ev => ev.Name!.ToLower().Contains(e.Value!.ToString())).ToList();
     }
+
+    /// <summary>
+    /// Sorts the list of events by ticket price, in ascending or descending order.
+    /// If the list is currently sorted in ascending order, it will be sorted in descending order, and vice versa.
+    /// </summary>
 
     private void SortByPrice()
     {
@@ -176,6 +187,10 @@
         filteredEvents = sortedList;
         isCheapestFirst = !isCheapestFirst;
     }
+    /// <summary>
+    /// Sorts the list of events by date, in ascending or descending order.
+    /// </summary>
+
     private void SortByDate()
     {
         List<EventModel> sortedList;
@@ -186,6 +201,14 @@
         filteredEvents = sortedList;
         isCheapestFirst = !isCheapestFirst;
     }
+    /// <summary>
+    /// Deletes an event with the specified ID, if the user confirms the action by confirmation button.
+    /// If the user confirms the deletion, the method calls the service to delete the event from the database
+    /// and list of events will be updated.
+    /// </summary>
+    /// <param name="eventId">The ID of the event to delete.</param>
+    /// <param name="isConfirmed">Indicating if the user has confirmed the deletion.</param>
+
     private async Task DeleteEvent(int eventId, bool isConfirmed)
     {
         if (isConfirmed)
@@ -193,6 +216,19 @@
             await service.DeleteEventByIdAsync(eventId);
             await GetEvents();
         }
+    }
+
+    /// <summary>
+    /// Closes the "Add Event" component.
+    /// </summary>
+    private void showAddEventComponent()
+    {
+        showAddEvent = !showAddEvent;
+    }
+
+    private void CloseComponent()
+    {
+        showAddEvent = false;
     }
 }
 

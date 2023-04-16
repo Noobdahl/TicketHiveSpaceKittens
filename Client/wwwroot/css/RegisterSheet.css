@@ -1,20 +1,10 @@
 ﻿
 .bg-white {
-    background-color: rgba(48, 80, 118) !important;
+    background-color: #305076 !important;
 }
 
 body {
     font-family: 'Poppins', sans-serif;
-}
-
-/*------------ Login container ------------*/
-.container {
-    justify-content: center;
-    align-items: center;
-    display: flex;
-}
-.box-area {
-    width: 930px;
 }
 
 /*------------ Left box ------------*/
@@ -35,6 +25,14 @@ body {
     padding: 40px 30px 40px 40px;
 }
 
-.btn-primary {
-    background-color: #305076 !important;
+.container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+@media screen and (max-width: 768px) {
+    /* Change the flex container to a single column layout */
+    .container {
+        flex-direction: column;
+    }
 }

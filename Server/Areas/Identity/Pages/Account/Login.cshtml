@@ -4,13 +4,13 @@
 }
 
 
-<link rel="stylesheet" type="text/css" href="~/css/LoginRegister-Style.css">
+<link rel="stylesheet" type="text/css" href="~/css/LoginSheet.css">
 
 <!----------------------- Main Container -------------------------->
-
-<div class="container px-4 py-5 px-md-5">
-    <div class="row border rounded-5 p-3 shadow box-area">
-        <div class="text-center mb-5 px-3 py-3" style="background-color: #305076;">
+<body style="background-color:#305076 !important;">
+    <div class="container px-4 py-5 px-md-5 mb-5" style="background-color:#fbe89c !important;">
+        <div class="row border rounded-5 p-3 shadow box-area">
+            <div class="text-center mb-5 px-3 py-3 bg-white">
             <h1 class="text-white">Login</h1>
         </div>
         <!--------------------------- Left Box ----------------------------->
@@ -21,14 +21,14 @@
             </div>
             <p class="text-leftBox text-black">Be Ready!</p>
             <small class="text-leftBox text-wrap text-center text-black">Make sure you don't miss <br>  your favorite event!</small>
-        </div>
+     </div>
 
         <!-------------------------- Right Box ---------------------------->
 
-        <div class="col-md-6 right-box">
+        <div class="col-md-6 right-box" style="background-color:#305076 !important;">
             <div class="row align-items-center">
                 <div class="header-text mb-4">
-                    <h2>Hello Friends!</h2>
+                    <h2 class="text-white">Hello Friends!</h2>
                     <p>Welcome to SpaceKittens Events!</p>
                 </div>
                 <form method="post">
@@ -41,7 +41,7 @@
                       
                 </div>
                 <div class="input-group mt-3">
-                    <button class="btn btn-lg btn-primary w-100 fs-6">Login</button>
+                            <button class="btn btn-lg w-100 fs-6 text-black" style="background-color: #fbe89c !important;">Login</button>
                 </div>
                     @if (!ModelState.IsValid)
                     {
@@ -49,7 +49,7 @@
                     }
 
                 </form>
-                <div class="row mt-3">
+                <div class="row mt-3 text-white">
                     <small>Don't have account? <a href="~/Identity/Account/Register">Sign Up</a></small>
                 </div>
             </div>
@@ -57,5 +57,5 @@
 
     </div>
 </div>
-
+</body>
 
