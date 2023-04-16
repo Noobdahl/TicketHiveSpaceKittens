@@ -12,8 +12,8 @@ using TicketHiveSpaceKittens.Server.Data;
 namespace TicketHiveSpaceKittens.Server.Migrations
 {
     [DbContext(typeof(EventDbContext))]
-    [Migration("20230413162649_Init")]
-    partial class Init
+    [Migration("20230416075935_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
