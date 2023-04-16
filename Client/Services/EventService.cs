@@ -1,4 +1,8 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using Microsoft.JSInterop;
+using Newtonsoft.Json;
 using System.Net.Http.Json;
 using TicketHiveSpaceKittens.Shared.Models;
 
@@ -7,10 +11,12 @@ namespace TicketHiveSpaceKittens.Client.Services
     public class EventService : IEventService
     {
         private readonly HttpClient httpClient;
+        private readonly IJSRuntime jsRuntime;
 
-        public EventService(HttpClient httpClient)
+        public EventService(HttpClient httpClient, IJSRuntime jsRuntime)
         {
             this.httpClient = httpClient;
+            this.jsRuntime = jsRuntime;
         }
 
         public async Task<List<EventModel>?> GetEventsAsync()
@@ -58,6 +64,11 @@ namespace TicketHiveSpaceKittens.Client.Services
 
         public async Task<bool> CreateEventAsync(EventModel eventModel)
         {
+
+             rootAdress = webHostEnvironment.WebRootPath;
+
+            Path.Combine(rootAdress, fileName);
+            eventModel.ImageUrl = rootAdress.
             var response = await httpClient.PostAsJsonAsync<EventModel>("api/events", eventModel);
 
             if (response.IsSuccessStatusCode)
@@ -103,15 +114,14 @@ namespace TicketHiveSpaceKittens.Client.Services
             return false;
         }
 
-        public async Task<bool> RemoveTicket(CartEventModel e)
+        public async Task RemoveTicket(CartEventModel e)
         {
             var response = await httpClient.PostAsJsonAsync($"api/events/remove", e);
-            
-            if(response.IsSuccessStatusCode)
+            if (response.IsSuccessStatusCode)
             {
-                return true;               
+
             }
-            return false;
+
         }
 
         public async Task<List<EventModel>?> GetEventsByUsernameAsync(string username)
@@ -126,5 +136,37 @@ namespace TicketHiveSpaceKittens.Client.Services
 
             return null;
         }
+
+        public async Task<string> ConvertFileToBase64Async(IBrowserFile file)
+        {
+            var buffer = new byte[file.Size];
+            await file.OpenReadStream().ReadAsync(buffer);
+            var base64 = Convert.ToBase64String(buffer);
+            return base64;
+        }
+
+        public async Task<string> UploadImageAsync(IBrowserFile file)
+        {
+            try
+            {
+                if(file != null)
+                {
+                    var base64 = await ConvertFileToBase64Async(file);
+                    var respons = await httpClient.PostAsJsonAsync("/api/image", new { Base64 = base64 });
+                    respons.EnsureSuccessStatusCode();
+                    return await respons.Content.ReadAsStringAsync();
+                }
+
+
+            }catch(Exception ex)
+            {
+                Console.WriteLine($"Error uploading file: {ex.Message}");
+                return "There was an error uploading your file. Please try again.";
+
+            }
+            return null;
+
+        }
+
     }
 }

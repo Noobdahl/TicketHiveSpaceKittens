@@ -108,8 +108,20 @@
 
     public async Task HandleFileSelection(InputFileChangeEventArgs e)
     {
-        var fiel = e.File;
+         file = e.File;
+         imageUrl = await service.UploadImageAsync(file)
     }
+
+
+    //private async Task HandleSelectedFile(InputFileChangeEventArgs e)
+    //{
+    //    file = e.File;
+    //    imageUrl = await service.UploadImageAsync(file);
+
+    //    newEvent.ImageUrl = imageUrl;
+    //    StateHasChanged();
+    //    EventCallback.Factory.Create(this, () => imageUrl = "your image URL");
+    //}
     public void AddTag()
     {
         if (!string.IsNullOrEmpty(TagInput))
