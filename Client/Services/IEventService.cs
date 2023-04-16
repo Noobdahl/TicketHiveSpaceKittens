@@ -1,4 +1,5 @@
-﻿using TicketHiveSpaceKittens.Shared.Models;
+﻿using Microsoft.AspNetCore.Components.Forms;
+using TicketHiveSpaceKittens.Shared.Models;
 
 namespace TicketHiveSpaceKittens.Client.Services
 {
@@ -71,5 +72,8 @@ namespace TicketHiveSpaceKittens.Client.Services
         /// A bool based on the result of removing tickets from event.
         /// </returns>
         Task<bool> RemoveTicket(CartEventModel e);
+
+       Task<string> ConvertFileToBase64Async(IBrowserFile file);
+        Task<string> UploadImageAsync(IBrowserFile file);
     }
 }

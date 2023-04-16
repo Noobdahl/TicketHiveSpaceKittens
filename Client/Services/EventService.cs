@@ -65,10 +65,6 @@ namespace TicketHiveSpaceKittens.Client.Services
         public async Task<bool> CreateEventAsync(EventModel eventModel)
         {
 
-             rootAdress = webHostEnvironment.WebRootPath;
-
-            Path.Combine(rootAdress, fileName);
-            eventModel.ImageUrl = rootAdress.
             var response = await httpClient.PostAsJsonAsync<EventModel>("api/events", eventModel);
 
             if (response.IsSuccessStatusCode)
@@ -149,24 +145,33 @@ namespace TicketHiveSpaceKittens.Client.Services
         {
             try
             {
-                if(file != null)
+                if (file != null)
                 {
                     var base64 = await ConvertFileToBase64Async(file);
-                    var respons = await httpClient.PostAsJsonAsync("/api/image", new { Base64 = base64 });
-                    respons.EnsureSuccessStatusCode();
-                    return await respons.Content.ReadAsStringAsync();
+                    var response = await httpClient.PostAsJsonAsync("/api/image", new { Base64 = base64 });
+                    response.EnsureSuccessStatusCode();
+
+                    // Read the URL of the uploaded image from the API response
+                    var responseJson = await response.Content.ReadAsStringAsync();
+                    var responseObject = JsonConvert.DeserializeObject<ApiResponse>(responseJson);
+                    var imageUrl = responseObject.Url;
+
+                    return imageUrl;
                 }
-
-
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 Console.WriteLine($"Error uploading file: {ex.Message}");
                 return "There was an error uploading your file. Please try again.";
-
             }
+
             return null;
 
         }
 
+        Task<bool> IEventService.RemoveTicket(CartEventModel e)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
