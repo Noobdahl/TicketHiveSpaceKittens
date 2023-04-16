@@ -1,6 +1,6 @@
 ﻿
 .bg-white {
-    background-color: rgba(48, 80, 118) !important;
+    background-color: #305076 !important;
 }
 
 body {
@@ -35,6 +35,3 @@ body {
     padding: 40px 30px 40px 40px;
 }
 
-.btn-primary {
-    background-color: #305076 !important;
-}

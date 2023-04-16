@@ -9,26 +9,26 @@
 <link rel="stylesheet" type="text/css" href="~/css/LoginRegister-Style.css">
 
 <!----------------------- Main Container -------------------------->
-
-<div class="container px-4 py-5 px-md-5">
+<body style="background-color:#305076 !important; ">
+    <div class="container px-4 py-5 mb-5 px-md-5" style="background-color:#fbe89c !important;">
     <div class="row border rounded-5 p-3 shadow box-area">
-        <div class="text-center mb-5 px-3 py-3 " style="background-color: #305076;">
+            <div class="text-center mb-5 px-3 py-3 " style="background-color: #305076;">
             <h1 class="text-white">Register</h1>
         </div>
 
         <!--------------------------- Left Box ----------------------------->
 
-        <div class=" leftBox col-md-6 rounded-4 d-flex  flex-column left-box" style="background-color: #fbe89c;">
+            <div class=" leftBox col-md-6 rounded-4 d-flex  flex-column left-box" style="background-color: #305076;">
             <div class="logo-image mb-3 shadow">
                 <img class="img-fluid" src="~/Images/logos/yellow.png" alt="logo" style="width: 250px;">
             </div>
-            <p class="text-leftBox text-black">Be Ready!</p>
-            <small class="text-leftBox text-wrap text-center text-black">Make sure you don't miss <br>  your favorite event!</small>
+            <p class="text-leftBox text-white">Be Ready!</p>
+            <small class="text-leftBox text-wrap text-center text-white">Make sure you don't miss <br>  your favorite event!</small>
         </div>
 
         <!-------------------- ------ Right Box ---------------------------->
 
-        <div class="col-md-6 right-box">
+            <div class="col-md-6 right-box" style="background-color:#fbe89c !important;">
             <div class="row align-items-center">
                 <div class="header-text mb-4">
                     <h2>Sign Up!</h2>
@@ -55,7 +55,7 @@
                     </div>
 
                     <div class="input-group mt-3">
-                        <button class="btn btn-lg btn-primary w-100 fs-6">Register</button>
+                            <button class="btn btn-lg w-100 fs-6 text-white" style=" background-color: #305076 !important;">Register</button>
                     </div>
                     @if (!ModelState.IsValid)
                     {
@@ -70,4 +70,4 @@
 
     </div>
 </div>
-
+</body>
