@@ -1,0 +1,36 @@
+﻿
+.bg-white {
+    background-color: #305076 !important;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+}
+
+/*------------ Left box ------------*/
+.text-leftBox {
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: 600;
+    color: white;
+}
+
+.leftBox {
+    justify-content: center;
+    align-items: center;
+}
+
+/*------------ Right box ------------*/
+
+.right-box {
+    padding: 40px 30px 40px 40px;
+}
+.container {
+    display: flex;
+    flex-wrap: wrap;
+}
+@media screen and (max-width: 768px) {
+    /* Change the flex container to a single column layout */
+    .container {
+        flex-direction: column;
+    }
+}

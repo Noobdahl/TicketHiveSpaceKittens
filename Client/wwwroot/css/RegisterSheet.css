@@ -25,3 +25,14 @@ body {
     padding: 40px 30px 40px 40px;
 }
 
+.container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+@media screen and (max-width: 768px) {
+    /* Change the flex container to a single column layout */
+    .container {
+        flex-direction: column;
+    }
+}

@@ -50,21 +50,20 @@
                                         <h6 class="mb-0">@item.Event.EventDate.ToString("HH:mm") </h6>
                             </div>
 
-                            <div class="col-md-3"><br>
-                                <button class="btn btn-danger" @onclick="() => cartService.RemoveFromCartAsync(item)">Remove</button>
 
-                                @if (item.Quantity == 1)
-                                {
-                                  <button class="btn btn-warning" type="button" @onclick="@(() => cartService.RemoveFromCartAsync(item))">-</button>
-                                }
-                                else
-                                {
-                                   <button class="btn btn-warning" type="button" @onclick="@(() => item.Quantity--)">-</button>
-                                }
-                                   <button class="btn btn-success" type="button" @onclick="@(() => item.Quantity++)">+</button>
-                            </div>
+                             <div class="col-md-9">     
+                               <button class="btn btn-danger" @onclick="() => cartService.RemoveFromCartAsync(item)">Remove</button>
+                                    @if (item.Quantity == 1)
+                                      {
+                                        <button class="btn btn-warning" type="button" @onclick="@(() => cartService.RemoveFromCartAsync(item))">-</button>
+                                      }
+                                    else
+                                       {
+                                          <button class="btn btn-warning" type="button" @onclick="@(() => item.Quantity--)">-</button>
+                                       }
+                                         <button class="btn btn-success" type="button" @onclick="@(() => item.Quantity++)">+</button>
+                                    </div>
                         </div>
-
 
                     }
                 }else
