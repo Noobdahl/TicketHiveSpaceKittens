@@ -7,16 +7,6 @@ body {
     font-family: 'Poppins', sans-serif;
 }
 
-/*------------ Login container ------------*/
-.container {
-    justify-content: center;
-    align-items: center;
-    display: flex;
-}
-.box-area {
-    width: 930px;
-}
-
 /*------------ Left box ------------*/
 .text-leftBox {
     font-family: 'Courier New', Courier, monospace;

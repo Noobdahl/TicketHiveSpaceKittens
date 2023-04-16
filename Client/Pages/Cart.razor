@@ -51,7 +51,7 @@
                             </div>
 
                             <div class="col-md-3"><br>
-                                <button class="btn btn-danger mr-1" @onclick="() => cartService.RemoveFromCartAsync(item)">Remove</button>
+                                <button class="btn btn-danger" @onclick="() => cartService.RemoveFromCartAsync(item)">Remove</button>
 
                                 @if (item.Quantity == 1)
                                 {
