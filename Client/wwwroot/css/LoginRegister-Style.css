@@ -27,7 +27,6 @@ body {
 .leftBox {
     justify-content: center;
     align-items: center;
-    background: #fbe89c !;
 }
 
 /*------------ Right box ------------*/
@@ -38,22 +37,4 @@ body {
 
 .btn-primary {
     background-color: #305076 !important;
-}
-
-/*------------ Responsive------------*/
-
-@media only screen and (max-width: 768px) {
-
-    .box-area {
-        margin: 0 10px;
-    }
-
-    .left-box {
-        height: 100px;
-        overflow: hidden;
-    }
-
-    .right-box {
-        padding: 20px;
-    }
 }
